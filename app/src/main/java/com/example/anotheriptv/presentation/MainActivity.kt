@@ -10,8 +10,10 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        android.util.Log.d("MainActivity", "onCreate called")
 
         if (savedInstanceState == null) {
+            android.util.Log.d("MainActivity", "Loading PlaylistFragment")
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragmentContainer, PlaylistFragment())
                 .commit()
