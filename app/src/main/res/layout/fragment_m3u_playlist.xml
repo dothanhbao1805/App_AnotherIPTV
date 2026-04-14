@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F0F1F8">
+
+    <!-- AppBar -->
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#F0F1F8"
+        app:elevation="0dp">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:navigationIcon="@drawable/ic_arrow_back"
+            app:navigationIconTint="#000000">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="M3U Playlist"
+                android:textColor="#000000"
+                android:textSize="18sp"
+                android:layout_gravity="center" />
+
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- Content -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="20dp"
+            android:paddingTop="24dp"
+            android:paddingBottom="32dp">
+
+            <!-- Icon -->
+            <ImageView
+                android:id="@+id/ivPlaylistIcon"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:background="@drawable/bg_icon_playlist"
+                android:src="@drawable/ic_playlist"
+                app:tint="#FFFFFF"
+                android:padding="10dp" />
+
+            <!-- Title -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="M3U Playlist"
+                android:textSize="26sp"
+                android:textStyle="bold"
+                android:textColor="#111111"
+                android:layout_marginTop="16dp" />
+
+            <!-- Subtitle -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Load IPTV channels with M3U playlist file or URL"
+                android:textSize="15sp"
+                android:textColor="#666666"
+                android:layout_marginTop="8dp"
+                android:lineSpacingExtra="4dp" />
+
+            <!-- Label: Playlist Name -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Playlist Name"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="#111111"
+                android:layout_marginTop="28dp" />
+
+            <!-- Input: Playlist Name -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="@drawable/bg_input_field"
+                android:paddingHorizontal="14dp"
+                android:layout_marginTop="8dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_playlist_add"
+                    app:tint="#2196F3" />
+
+                <EditText
+                    android:id="@+id/etPlaylistName"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:hint="M3U Playlist-1"
+                    android:textSize="15sp"
+                    android:textColor="#111111"
+                    android:background="@null"
+                    android:paddingStart="10dp"
+                    android:inputType="text"
+                    android:maxLines="1" />
+
+            </LinearLayout>
+
+            <!-- Label: Source Type -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Source Type"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="#111111"
+                android:layout_marginTop="20dp" />
+
+            <!-- Toggle: URL / File -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:orientation="horizontal"
+                android:background="@drawable/bg_input_field"
+                android:layout_marginTop="8dp"
+                android:padding="4dp">
+
+                <!-- Tab URL -->
+                <LinearLayout
+                    android:id="@+id/tabUrl"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:background="@drawable/bg_tab_selected"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <ImageView
+                        android:id="@+id/ivTabUrlIcon"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:src="@drawable/ic_link"
+                         />
+
+                    <TextView
+                        android:id="@+id/tvTabUrl"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="URL"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:textColor="#FFFFFF"
+                        android:layout_marginStart="6dp" />
+
+                </LinearLayout>
+
+                <!-- Tab File -->
+                <LinearLayout
+                    android:id="@+id/tabFile"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:background="@android:color/transparent"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <ImageView
+                        android:id="@+id/ivTabFileIcon"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:src="@drawable/ic_folder"
+                        app:tint="#666666" />
+
+                    <TextView
+                        android:id="@+id/tvTabFile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="File"
+                        android:textSize="14sp"
+                        android:textColor="#666666"
+                        android:layout_marginStart="6dp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- Label: M3U URL -->
+            <TextView
+                android:id="@+id/labelSource"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="M3U URL"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="#111111"
+                android:layout_marginTop="20dp" />
+
+            <!-- Input: URL -->
+            <LinearLayout
+                android:id="@+id/layoutUrlInput"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="@drawable/bg_input_field"
+                android:paddingHorizontal="14dp"
+                android:layout_marginTop="8dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_link"
+                    android:tint="#366086"
+                    />
+
+                <EditText
+                    android:id="@+id/etUrl"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:hint="http://example.com/playlist.m3u"
+                    android:textSize="14sp"
+                    android:textColor="#111111"
+                    android:background="@null"
+                    android:paddingStart="10dp"
+                    android:inputType="textUri"
+                    android:maxLines="1" />
+
+            </LinearLayout>
+
+            <!-- Input: File (ẩn mặc định) -->
+            <LinearLayout
+                android:id="@+id/layoutFileInput"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="@drawable/bg_input_field"
+                android:paddingHorizontal="14dp"
+                android:layout_marginTop="8dp"
+                android:visibility="gone"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_folder"
+                    app:tint="#366086" />
+
+                <TextView
+                    android:id="@+id/tvSelectedFile"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Select M3U file (.m3u, m3u8)"
+                    android:textSize="14sp"
+                    android:textColor="#AAAAAA"
+                    android:paddingStart="10dp"
+                    android:maxLines="1"
+                    android:ellipsize="middle" />
+
+            </LinearLayout>
+
+            <!-- Button: Create Playlist -->
+            <LinearLayout
+                android:id="@+id/btnCreatePlaylist"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:background="@drawable/bg_button_disabled"
+                android:layout_marginTop="20dp"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:src="@drawable/ic_save"
+                    app:tint="#AAAAAA" />
+
+                <TextView
+                    android:id="@+id/tvCreateBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Create Playlist"
+                    android:textSize="15sp"
+                    android:textColor="#AAAAAA"
+                    android:layout_marginStart="8dp" />
+
+            </LinearLayout>
+
+            <!-- Info Banner -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/bg_info_m3u"
+                android:padding="16dp"
+                android:layout_marginTop="20dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_info"
+                    app:tint="#2196F3" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_marginStart="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Info"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        android:textColor="#061F38" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="All data is securely stored on your device.\nSupported formats: .m3u, .m3u8\nURL format: Must start with http:// or https://"
+                        android:textSize="12sp"
+                        android:textColor="#061F38"
+                        android:layout_marginTop="4dp"
+                        android:lineSpacingExtra="3dp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
