@@ -23,7 +23,6 @@ import com.example.anotheriptv.domain.usecase.playlist.GetPlaylistsUseCase
 import okhttp3.OkHttpClient
 import kotlin.jvm.java
 
-// di/AppContainer.kt
 
 class AppContainer(context: Context) {
 
