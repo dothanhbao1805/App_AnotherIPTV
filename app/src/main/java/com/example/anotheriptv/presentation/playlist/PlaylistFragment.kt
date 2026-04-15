@@ -1,6 +1,7 @@
 package com.example.anotheriptv.presentation.playlist
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import com.example.anotheriptv.R
@@ -14,6 +15,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.anotheriptv.MyApp
 import com.example.anotheriptv.databinding.FragmentPlaylistBinding
+import com.example.anotheriptv.presentation.channels.ChannelFragment
 import com.example.anotheriptv.presentation.playlist.Adapter.PlaylistAdapter
 import com.example.anotheriptv.presentation.playlist.UiState.PlaylistUiState
 import com.example.anotheriptv.presentation.playlist.ViewModel.PlaylistViewModel
@@ -72,7 +74,16 @@ class PlaylistFragment : Fragment() {
     private fun setupRecyclerView() {
         playlistAdapter = PlaylistAdapter(
             onPlaylistClick = { playlist ->
-                // TODO: mở channels
+                val fragment = ChannelFragment().apply {
+                    arguments = Bundle().apply {
+                        putLong("playlistId", playlist.id)
+                        putString("playlistName", playlist.name)
+                    }
+                }
+                parentFragmentManager.beginTransaction()
+                    .replace(R.id.fragmentContainer, fragment)
+                    .addToBackStack(null)
+                    .commit()
             },
             onDeleteClick = { playlist ->
                 viewModel.deletePlaylist(playlist.id)
@@ -95,6 +106,7 @@ class PlaylistFragment : Fragment() {
                         } else {
                             binding.layoutEmptyState.visibility = View.GONE
                             binding.recyclerPlaylists.visibility = View.VISIBLE
+                            Log.d("DEBUG", "collect playlists size = ${playlists.size}")
                             playlistAdapter.submitList(playlists)
                         }
                     }

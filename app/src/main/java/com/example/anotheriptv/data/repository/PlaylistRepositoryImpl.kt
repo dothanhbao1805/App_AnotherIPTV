@@ -9,6 +9,7 @@ import com.example.anotheriptv.domain.model.Playlist
 import com.example.anotheriptv.domain.repository.PlaylistRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import okhttp3.Request
@@ -28,6 +29,7 @@ class PlaylistRepositoryImpl(
     override fun getPlaylists(): Flow<List<Playlist>> {
         return playlistDao.getAll()
             .map { entities -> entities.map { playlistMapper.toDomain(it) } }
+            .flowOn(Dispatchers.IO)
     }
 
     override suspend fun getPlaylistById(id: Long): Playlist? {
@@ -35,10 +37,19 @@ class PlaylistRepositoryImpl(
     }
 
     override suspend fun addPlaylist(playlist: Playlist): Long {
-        val entity = playlistMapper.toEntity(playlist)
-        val playlistId = playlistDao.insert(entity)
-        fetchAndSaveChannels(playlistId, playlist)
-        return playlistId
+        return withContext(Dispatchers.IO) {
+
+            val content = fetchM3UContent(playlist)
+                ?: throw Exception("Không lấy được dữ liệu từ URL")
+
+            val entity = playlistMapper.toEntity(playlist)
+            val playlistId = playlistDao.insert(entity)
+
+            val channels = m3uParser.parse(content, playlistId)
+            channelDao.insertAll(channels)
+
+            playlistId
+        }
     }
 
     override suspend fun deletePlaylist(id: Long) {
