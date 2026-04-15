@@ -3,6 +3,7 @@ package com.example.anotheriptv.presentation
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.anotheriptv.R
+import com.example.anotheriptv.presentation.channels.ChannelFragment
 import com.example.anotheriptv.presentation.playlist.PlaylistFragment
 
 class MainActivity : AppCompatActivity() {
