@@ -1,13 +1,24 @@
-<?xml version="1.0" encoding="utf-8"?>
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="108dp"
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
+
+    <!-- Background bo góc -->
+    <path
+        android:fillColor="#2E2E2E"
+        android:pathData="M24,0
+                          h60
+                          a24,24 0 0 1 24,24
+                          v60
+                          a24,24 0 0 1 -24,24
+                          h-60
+                          a24,24 0 0 1 -24,-24
+                          v-60
+                          a24,24 0 0 1 24,-24z"/>
+
+    <!-- Icon Play -->
     <path
         android:fillColor="#FFFFFF"
-        android:pathData="M54,30 L54,78 M30,54 L78,54"
-        android:strokeColor="#FFFFFF"
-        android:strokeWidth="6"
-        android:strokeLineCap="round"/>
+        android:pathData="M42,30 L78,54 L42,78 Z"/>
 </vector>

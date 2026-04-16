@@ -1,16 +1,25 @@
 package com.example.anotheriptv.presentation.history
 
-
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.anotheriptv.MyApp
 import com.example.anotheriptv.R
 import com.example.anotheriptv.databinding.FragmentHistoryBinding
 import com.example.anotheriptv.presentation.history.Adapter.HistoryAdapter
+import com.example.anotheriptv.presentation.history.ViewModel.HistoryViewModel
+import com.example.anotheriptv.presentation.history.ViewModelFactory.HistoryViewModelFactory
+import com.example.anotheriptv.presentation.player.PlayerActivity
+import kotlinx.coroutines.launch
 
 class HistoryFragment : Fragment() {
 
@@ -18,6 +27,14 @@ class HistoryFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var historyAdapter: HistoryAdapter
+
+    private val viewModel: HistoryViewModel by viewModels {
+        val container = (requireActivity().application as MyApp).container
+        HistoryViewModelFactory(
+            container.getWatchHistoryUseCase,
+            container.deleteWatchHistoryUseCase
+        )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,25 +50,47 @@ class HistoryFragment : Fragment() {
         setupRecyclerView()
         setupMenu()
 
-        // TODO: observe ViewModel
+        // 2. Gọi hàm lắng nghe dữ liệu
+        observeViewModel()
     }
 
     private fun setupRecyclerView() {
         historyAdapter = HistoryAdapter(
-            onItemClick = { channel ->
-                // TODO: navigate to player
+            onItemClick = { historyItem ->
+                // 3. Mở Player khi click vào item lịch sử (Sử dụng streamUrl đã được JOIN)
+                val intent = android.content.Intent(requireContext(), PlayerActivity::class.java).apply {
+                    putExtra("channelName", historyItem.channelName)
+                    putExtra("streamUrl", historyItem.streamUrl)
+                }
+                startActivity(intent)
             },
-            onRemoveClick = { channel ->
-                // TODO: viewModel.removeFromHistory(channel)
+            onRemoveClick = { historyItem ->
+                // 4. Xóa 1 item khỏi lịch sử
+                viewModel.deleteHistory(historyItem.id)
             }
         )
+
         binding.recyclerHistory.apply {
             layoutManager = LinearLayoutManager(
                 requireContext(),
-                LinearLayoutManager.HORIZONTAL,
+                LinearLayoutManager.HORIZONTAL, // Cuộn ngang
                 false
             )
             adapter = historyAdapter
+        }
+    }
+
+    private fun observeViewModel() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                // 5. Lắng nghe StateFlow từ ViewModel
+                viewModel.historyChannels.collect { historyList ->
+                    Log.d("DEBUG_HISTORY", "Đã lấy được ${historyList.size} kênh lịch sử")
+
+                    historyAdapter.submitList(historyList)
+
+                }
+            }
         }
     }
 
@@ -78,11 +117,11 @@ class HistoryFragment : Fragment() {
             popup.setOnMenuItemClickListener { item ->
                 when (item.itemId) {
                     R.id.action_refresh -> {
-                        // TODO: viewModel.refresh()
+                        // Vì dùng Flow, dữ liệu tự động refresh rồi nên không cần làm gì ở đây,
+                        // hoặc bạn có thể tạo 1 hiệu ứng Toast nhẹ báo "Đã làm mới"
                         true
                     }
                     R.id.action_clear_all -> {
-                        // TODO: viewModel.clearAll()
                         true
                     }
                     else -> false

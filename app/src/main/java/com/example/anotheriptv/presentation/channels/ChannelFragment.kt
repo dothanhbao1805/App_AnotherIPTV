@@ -17,7 +17,9 @@ import com.example.anotheriptv.databinding.FragmentChannelBinding
 import com.example.anotheriptv.presentation.channels.Adapter.ChannelAdapter
 import com.example.anotheriptv.presentation.channels.ViewModel.ChannelViewModel
 import com.example.anotheriptv.presentation.channels.ViewModelFactory.ChannelViewModelFactory
+import com.example.anotheriptv.presentation.player.PlayerActivity
 import kotlinx.coroutines.launch
+import kotlin.jvm.java
 
 class ChannelFragment : Fragment() {
 
@@ -29,7 +31,10 @@ class ChannelFragment : Fragment() {
 
     private val viewModel: ChannelViewModel by viewModels {
         val container = (requireActivity().application as MyApp).container
-        ChannelViewModelFactory(container.getChannelsUseCase)
+        ChannelViewModelFactory(
+            container.getChannelsUseCase,
+            container.addWatchHistoryUseCase
+        )
     }
 
     override fun onCreateView(
@@ -59,12 +64,24 @@ class ChannelFragment : Fragment() {
 
     private fun setupRecyclerView() {
         channelAdapter = ChannelAdapter { channel ->
-            // TODO: navigate to player
+            viewModel.addToHistory(
+                channelId = channel.id,
+                channelName = channel.name,
+                channelLogo = channel.logo
+            )
+
+            val intent = android.content.Intent(requireContext(), PlayerActivity::class.java).apply {
+                putExtra("channelName", channel.name)
+                putExtra("streamUrl", channel.url)
+            }
+            startActivity(intent)
         }
+
         binding.recyclerChannels.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = channelAdapter
         }
+
     }
 
     private fun observeViewModel() {

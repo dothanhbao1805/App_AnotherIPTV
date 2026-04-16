@@ -1,19 +1,20 @@
 package com.example.anotheriptv.presentation.channels.ViewModel
 
-
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.anotheriptv.domain.model.Channel
+import com.example.anotheriptv.domain.model.WatchHistory
 import com.example.anotheriptv.domain.usecase.channel.GetChannelsUseCase
+import com.example.anotheriptv.domain.usecase.history.AddWatchHistoryUseCase
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class ChannelViewModel(
-    private val getChannelsUseCase: GetChannelsUseCase
+    private val getChannelsUseCase: GetChannelsUseCase,
+    private val addWatchHistoryUseCase: AddWatchHistoryUseCase
 ) : ViewModel() {
 
     private val _channels = MutableStateFlow<List<Channel>>(emptyList())
@@ -49,4 +50,20 @@ class ChannelViewModel(
             _channels.value.filter { it.category == category }
         }
     }
+
+    fun addToHistory(channelId: Long, channelName: String, channelLogo: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val historyItem = WatchHistory(
+                id = 0,
+                channelId = channelId,
+                channelName = channelName,
+                channelLogo = channelLogo,
+                streamUrl = "",
+                watchedAt = System.currentTimeMillis()
+            )
+
+            addWatchHistoryUseCase(historyItem)
+        }
+    }
+
 }
