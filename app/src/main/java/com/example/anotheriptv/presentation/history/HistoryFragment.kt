@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.anotheriptv.MyApp
 import com.example.anotheriptv.R
 import com.example.anotheriptv.databinding.FragmentHistoryBinding
+import com.example.anotheriptv.domain.model.WatchHistory
 import com.example.anotheriptv.presentation.history.Adapter.HistoryAdapter
 import com.example.anotheriptv.presentation.history.ViewModel.HistoryViewModel
 import com.example.anotheriptv.presentation.history.ViewModelFactory.HistoryViewModelFactory
@@ -65,9 +66,9 @@ class HistoryFragment : Fragment() {
                 startActivity(intent)
             },
             onRemoveClick = { historyItem ->
-                // 4. Xóa 1 item khỏi lịch sử
-                viewModel.deleteHistory(historyItem.id)
+                showDeleteConfirmationDialog(historyItem)
             }
+
         )
 
         binding.recyclerHistory.apply {
@@ -78,6 +79,33 @@ class HistoryFragment : Fragment() {
             )
             adapter = historyAdapter
         }
+    }
+
+    private fun showDeleteConfirmationDialog(historyItem: WatchHistory) {
+
+        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_remove_history, null)
+
+        val dialog = android.app.AlertDialog.Builder(requireContext())
+            .setView(dialogView)
+            .create()
+
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        val btnCancel = dialogView.findViewById<com.google.android.material.button.MaterialButton>(R.id.btnCancel)
+        val btnRemove = dialogView.findViewById<com.google.android.material.button.MaterialButton>(R.id.btnRemove)
+
+        btnCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        btnRemove.setOnClickListener {
+
+            viewModel.deleteHistory(historyItem.id)
+            dialog.dismiss()
+
+        }
+
+        dialog.show()
     }
 
     private fun observeViewModel() {

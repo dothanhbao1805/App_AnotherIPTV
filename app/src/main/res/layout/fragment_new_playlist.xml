@@ -4,13 +4,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F0F1F8">
+    android:background="@color/bg_main">
 
-    <!-- AppBar -->
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="#F0F1F8"
+        android:backgroundTint="@color/bg_main"
         app:elevation="0dp">
 
         <androidx.appcompat.widget.Toolbar
@@ -18,22 +17,19 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:navigationIcon="@drawable/ic_arrow_back"
-            app:navigationIconTint="#000000">
+            app:navigationIconTint="@color/text_primary">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Create New Playlist"
-                android:textColor="#000000"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:layout_gravity="center" />
+                android:layout_gravity="center"
+                android:text="@string/title_create_new_playlist"
+                android:textAppearance="@style/TextAppearance.AnotherIPTV.ToolbarTitle" />
 
         </androidx.appcompat.widget.Toolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <!-- Content -->
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -47,210 +43,190 @@
             android:paddingTop="28dp"
             android:paddingBottom="24dp">
 
-            <!-- Title -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Select Playlist Type"
-                android:textSize="26sp"
-                android:textStyle="bold"
-                android:textColor="#111111" />
+                android:text="@string/title_select_playlist_type"
+                android:textAppearance="?attr/textAppearanceHeadlineSmall"
+                android:textStyle="bold" />
 
-            <!-- Subtitle -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Choose the type of playlist you want to create"
-                android:textSize="15sp"
-                android:textColor="#666666"
-                android:layout_marginTop="8dp"
-                android:lineSpacingExtra="4dp" />
+                android:layout_marginTop="@dimen/spacing_small"
+                android:lineSpacingExtra="4dp"
+                android:text="@string/subtitle_choose_playlist_type"
+                android:textAppearance="?attr/textAppearanceBodyMedium"
+                android:textColor="@color/text_secondary" />
 
-            <!-- Card Xtream -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardXstream"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="36dp"
-                android:foreground="?attr/selectableItemBackground"
                 android:clickable="true"
                 android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                app:cardBackgroundColor="@android:color/white"
                 app:cardCornerRadius="16dp"
-                app:cardElevation="2dp"
-                app:cardBackgroundColor="#F5F5F5">
+                app:cardElevation="2dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:padding="20dp"
-                    android:gravity="center_vertical">
+                    android:padding="20dp">
 
-                    <!-- Icon Xtream -->
                     <ImageView
                         android:id="@+id/ivXStreamIcon"
                         android:layout_width="52dp"
                         android:layout_height="52dp"
                         android:background="@drawable/bg_icon_xstream"
-                        android:src="@drawable/ic_xstream"
-                        app:tint="#FFFFFF"
                         android:padding="10dp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent" />
+                        android:src="@drawable/ic_xstream"
+                        app:tint="@android:color/white" />
 
-                    <!-- Text -->
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/spacing_large"
                         android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:layout_marginStart="16dp">
+                        android:orientation="vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Xtream Codes"
-                            android:textSize="17sp"
-                            android:textStyle="bold"
-                            android:textColor="#111111" />
+                            android:text="@string/card_title_xtream"
+                            android:textAppearance="?attr/textAppearanceTitleMedium"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Connect with API URL, Username, and Password"
-                            android:textSize="13sp"
-                            android:textColor="#2196F3"
                             android:layout_marginTop="4dp"
-                            android:lineSpacingExtra="2dp" />
+                            android:lineSpacingExtra="2dp"
+                            android:text="@string/card_subtitle_xtream"
+                            android:textAppearance="?attr/textAppearanceBodySmall"
+                            android:textColor="#005BE0" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Easily connect with information from your IPTV provider"
-                            android:textSize="13sp"
-                            android:textColor="#666666"
                             android:layout_marginTop="6dp"
-                            android:lineSpacingExtra="2dp" />
+                            android:lineSpacingExtra="2dp"
+                            android:text="@string/card_desc_xtream"
+                            android:textAppearance="?attr/textAppearanceBodySmall"
+                            android:textColor="@color/text_secondary" />
 
                     </LinearLayout>
 
-                    <!-- Arrow -->
                     <ImageView
                         android:layout_width="20dp"
                         android:layout_height="20dp"
+                        android:layout_marginStart="@dimen/spacing_small"
                         android:src="@drawable/ic_chevron_right"
-                        android:tint="#BBBBBB"
-                        android:layout_marginStart="8dp" />
+                        app:tint="#BBBBBB" />
 
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
 
-            <!-- Card M3U -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardM3u"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:foreground="?attr/selectableItemBackground"
+                android:layout_marginTop="@dimen/spacing_large"
                 android:clickable="true"
                 android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                app:cardBackgroundColor="@android:color/white"
                 app:cardCornerRadius="16dp"
-                app:cardElevation="2dp"
-                app:cardBackgroundColor="#F5F5F5">
+                app:cardElevation="2dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:padding="20dp"
-                    android:gravity="center_vertical">
+                    android:padding="20dp">
 
-                    <!-- Icon M3U -->
                     <ImageView
                         android:id="@+id/ivPlaylistIcon"
                         android:layout_width="52dp"
                         android:layout_height="52dp"
                         android:background="@drawable/bg_icon_playlist"
-                        android:src="@drawable/ic_playlist"
-                        app:tint="#FFFFFF"
                         android:padding="10dp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent" />
+                        android:src="@drawable/ic_playlist"
+                        app:tint="@android:color/white" />
 
-                    <!-- Text -->
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/spacing_large"
                         android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:layout_marginStart="16dp">
+                        android:orientation="vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="M3U Playlist"
-                            android:textSize="17sp"
-                            android:textStyle="bold"
-                            android:textColor="#111111" />
+                            android:text="@string/card_title_m3u"
+                            android:textAppearance="?attr/textAppearanceTitleMedium"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Add playlist with M3U file or URL"
-                            android:textSize="13sp"
-                            android:textColor="#4CAF50"
-                            android:layout_marginTop="4dp" />
+                            android:layout_marginTop="4dp"
+                            android:text="@string/card_subtitle_m3u"
+                            android:textAppearance="?attr/textAppearanceBodySmall"
+                            android:textColor="#4CAF50" />
 
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Supports traditional M3U format files"
-                            android:textSize="13sp"
-                            android:textColor="#666666"
-                            android:layout_marginTop="6dp" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="@string/card_desc_m3u"
+                        android:textAppearance="?attr/textAppearanceBodySmall"
+                        android:textColor="@color/text_secondary" />
 
                     </LinearLayout>
 
-                    <!-- Arrow -->
                     <ImageView
                         android:layout_width="20dp"
                         android:layout_height="20dp"
+                        android:layout_marginStart="@dimen/spacing_small"
                         android:src="@drawable/ic_chevron_right"
-                        android:tint="#BBBBBB"
-                        android:layout_marginStart="8dp" />
+                        app:tint="#BBBBBB" />
 
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
 
-            <!-- Info Banner -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
+                android:layout_marginTop="40dp"
                 android:background="@drawable/bg_info_banner"
-                android:padding="16dp"
-                android:layout_marginTop="40dp">
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="16dp">
 
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:src="@drawable/ic_info"
-                    android:tint="#2196F3" />
+                    app:tint="?attr/colorPrimary" />
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Your playlist information is securely stored on your device."
-                    android:textSize="13sp"
-                    android:textColor="#2196F3"
                     android:layout_marginStart="10dp"
-                    android:lineSpacingExtra="2dp" />
+                    android:layout_weight="1"
+                    android:lineSpacingExtra="2dp"
+                    android:text="@string/info_secure_storage"
+                    android:textAppearance="?attr/textAppearanceBodySmall"
+                    android:textColor="?attr/colorPrimary" />
 
             </LinearLayout>
 

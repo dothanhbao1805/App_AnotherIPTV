@@ -2,15 +2,15 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F0F1F8">
+    android:background="@color/bg_main">
 
-    <!-- AppBar -->
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="#F0F1F8"
+        android:backgroundTint="@color/bg_main"
         app:elevation="0dp">
 
         <androidx.appcompat.widget.Toolbar
@@ -21,87 +21,84 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="My Playlists"
-                android:textColor="#000000"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                android:text="@string/title_my_playlists"
+                android:textAppearance="@style/TextAppearance.AnotherIPTV.ToolbarTitle" />
 
         </androidx.appcompat.widget.Toolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <!-- Empty State -->
     <LinearLayout
         android:id="@+id/layoutEmptyState"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:gravity="center"
+        android:orientation="vertical"
         android:paddingHorizontal="40dp"
         android:visibility="gone"
+        tools:visibility="visible"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <ImageView
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:src="@drawable/ic_playlist_add"
+            android:layout_marginBottom="@dimen/spacing_xlarge"
             android:alpha="0.35"
-            android:layout_marginBottom="24dp" />
+            android:src="@drawable/ic_playlist_add"
+            app:tint="@color/text_secondary" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="No Playlist Yet"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:textColor="#333333"
-            android:layout_marginBottom="12dp" />
+            android:layout_marginBottom="@dimen/spacing_medium"
+            android:text="@string/empty_title_playlists"
+            android:textAppearance="?attr/textAppearanceHeadlineSmall"
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Start by creating your first playlist.\nYou can add playlists in Xtream Code or M3U format."
-            android:textSize="15sp"
-            android:textColor="#999999"
+            android:layout_marginBottom="36dp"
             android:gravity="center"
             android:lineSpacingExtra="4dp"
-            android:layout_marginBottom="36dp" />
+            android:text="@string/empty_desc_playlists"
+            android:textAppearance="?attr/textAppearanceBodyMedium"
+            android:textColor="@color/text_secondary" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnCreateFirst"
             android:layout_width="wrap_content"
             android:layout_height="52dp"
-            android:text="+ Create My First Playlist"
-            android:textSize="16sp"
-            android:textColor="#FFFFFF"
             android:paddingHorizontal="32dp"
-            app:backgroundTint="#2196F3"
+            android:text="@string/btn_create_first_playlist"
+            android:textAppearance="?attr/textAppearanceTitleMedium"
+            android:textColor="@android:color/white"
+            app:backgroundTint="@color/btn_blue_primary"
             app:cornerRadius="28dp" />
 
     </LinearLayout>
 
-    <!-- RecyclerView -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerPlaylists"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
-        android:paddingTop="8dp"
-        android:paddingBottom="80dp"
         android:clipToPadding="false"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        android:paddingTop="@dimen/spacing_small"
+        android:paddingBottom="80dp"
+        android:visibility="gone"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:listitem="@layout/item_playlist" />
 
-    <!-- FAB -->
-    <ImageButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabAdd"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_margin="20dp"
+        android:layout_margin="24dp"
         android:src="@drawable/ic_add"
-        app:tint="#FFFFFF"
-        android:background="@drawable/bg_fab"
-        android:elevation="6dp" />
+        app:tint="@android:color/white"
+        app:backgroundTint="@color/btn_blue_light"
+        app:elevation="4dp" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
