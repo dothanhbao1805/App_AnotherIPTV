@@ -2,16 +2,17 @@
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cardHistory"
-    android:layout_width="100dp"
-    android:layout_height="140dp"
-    android:layout_marginEnd="12dp"
+    android:layout_width="@dimen/card_width"
+    android:layout_height="@dimen/card_height"
+    android:layout_marginEnd="@dimen/spacing_medium"
     android:clickable="true"
     android:focusable="true"
     android:foreground="?attr/selectableItemBackground"
-    app:cardCornerRadius="14dp"
-    app:cardElevation="2dp"
-    app:cardBackgroundColor="#F0F0F0">
+    app:cardBackgroundColor="?attr/colorSurfaceVariant"
+    app:cardCornerRadius="@dimen/radius_card"
+    app:cardElevation="2dp">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -21,8 +22,8 @@
             android:id="@+id/ivLogo"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:padding="@dimen/spacing_medium"
             android:scaleType="fitCenter"
-            android:padding="12dp"
             android:src="@drawable/ic_tv_placeholder" />
 
         <View
@@ -36,25 +37,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:padding="10dp"
-            android:text="Channel Name"
-            android:textColor="#FFFFFF"
-            android:textSize="13sp"
-            android:textStyle="bold"
+            android:ellipsize="end"
             android:maxLines="2"
-            android:ellipsize="end" />
+            android:padding="@dimen/spacing_small"
+            android:textAppearance="?attr/textAppearanceLabelLarge"
+            android:textColor="@android:color/white"
+            tools:text="VTV1 HD (1080p)" />
 
         <ImageView
             android:id="@+id/ivRemove"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
+            android:layout_width="@dimen/icon_size_small"
+            android:layout_height="@dimen/icon_size_small"
             android:layout_gravity="top|end"
-            android:layout_margin="6dp"
-            android:src="@drawable/ic_close"
+            android:layout_margin="@dimen/spacing_small"
             android:background="@drawable/bg_remove_btn"
-            android:padding="4dp"
             android:clickable="true"
-            android:focusable="true" />
+            android:focusable="true"
+            android:padding="@dimen/spacing_tiny"
+            android:src="@drawable/ic_close" />
 
     </FrameLayout>
 

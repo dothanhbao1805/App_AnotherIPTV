@@ -2,123 +2,110 @@
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="16dp"
+    android:layout_marginHorizontal="@dimen/spacing_large"
     android:layout_marginVertical="6dp"
+    app:cardBackgroundColor="?attr/colorSurface"
     app:cardCornerRadius="16dp"
-    app:cardElevation="2dp"
-    app:cardBackgroundColor="#F5F5F5">
+    app:cardElevation="2dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="16dp"
+        android:paddingHorizontal="@dimen/spacing_large"
         android:paddingVertical="14dp">
 
-        <!-- Icon circle -->
         <ImageView
             android:id="@+id/ivPlaylistIcon"
             android:layout_width="52dp"
             android:layout_height="52dp"
             android:background="@drawable/bg_icon_playlist"
-            android:src="@drawable/ic_playlist"
-            app:tint="#FFFFFF"
             android:padding="10dp"
+            android:src="@drawable/ic_playlist"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:tint="@android:color/white" />
 
-        <!-- Name -->
         <TextView
             android:id="@+id/tvPlaylistName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="M3U Playlist-1"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="#111111"
-            android:maxLines="1"
-            android:ellipsize="end"
             android:layout_marginStart="12dp"
             android:layout_marginEnd="8dp"
-            app:layout_constraintStart_toEndOf="@id/ivPlaylistIcon"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="M3U Playlist-1" android:textAppearance="?attr/textAppearanceTitleMedium"
+            android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@id/btnMore"
+            app:layout_constraintStart_toEndOf="@id/ivPlaylistIcon"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- Badge + Date row -->
         <LinearLayout
             android:id="@+id/layoutBadgeDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
             android:layout_marginStart="12dp"
             android:layout_marginTop="4dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
             app:layout_constraintStart_toEndOf="@id/ivPlaylistIcon"
             app:layout_constraintTop_toBottomOf="@id/tvPlaylistName">
 
-            <!-- Badge M3U -->
             <TextView
                 android:id="@+id/tvBadgeType"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="M3U"
-                android:textSize="11sp"
-                android:textStyle="bold"
-                android:textColor="#4CAF50"
+                android:background="@drawable/bg_badge_m3u"
                 android:paddingHorizontal="8dp"
                 android:paddingVertical="2dp"
-                android:background="@drawable/bg_badge_m3u" />
+                android:text="M3U" android:textAppearance="?attr/textAppearanceLabelSmall"
+                android:textColor="#4CAF50" />
 
-            <!-- Clock icon -->
             <ImageView
                 android:layout_width="14dp"
                 android:layout_height="14dp"
+                android:layout_marginStart="8dp"
                 android:src="@drawable/ic_schedule"
-                app:tint="#999999"
-                android:layout_marginStart="8dp" />
+                app:tint="@color/text_secondary" />
 
-            <!-- Date -->
             <TextView
                 android:id="@+id/tvDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Today"
-                android:textSize="12sp"
-                android:textColor="#999999"
-                android:layout_marginStart="4dp" />
+                android:layout_marginStart="4dp"
+                android:text="Today" android:textAppearance="?attr/textAppearanceBodySmall"
+                android:textColor="@color/text_secondary" />
 
         </LinearLayout>
 
-        <!-- URL -->
         <TextView
             android:id="@+id/tvUrl"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="https://iptv-org.github.io/iptv/cou..."
-            android:textSize="12sp"
-            android:textColor="#AAAAAA"
-            android:maxLines="1"
-            android:ellipsize="end"
             android:layout_marginStart="12dp"
-            android:layout_marginEnd="8dp"
             android:layout_marginTop="2dp"
-            app:layout_constraintStart_toEndOf="@id/ivPlaylistIcon"
+            android:layout_marginEnd="8dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="https://iptv-org.github.io/iptv/cou..." android:textAppearance="?attr/textAppearanceBodySmall"
+            android:textColor="@color/text_secondary"
             app:layout_constraintEnd_toStartOf="@id/btnMore"
+            app:layout_constraintStart_toEndOf="@id/ivPlaylistIcon"
             app:layout_constraintTop_toBottomOf="@id/layoutBadgeDate" />
 
-        <!-- More button -->
         <ImageButton
             android:id="@+id/btnMore"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:src="@drawable/ic_more_vert"
             android:background="?attr/selectableItemBackgroundBorderless"
-            app:tint="#555555"
+            android:src="@drawable/ic_more_vert"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:tint="@color/text_secondary" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
