@@ -22,4 +22,6 @@
     <color name="btn_blue_primary">#2698F1</color>
     <color name="btn_blue_light">#CEE2FB</color>
 
+    <color name="btn_delete">#DF0029</color>
+
 </resources>
