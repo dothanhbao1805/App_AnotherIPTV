@@ -5,6 +5,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface WatchHistoryRepository {
     fun getWatchHistory(): Flow<List<WatchHistory>>
-    suspend fun addHistory(watchHistory: WatchHistory)
+    suspend fun upsertHistory(watchHistory: WatchHistory)
     suspend fun deleteHistoryById(id: Long)
 }

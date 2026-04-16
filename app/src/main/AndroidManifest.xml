@@ -15,7 +15,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AnotherIPTV">
         <activity
+            android:name=".presentation.player.PlayerActivity"
+            android:exported="false" />
+        <activity
             android:name=".presentation.ContainerPlaylistActivity"
+            android:screenOrientation="sensor"
+            android:configChanges="orientation|screenSize"
             android:exported="false" />
         <activity
             android:name=".presentation.MainActivity"

@@ -15,6 +15,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.anotheriptv.MyApp
 import com.example.anotheriptv.databinding.FragmentPlaylistBinding
+import com.example.anotheriptv.presentation.ContainerPlaylistActivity
 import com.example.anotheriptv.presentation.channels.ChannelFragment
 import com.example.anotheriptv.presentation.playlist.Adapter.PlaylistAdapter
 import com.example.anotheriptv.presentation.playlist.UiState.PlaylistUiState
@@ -74,16 +75,12 @@ class PlaylistFragment : Fragment() {
     private fun setupRecyclerView() {
         playlistAdapter = PlaylistAdapter(
             onPlaylistClick = { playlist ->
-                val fragment = ChannelFragment().apply {
-                    arguments = Bundle().apply {
-                        putLong("playlistId", playlist.id)
-                        putString("playlistName", playlist.name)
-                    }
+                // Mở ContainerPlaylistActivity và truyền dữ liệu qua Intent
+                val intent = android.content.Intent(requireContext(), ContainerPlaylistActivity::class.java).apply {
+                    putExtra("playlistId", playlist.id)
+                    putExtra("playlistName", playlist.name)
                 }
-                parentFragmentManager.beginTransaction()
-                    .replace(R.id.fragmentContainer, fragment)
-                    .addToBackStack(null)
-                    .commit()
+                startActivity(intent)
             },
             onDeleteClick = { playlist ->
                 viewModel.deletePlaylist(playlist.id)
@@ -141,4 +138,5 @@ class PlaylistFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
 }

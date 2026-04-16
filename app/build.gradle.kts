@@ -60,6 +60,9 @@ dependencies {
     implementation("androidx.fragment:fragment-ktx:1.8.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.0")
     implementation("com.github.bumptech.glide:glide:4.16.0")
+    implementation("androidx.media3:media3-exoplayer:1.3.1")
+    implementation("androidx.media3:media3-exoplayer-hls:1.3.1")
+    implementation("androidx.media3:media3-ui:1.3.1")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

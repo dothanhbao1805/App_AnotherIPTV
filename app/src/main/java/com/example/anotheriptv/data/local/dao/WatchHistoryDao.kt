@@ -5,7 +5,9 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import androidx.room.Update
+import com.example.anotheriptv.data.local.entity.HistoryWithUrl
 import com.example.anotheriptv.data.local.entity.PlaylistEntity
 import com.example.anotheriptv.data.local.entity.WatchHistoryEntity
 import kotlinx.coroutines.flow.Flow
@@ -14,20 +16,28 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface WatchHistoryDao {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(history: WatchHistoryEntity ): Long
+    @Query("DELETE FROM watch_history WHERE channelId = :channelId")
+    suspend fun removeOldHistoryByChannelId(channelId: Long)
 
-    @Update
-    suspend fun update(history: WatchHistoryEntity)
+    @Insert
+    suspend fun insertHistory(history: WatchHistoryEntity)
 
-    @Delete
-    suspend fun delete(history: WatchHistoryEntity)
+    @Transaction
+    suspend fun upsertHistory(history: WatchHistoryEntity) {
+        removeOldHistoryByChannelId(history.channelId)
+        insertHistory(history)
+    }
 
-    @Query("DELETE FROM watch_history WHERE id = :id")
-    suspend fun deleteById(id: Long)
+    @Query("""
+        SELECT h.id as historyId, h.channelId, h.channelName, h.channelLogo, c.url as streamUrl, h.watchedAt 
+        FROM watch_history h 
+        INNER JOIN channels c ON h.channelId = c.id 
+        ORDER BY h.watchedAt DESC
+    """)
+    fun getHistoryWithUrl(): Flow<List<HistoryWithUrl>>
 
-    @Query("SELECT * FROM watch_history ORDER BY watchedAt DESC")
-    fun getAll(): Flow<List<WatchHistoryEntity>>
+    @Query("DELETE FROM watch_history WHERE id = :historyId")
+    suspend fun deleteHistoryById(historyId: Long)
 
 
 }

@@ -6,49 +6,62 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.anotheriptv.R
 import com.example.anotheriptv.databinding.ItemHistoryBinding
-import com.example.anotheriptv.domain.model.Channel
+import com.example.anotheriptv.domain.model.WatchHistory
 
 class HistoryAdapter(
-    private val onItemClick: (Channel) -> Unit,
-    private val onRemoveClick: (Channel) -> Unit
-) : ListAdapter<Channel, HistoryAdapter.ViewHolder>(DiffCallback) {
+    private val onItemClick: (WatchHistory) -> Unit,
+    private val onRemoveClick: (WatchHistory) -> Unit
+) : ListAdapter<WatchHistory, HistoryAdapter.HistoryViewHolder>(DiffCallback) {
 
-    inner class ViewHolder(
-        private val binding: ItemHistoryBinding
-    ) : RecyclerView.ViewHolder(binding.root) {
-
-        fun bind(channel: Channel) {
-            binding.tvChannelName.text = channel.name
-
-            Glide.with(binding.ivLogo)
-                .load(channel.logo)
-                .placeholder(R.drawable.ic_tv_placeholder)
-                .error(R.drawable.ic_tv_placeholder)
-                .into(binding.ivLogo)
-
-            binding.cardHistory.setOnClickListener { onItemClick(channel) }
-            binding.ivRemove.setOnClickListener { onRemoveClick(channel) }
-        }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryViewHolder {
+        val binding = ItemHistoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return HistoryViewHolder(binding)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = ItemHistoryBinding.inflate(
-            LayoutInflater.from(parent.context), parent, false
-        )
-        return ViewHolder(binding)
-    }
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: HistoryViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
 
-    companion object DiffCallback : DiffUtil.ItemCallback<Channel>() {
-        override fun areItemsTheSame(oldItem: Channel, newItem: Channel) =
-            oldItem.id == newItem.id
+    inner class HistoryViewHolder(private val binding: ItemHistoryBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
-        override fun areContentsTheSame(oldItem: Channel, newItem: Channel) =
-            oldItem == newItem
+        fun bind(historyItem: WatchHistory) {
+            // 1. Gắn tên kênh vào tvChannelName
+            binding.tvChannelName.text = historyItem.channelName
+
+            // 2. Tải logo vào ivLogo bằng Glide
+            if (historyItem.channelLogo.isNotEmpty()) {
+                Glide.with(binding.root.context)
+                    .load(historyItem.channelLogo)
+                    .placeholder(com.example.anotheriptv.R.drawable.ic_tv_placeholder)
+                    .error(com.example.anotheriptv.R.drawable.ic_tv_placeholder)
+                    .into(binding.ivLogo)
+            } else {
+                binding.ivLogo.setImageResource(com.example.anotheriptv.R.drawable.ic_tv_placeholder)
+            }
+
+            // 3. Bắt sự kiện click vào Card để xem video (dùng cardHistory thay vì root để tránh click nhầm viền margin)
+            binding.cardHistory.setOnClickListener {
+                onItemClick(historyItem)
+            }
+
+            // 4. Bắt sự kiện click vào nút X để xóa lịch sử (đúng ID ivRemove của bạn)
+            binding.ivRemove.setOnClickListener {
+                onRemoveClick(historyItem)
+            }
+        }
+    }
+
+    companion object {
+        private val DiffCallback = object : DiffUtil.ItemCallback<WatchHistory>() {
+            override fun areItemsTheSame(oldItem: WatchHistory, newItem: WatchHistory): Boolean {
+                return oldItem.id == newItem.id
+            }
+
+            override fun areContentsTheSame(oldItem: WatchHistory, newItem: WatchHistory): Boolean {
+                return oldItem == newItem
+            }
+        }
     }
 }

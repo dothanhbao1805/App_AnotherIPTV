@@ -1,72 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="160dp"
-    android:layout_height="wrap_content"
-    android:layout_marginEnd="12dp">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardHistory"
+    android:layout_width="100dp"
+    android:layout_height="140dp"
+    android:layout_marginEnd="12dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackground"
+    app:cardCornerRadius="14dp"
+    app:cardElevation="2dp"
+    app:cardBackgroundColor="#F0F0F0">
 
-    <!-- Card -->
-    <androidx.cardview.widget.CardView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/cardHistory"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="160dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:foreground="?attr/selectableItemBackground"
-        app:cardCornerRadius="14dp"
-        app:cardElevation="2dp"
-        app:cardBackgroundColor="#F0F0F0">
+        android:layout_height="match_parent">
 
-        <FrameLayout
+        <ImageView
+            android:id="@+id/ivLogo"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:scaleType="fitCenter"
+            android:padding="12dp"
+            android:src="@drawable/ic_tv_placeholder" />
 
-            <!-- Logo -->
-            <ImageView
-                android:id="@+id/ivLogo"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="fitCenter"
-                android:padding="12dp"
-                android:src="@drawable/ic_tv_placeholder" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_gravity="bottom"
+            android:background="@drawable/gradient_bottom" />
 
-            <!-- Gradient overlay -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:layout_gravity="bottom"
-                android:background="@drawable/gradient_bottom" />
+        <TextView
+            android:id="@+id/tvChannelName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:padding="10dp"
+            android:text="Channel Name"
+            android:textColor="#FFFFFF"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:maxLines="2"
+            android:ellipsize="end" />
 
-            <!-- Channel name -->
-            <TextView
-                android:id="@+id/tvChannelName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:padding="10dp"
-                android:text="Channel Name"
-                android:textColor="#FFFFFF"
-                android:textSize="13sp"
-                android:textStyle="bold"
-                android:maxLines="2"
-                android:ellipsize="end" />
+        <ImageView
+            android:id="@+id/ivRemove"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_gravity="top|end"
+            android:layout_margin="6dp"
+            android:src="@drawable/ic_close"
+            android:background="@drawable/bg_remove_btn"
+            android:padding="4dp"
+            android:clickable="true"
+            android:focusable="true" />
 
-        </FrameLayout>
+    </FrameLayout>
 
-    </androidx.cardview.widget.CardView>
-
-    <!-- X button -->
-    <ImageView
-        android:id="@+id/ivRemove"
-        android:layout_width="28dp"
-        android:layout_height="28dp"
-        android:layout_gravity="top|end"
-        android:layout_margin="6dp"
-        android:src="@drawable/ic_close"
-        android:background="@drawable/bg_remove_btn"
-        android:padding="4dp"
-        android:clickable="true"
-        android:focusable="true" />
-
-</FrameLayout>
+</androidx.cardview.widget.CardView>
