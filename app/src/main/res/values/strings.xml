@@ -1,10 +1,18 @@
 <resources>
     <string name="app_name">AnotherIPTV</string>
     <!-- TODO: Remove or change this placeholder text -->
+<!--    dialog_remove_history-->
     <string name="dialog_title_remove_history">Remove from History</string>
     <string name="dialog_msg_remove_history">Are you sure you want to remove this item from watch history?</string>
     <string name="action_cancel">Cancel</string>
     <string name="action_remove">Remove</string>
+    <string name="action_delete">Delete</string>
+
+<!--    dialog_remove_playlist-->
+    <string name="dialog_title_remove_playlist">Delete Playlist</string>
+    <string name="dialog_msg_remove_playlist">Are you sure you want to delete the playlist ...?</string>
+    <string name="dialog_msg_remove_playlist2">This action cannot be undone</string>
+
 
     <string name="placeholder_channel_name">Channel Name</string>
     <string name="title_history">History</string>
