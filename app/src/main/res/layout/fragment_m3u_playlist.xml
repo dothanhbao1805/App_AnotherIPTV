@@ -211,7 +211,21 @@
                     android:maxLines="1"
                     android:paddingStart="10dp"
                     android:textAppearance="?attr/textAppearanceBodyLarge" />
+
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvvalid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="20dp"
+                android:textColor="#FF0000"
+                android:text="@string/text_error_url"
+                android:textAppearance="?attr/textAppearanceTitleSmall"
+                android:visibility="gone"
+                />
+
 
             <LinearLayout
                 android:id="@+id/layoutFileInput"
@@ -243,13 +257,16 @@
                     android:text="@string/hint_file"
                     android:textAppearance="?attr/textAppearanceBodyLarge"
                     android:textColor="#AAAAAA" />
+
+
+
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/btnCreatePlaylist"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="25dp"
                 android:background="@drawable/bg_button_disabled"
                 android:clickable="true"
                 android:focusable="true"

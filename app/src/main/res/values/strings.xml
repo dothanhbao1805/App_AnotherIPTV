@@ -51,6 +51,8 @@
     <string name="error_title">Error Occurred</string>
     <string name="error_desc_m3u">M3U Error</string>
     <string name="info_desc_m3u">All data is securely stored on your device.\nSupported formats: .m3u, .m3u8\nURL format: Must start with http:// or https://</string>
+    <string name="text_error_url">Enter a valid URL format</string>
+
 
     <!--    fragment_new_playlist-->
     <string name="title_create_new_playlist">Create New Playlist</string>
