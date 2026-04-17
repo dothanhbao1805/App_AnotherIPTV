@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.anotheriptv.R
 import androidx.fragment.app.Fragment
+import com.example.anotheriptv.XstreamPlaylistFragment
 import com.example.anotheriptv.databinding.FragmentNewPlaylistBinding
 
 class NewPlaylistFragment : Fragment() {
@@ -30,7 +31,10 @@ class NewPlaylistFragment : Fragment() {
         }
 
         binding.cardXstream.setOnClickListener {
-            // TODO: mở XStream form
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainer, XstreamPlaylistFragment())
+                .addToBackStack(null)
+                .commit()
         }
 
         binding.cardM3u.setOnClickListener {

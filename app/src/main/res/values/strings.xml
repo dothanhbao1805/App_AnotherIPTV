@@ -1,14 +1,14 @@
 <resources>
     <string name="app_name">AnotherIPTV</string>
     <!-- TODO: Remove or change this placeholder text -->
-<!--    dialog_remove_history-->
+    <!--    dialog_remove_history-->
     <string name="dialog_title_remove_history">Remove from History</string>
     <string name="dialog_msg_remove_history">Are you sure you want to remove this item from watch history?</string>
     <string name="action_cancel">Cancel</string>
     <string name="action_remove">Remove</string>
     <string name="action_delete">Delete</string>
 
-<!--    dialog_remove_playlist-->
+    <!--    dialog_remove_playlist-->
     <string name="dialog_title_remove_playlist">Delete Playlist</string>
     <string name="dialog_msg_remove_playlist">Are you sure you want to delete the playlist ...?</string>
     <string name="dialog_msg_remove_playlist2">This action cannot be undone</string>
@@ -18,7 +18,24 @@
     <string name="title_history">History</string>
     <string name="section_live_streams">Live Streams</string>
 
-<!--    fragment_m3u_playlist-->
+    <!--    fragment_XStream_playlist-->
+    <string name="title_xstream_playlist">XStream Code Playlist</string>
+    <string name="subtitle_load_xstream">Easily connect with information from your IPTV provider</string>
+    <string name="label_xstream_url">API URL</string>
+    <string name="hint_xstream_name">http://example.com:8080</string>
+    <string name="title_username_xstream">Username</string>
+    <string name="hint_xstream_username">Enter your username</string>
+    <string name="title_password_xstream">Password</string>
+    <string name="hint_xstream_password">Enter your password</string>
+    <string name="btn_save_playlist">Save Playlist</string>
+    <string name="info_desc_xstream">All data is securely stored on your device</string>
+    <string name="info_desc2_xstream">URL format should be like http://server:port</string>
+    <string name="error_title_xstream">An error occurred</string>
+    <string name="error_desc_xstream">Could not get a response from your IPTV provider, please check your information</string>
+
+
+
+    <!--    fragment_m3u_playlist-->
     <string name="title_m3u_playlist">M3U Playlist</string>
     <string name="subtitle_load_m3u">Load IPTV channels with M3U playlist file or URL</string>
     <string name="label_playlist_name">Playlist Name</string>
@@ -31,11 +48,11 @@
     <string name="hint_file">Select M3U file (.m3u, m3u8)</string>
     <string name="btn_create_playlist">Create Playlist</string>
     <string name="info_title">Info</string>
-    <string name ="error_title">Error Occurred</string>
+    <string name="error_title">Error Occurred</string>
     <string name="error_desc_m3u">M3U Error</string>
     <string name="info_desc_m3u">All data is securely stored on your device.\nSupported formats: .m3u, .m3u8\nURL format: Must start with http:// or https://</string>
 
-<!--    fragment_new_playlist-->
+    <!--    fragment_new_playlist-->
     <string name="title_create_new_playlist">Create New Playlist</string>
     <string name="title_select_playlist_type">Select Playlist Type</string>
     <string name="subtitle_choose_playlist_type">Choose the type of playlist you want to create</string>
@@ -50,10 +67,12 @@
 
     <string name="info_secure_storage">Your playlist information is securely stored on your device.</string>
 
-<!--    fragmet_playlist-->
+    <!--    fragmet_playlist-->
     <string name="title_my_playlists">My Playlists</string>
     <string name="empty_title_playlists">No Playlist Yet</string>
     <string name="empty_desc_playlists">Start by creating your first playlist.\nYou can add playlists in Xtream Code or M3U format.</string>
     <string name="btn_create_first_playlist">+ Create My First Playlist</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
