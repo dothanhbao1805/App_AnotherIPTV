@@ -18,6 +18,23 @@
     <string name="title_history">History</string>
     <string name="section_live_streams">Live Streams</string>
 
+    <!--    fragment_XStream_playlist-->
+    <string name="title_xstream_playlist">XStream Code Playlist</string>
+    <string name="subtitle_load_xstream">Easily connect with information from your IPTV provider</string>
+    <string name="label_xstream_url">API URL</string>
+    <string name="hint_xstream_name">http://example.com:8080</string>
+    <string name="title_username_xstream">Username</string>
+    <string name="hint_xstream_username">Enter your username</string>
+    <string name="title_password_xstream">Password</string>
+    <string name="hint_xstream_password">Enter your password</string>
+    <string name="btn_save_playlist">Save Playlist</string>
+    <string name="info_desc_xstream">All data is securely stored on your device</string>
+    <string name="info_desc2_xstream">URL format should be like http://server:port</string>
+    <string name="error_title_xstream">An error occurred</string>
+    <string name="error_desc_xstream">Could not get a response from your IPTV provider, please check your information</string>
+
+
+
     <!--    fragment_m3u_playlist-->
     <string name="title_m3u_playlist">M3U Playlist</string>
     <string name="subtitle_load_m3u">Load IPTV channels with M3U playlist file or URL</string>
