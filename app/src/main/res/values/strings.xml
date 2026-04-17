@@ -34,7 +34,6 @@
     <string name="error_desc_xstream">Could not get a response from your IPTV provider, please check your information</string>
 
 
-
     <!--    fragment_m3u_playlist-->
     <string name="title_m3u_playlist">M3U Playlist</string>
     <string name="subtitle_load_m3u">Load IPTV channels with M3U playlist file or URL</string>

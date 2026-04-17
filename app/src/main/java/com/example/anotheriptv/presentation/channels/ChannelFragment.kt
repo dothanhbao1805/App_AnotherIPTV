@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -29,7 +30,7 @@ class ChannelFragment : Fragment() {
     private lateinit var channelAdapter: ChannelAdapter
     private var selectedCategory = "View All"
 
-    private val viewModel: ChannelViewModel by viewModels {
+    private val viewModel: ChannelViewModel by activityViewModels {
         val container = (requireActivity().application as MyApp).container
         ChannelViewModelFactory(
             container.getChannelsUseCase,
@@ -54,6 +55,16 @@ class ChannelFragment : Fragment() {
 
         binding.toolbar.setNavigationOnClickListener {
             parentFragmentManager.popBackStack()
+        }
+
+        binding.ivSearch.setOnClickListener {
+            val searchFragment = SearchChannelFragment()
+
+            parentFragmentManager.beginTransaction()
+                .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out, android.R.anim.fade_in, android.R.anim.fade_out)
+                .replace(R.id.fragment_container, searchFragment)
+                .addToBackStack(null)
+                .commit()
         }
 
         setupRecyclerView()
