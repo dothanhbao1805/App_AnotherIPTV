@@ -44,7 +44,7 @@ class ChannelViewModel(
     }
 
     fun filterByCategory(category: String) {
-        _filteredChannels.value = if (category == "All") {
+        _filteredChannels.value = if (category == "View All") {
             _channels.value
         } else {
             _channels.value.filter { it.category == category }

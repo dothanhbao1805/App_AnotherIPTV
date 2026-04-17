@@ -257,6 +257,7 @@
                 android:orientation="horizontal">
 
                 <ImageView
+                    android:id="@+id/ivSaveIcon"
                     android:layout_width="18dp"
                     android:layout_height="18dp"
                     android:src="@drawable/ic_save"
@@ -270,6 +271,50 @@
                     android:text="@string/btn_create_playlist"
                     android:textAppearance="?attr/textAppearanceBodyLarge"
                     android:textColor="#AAAAAA" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutError"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/bg_error_m3u"
+                android:orientation="horizontal"
+                android:padding="@dimen/spacing_large"
+                android:visibility="gone"
+                >
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_info"
+                    app:tint="?attr/colorError" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvErrorTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/error_title"
+                        android:textAppearance="?attr/textAppearanceLabelLarge"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvErrorDesc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:lineSpacingExtra="3dp"
+                        android:text="@string/error_desc_m3u"
+                        android:textAppearance="?attr/textAppearanceBodySmall" />
+                </LinearLayout>
+
             </LinearLayout>
 
             <LinearLayout
@@ -310,6 +355,7 @@
                 </LinearLayout>
 
             </LinearLayout>
+
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

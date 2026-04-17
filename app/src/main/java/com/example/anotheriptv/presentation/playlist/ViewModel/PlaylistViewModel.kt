@@ -34,9 +34,20 @@ class PlaylistViewModel(
     fun addPlaylist(playlist: Playlist) {
         viewModelScope.launch {
             _uiState.value = PlaylistUiState.Loading
-            addPlaylistUseCase(playlist)
-                .onSuccess { _uiState.value = PlaylistUiState.Success }
-                .onFailure { _uiState.value = PlaylistUiState.Error(it.message ?: "Lỗi không xác định") }
+            try {
+                val result = addPlaylistUseCase(playlist)
+
+                result.onSuccess { newId ->
+                    val createdPlaylist = playlist.copy(id = newId)
+
+                    _uiState.value = PlaylistUiState.Success(createdPlaylist)
+                }.onFailure { exception ->
+                    _uiState.value = PlaylistUiState.Error(exception.message ?: "Lỗi khi lưu Playlist")
+                }
+
+            } catch (e: Exception) {
+                _uiState.value = PlaylistUiState.Error(e.message ?: "Unknown Error")
+            }
         }
     }
 
@@ -44,8 +55,12 @@ class PlaylistViewModel(
         viewModelScope.launch {
             _uiState.value = PlaylistUiState.Loading
             deletePlaylistUseCase(id)
-                .onSuccess { _uiState.value = PlaylistUiState.Success }
-                .onFailure { _uiState.value = PlaylistUiState.Error(it.message ?: "Xóa thất bại") }
+                .onSuccess {
+                    _uiState.value = PlaylistUiState.Success(null)
+                }
+                .onFailure {
+                    _uiState.value = PlaylistUiState.Error(it.message ?: "Xóa thất bại")
+                }
         }
     }
 
