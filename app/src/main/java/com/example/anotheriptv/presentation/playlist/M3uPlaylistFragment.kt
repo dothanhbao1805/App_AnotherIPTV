@@ -19,11 +19,14 @@ import com.example.anotheriptv.presentation.playlist.UiState.PlaylistUiState
 import com.example.anotheriptv.presentation.playlist.ViewModel.PlaylistViewModel
 import com.example.anotheriptv.presentation.playlist.ViewModelFactory.PlaylistViewModelFactory
 import kotlinx.coroutines.launch
+import androidx.appcompat.app.AlertDialog
 
 class M3uPlaylistFragment : Fragment() {
 
     private var _binding: FragmentM3uPlaylistBinding? = null
     private val binding get() = _binding!!
+
+    private var loadingDialog: AlertDialog? = null
 
     private val viewModel: PlaylistViewModel by activityViewModels {
         val container = (requireActivity().application as MyApp).container
@@ -62,6 +65,7 @@ class M3uPlaylistFragment : Fragment() {
             override fun afterTextChanged(s: android.text.Editable?) {
 
                 binding.layoutError.visibility = View.GONE
+                binding.tvvalid.visibility = View.GONE
                 updateButtonState()
             }
         }
@@ -78,11 +82,20 @@ class M3uPlaylistFragment : Fragment() {
         val name = binding.etPlaylistName.text.toString().trim()
         val url = binding.etUrl.text.toString().trim()
 
-        // Kiểm tra định dạng nhanh tại Fragment
-        if (name.isEmpty() || url.isEmpty() || (!url.startsWith("http://") && !url.startsWith("https://"))) {
+        if (name.isEmpty() || url.isEmpty()) {
             binding.layoutError.visibility = View.VISIBLE
+            binding.tvvalid.visibility = View.GONE
             return
         }
+
+        if (!url.startsWith("http://") && !url.startsWith("https://")) {
+            binding.tvvalid.visibility = View.VISIBLE
+            binding.layoutError.visibility = View.GONE
+            return
+        }
+
+        binding.tvvalid.visibility = View.GONE
+        binding.layoutError.visibility = View.GONE
 
         val playlist = Playlist(
             name = name,
@@ -100,9 +113,12 @@ class M3uPlaylistFragment : Fragment() {
                 viewModel.uiState.collect { state ->
                     when (state) {
                         is PlaylistUiState.Loading -> {
+                            showLoading()
                             binding.btnCreatePlaylist.isEnabled = false
                         }
+
                         is PlaylistUiState.Success -> {
+                            hideLoading()
                             state.playlist?.let { newPlaylist ->
                                 val intent = android.content.Intent(requireContext(), ContainerPlaylistActivity::class.java).apply {
                                     putExtra("playlistId", newPlaylist.id)
@@ -114,8 +130,12 @@ class M3uPlaylistFragment : Fragment() {
                                 parentFragmentManager.popBackStack()
                             }
                         }
+
                         is PlaylistUiState.Error -> {
+                            hideLoading()
+
                             binding.layoutError.visibility = View.VISIBLE
+                            binding.tvvalid.visibility = View.GONE
                             binding.btnCreatePlaylist.isEnabled = true
                             viewModel.resetState()
                         }
@@ -159,8 +179,27 @@ class M3uPlaylistFragment : Fragment() {
         binding.btnCreatePlaylist.findViewById<android.widget.ImageView>(R.id.ivSaveIcon)?.setColorFilter(contentColor)
     }
 
+    private fun showLoading() {
+        if (loadingDialog == null) {
+            val dialogView = layoutInflater.inflate(R.layout.layout_loading_dialog, null)
+            loadingDialog = AlertDialog.Builder(requireContext())
+                .setView(dialogView)
+                .setCancelable(false)
+                .create()
+            loadingDialog?.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        }
+        loadingDialog?.show()
+    }
+
+    private fun hideLoading() {
+        loadingDialog?.dismiss()
+    }
+
+
     override fun onDestroyView() {
         super.onDestroyView()
+        loadingDialog?.dismiss()
+        loadingDialog = null
         _binding = null
     }
 }
