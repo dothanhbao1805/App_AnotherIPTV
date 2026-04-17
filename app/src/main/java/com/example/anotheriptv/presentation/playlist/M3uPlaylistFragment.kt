@@ -4,16 +4,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.example.anotheriptv.MyApp
 import com.example.anotheriptv.R
 import com.example.anotheriptv.databinding.FragmentM3uPlaylistBinding
 import com.example.anotheriptv.domain.model.Playlist
+import com.example.anotheriptv.presentation.ContainerPlaylistActivity
+import com.example.anotheriptv.presentation.playlist.UiState.PlaylistUiState
 import com.example.anotheriptv.presentation.playlist.ViewModel.PlaylistViewModel
 import com.example.anotheriptv.presentation.playlist.ViewModelFactory.PlaylistViewModelFactory
+import kotlinx.coroutines.launch
 
 class M3uPlaylistFragment : Fragment() {
 
@@ -45,54 +50,81 @@ class M3uPlaylistFragment : Fragment() {
             parentFragmentManager.popBackStack()
         }
 
-        // Mặc định chọn URL
         selectTab(isUrl = true)
+        observeUiState()
 
         binding.tabUrl.setOnClickListener { selectTab(isUrl = true) }
         binding.tabFile.setOnClickListener { selectTab(isUrl = false) }
-
-        binding.layoutFileInput.setOnClickListener {
-            // TODO: mở file picker
-        }
 
         val textWatcher = object : android.text.TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: android.text.Editable?) {
+
+                binding.layoutError.visibility = View.GONE
                 updateButtonState()
             }
         }
+
         binding.etPlaylistName.addTextChangedListener(textWatcher)
         binding.etUrl.addTextChangedListener(textWatcher)
 
         binding.btnCreatePlaylist.setOnClickListener {
-            val name = binding.etPlaylistName.text.toString().trim()
-            val url = binding.etUrl.text.toString().trim()
+            handleCreateAction()
+        }
+    }
 
-            if (name.isEmpty()) {
-                Toast.makeText(requireContext(), "Vui lòng nhập tên playlist", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
+    private fun handleCreateAction() {
+        val name = binding.etPlaylistName.text.toString().trim()
+        val url = binding.etUrl.text.toString().trim()
+
+        // Kiểm tra định dạng nhanh tại Fragment
+        if (name.isEmpty() || url.isEmpty() || (!url.startsWith("http://") && !url.startsWith("https://"))) {
+            binding.layoutError.visibility = View.VISIBLE
+            return
+        }
+
+        val playlist = Playlist(
+            name = name,
+            type = "M3U",
+            sourceType = "URL",
+            m3uUrl = url,
+            createdAt = System.currentTimeMillis()
+        )
+        viewModel.addPlaylist(playlist)
+    }
+
+    private fun observeUiState() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uiState.collect { state ->
+                    when (state) {
+                        is PlaylistUiState.Loading -> {
+                            binding.btnCreatePlaylist.isEnabled = false
+                        }
+                        is PlaylistUiState.Success -> {
+                            state.playlist?.let { newPlaylist ->
+                                val intent = android.content.Intent(requireContext(), ContainerPlaylistActivity::class.java).apply {
+                                    putExtra("playlistId", newPlaylist.id)
+                                    putExtra("playlistName", newPlaylist.name)
+                                }
+                                startActivity(intent)
+
+                                viewModel.resetState()
+                                parentFragmentManager.popBackStack()
+                            }
+                        }
+                        is PlaylistUiState.Error -> {
+                            binding.layoutError.visibility = View.VISIBLE
+                            binding.btnCreatePlaylist.isEnabled = true
+                            viewModel.resetState()
+                        }
+                        is PlaylistUiState.Idle -> {
+                            updateButtonState()
+                        }
+                    }
+                }
             }
-
-            if (url.isEmpty()) {
-                Toast.makeText(requireContext(), "Vui lòng nhập URL", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-
-            if (!url.startsWith("http://") && !url.startsWith("https://")) {
-                Toast.makeText(requireContext(), "URL phải bắt đầu bằng http:// hoặc https://", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-
-            val playlist = Playlist(
-                name = name,
-                type = "M3U",
-                sourceType = "URL",
-                m3uUrl = url,
-                createdAt = System.currentTimeMillis()
-            )
-
-            viewModel.addPlaylist(playlist)
         }
     }
 
@@ -100,45 +132,31 @@ class M3uPlaylistFragment : Fragment() {
         val colorSelected = ContextCompat.getColor(requireContext(), R.color.white)
         val colorUnselected = ContextCompat.getColor(requireContext(), R.color.tab_unselected)
 
-        // Background tabs
-        binding.tabUrl.setBackgroundResource(
-            if (isUrl) R.drawable.bg_tab_selected else android.R.color.transparent
-        )
-        binding.tabFile.setBackgroundResource(
-            if (isUrl) android.R.color.transparent else R.drawable.bg_tab_selected
-        )
+        binding.tabUrl.setBackgroundResource(if (isUrl) R.drawable.bg_tab_selected else android.R.color.transparent)
+        binding.tabFile.setBackgroundResource(if (isUrl) android.R.color.transparent else R.drawable.bg_tab_selected)
 
-        // Icon tint
         binding.ivTabUrlIcon.setColorFilter(if (isUrl) colorSelected else colorUnselected)
         binding.ivTabFileIcon.setColorFilter(if (isUrl) colorUnselected else colorSelected)
-
-        // Text color
         binding.tvTabUrl.setTextColor(if (isUrl) colorSelected else colorUnselected)
         binding.tvTabFile.setTextColor(if (isUrl) colorUnselected else colorSelected)
 
-        // Show/hide input
         binding.layoutUrlInput.visibility = if (isUrl) View.VISIBLE else View.GONE
         binding.layoutFileInput.visibility = if (isUrl) View.GONE else View.VISIBLE
         binding.labelSource.text = if (isUrl) "M3U URL" else "M3U File"
     }
 
     private fun updateButtonState() {
-        val name = binding.etPlaylistName.text.toString().trim()
         val url = binding.etUrl.text.toString().trim()
-        val isEnabled = name.isNotEmpty() && url.isNotEmpty()
+        val isEnabled = url.isNotEmpty()
 
         binding.btnCreatePlaylist.isEnabled = isEnabled
         binding.btnCreatePlaylist.setBackgroundResource(
             if (isEnabled) R.drawable.bg_button_primary else R.drawable.bg_button_disabled
         )
 
-        // Đổi màu icon và text theo trạng thái
-        val textColor = if (isEnabled) {
-            ContextCompat.getColor(requireContext(), R.color.white)
-        } else {
-            ContextCompat.getColor(requireContext(), R.color.tab_unselected)
-        }
-        binding.tvCreateBtn.setTextColor(textColor)
+        val contentColor = ContextCompat.getColor(requireContext(), if (isEnabled) R.color.white else R.color.tab_unselected)
+        binding.tvCreateBtn.setTextColor(contentColor)
+        binding.btnCreatePlaylist.findViewById<android.widget.ImageView>(R.id.ivSaveIcon)?.setColorFilter(contentColor)
     }
 
     override fun onDestroyView() {

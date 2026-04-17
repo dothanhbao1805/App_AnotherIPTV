@@ -11,7 +11,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class ContainerPlaylistActivity : AppCompatActivity() {
 
-    // Khai báo 2 biến để "nhớ" playlist hiện tại
     private var currentPlaylistId: Long = -1L
     private var currentPlaylistName: String = "All Channels"
 
@@ -19,13 +18,11 @@ class ContainerPlaylistActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_container_playlist)
 
-        // 1. Hứng dữ liệu từ Intent do PlaylistFragment gửi tới
         currentPlaylistId = intent.getLongExtra("playlistId", -1L)
         currentPlaylistName = intent.getStringExtra("playlistName") ?: "All Channels"
 
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
 
-        // 2. Mặc định mở HistoryFragment
         if (savedInstanceState == null) {
             replaceFragment(HistoryFragment())
             bottomNavigationView.selectedItemId = R.id.nav_history

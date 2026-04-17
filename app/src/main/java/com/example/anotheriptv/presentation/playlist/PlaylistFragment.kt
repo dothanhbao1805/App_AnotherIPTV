@@ -142,7 +142,6 @@ class PlaylistFragment : Fragment() {
         }
 
         btnRemove.setOnClickListener {
-            Toast.makeText(requireContext(), "Đã xóa Playlist: ${playlist.name}", Toast.LENGTH_SHORT).show()
             dialog.dismiss()
 
              viewModel.deletePlaylist(playlist.id)

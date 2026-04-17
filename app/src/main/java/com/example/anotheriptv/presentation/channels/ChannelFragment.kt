@@ -27,7 +27,7 @@ class ChannelFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var channelAdapter: ChannelAdapter
-    private var selectedCategory = "All"
+    private var selectedCategory = "View All"
 
     private val viewModel: ChannelViewModel by viewModels {
         val container = (requireActivity().application as MyApp).container

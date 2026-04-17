@@ -31,6 +31,8 @@
     <string name="hint_file">Select M3U file (.m3u, m3u8)</string>
     <string name="btn_create_playlist">Create Playlist</string>
     <string name="info_title">Info</string>
+    <string name ="error_title">Error Occurred</string>
+    <string name="error_desc_m3u">M3U Error</string>
     <string name="info_desc_m3u">All data is securely stored on your device.\nSupported formats: .m3u, .m3u8\nURL format: Must start with http:// or https://</string>
 
 <!--    fragment_new_playlist-->
