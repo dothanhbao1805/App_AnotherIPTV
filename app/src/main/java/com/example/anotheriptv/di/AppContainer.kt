@@ -2,6 +2,8 @@ package com.example.anotheriptv.di
 
 import android.content.Context
 import androidx.room.Room
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.anotheriptv.data.local.database.AppDatabase
 import com.example.anotheriptv.data.local.datastore.SettingsDataStore
 import com.example.anotheriptv.data.mapper.ChannelMapper
@@ -23,17 +25,37 @@ import com.example.anotheriptv.domain.usecase.playlist.AddPlaylistUseCase
 import com.example.anotheriptv.domain.usecase.playlist.DeletePlaylistUseCase
 import com.example.anotheriptv.domain.usecase.playlist.GetPlaylistsUseCase
 import okhttp3.OkHttpClient
-import kotlin.jvm.java
-
 
 class AppContainer(context: Context) {
+
+    companion object {
+        val MIGRATION_1_2 = object : Migration(1, 2) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                // Tạo bảng watch_history mới với playlistId
+                db.execSQL("""
+                    CREATE TABLE IF NOT EXISTS watch_history_new (
+                        id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                        channelId INTEGER NOT NULL,
+                        playlistId INTEGER NOT NULL,
+                        channelName TEXT NOT NULL,
+                        channelLogo TEXT NOT NULL,
+                        watchedAt INTEGER NOT NULL
+                    )
+                """)
+                db.execSQL("DROP TABLE IF EXISTS watch_history")
+                db.execSQL("ALTER TABLE watch_history_new RENAME TO watch_history")
+            }
+        }
+    }
 
     // ── Database ──
     private val database = Room.databaseBuilder(
         context,
         AppDatabase::class.java,
         "anotheriptv.db"
-    ).build()
+    )
+        .addMigrations(MIGRATION_1_2)
+        .build()
 
     // ── DAO ──
     private val playlistDao = database.playlistDao()
@@ -54,36 +76,35 @@ class AppContainer(context: Context) {
 
     // ── Repository ──
     private val playlistRepository: PlaylistRepository = PlaylistRepositoryImpl(
-        playlistDao = playlistDao,
-        channelDao = channelDao,
+        context        = context,
+        playlistDao    = playlistDao,
+        channelDao     = channelDao,
         playlistMapper = playlistMapper,
-        channelMapper = channelMapper,
-        m3uParser = m3uParser,
-        okHttpClient = okHttpClient
+        channelMapper  = channelMapper,
+        m3uParser      = m3uParser,
+        okHttpClient   = okHttpClient
     )
 
     private val channelRepository: ChannelRepository = ChannelRepositoryImpl(
-        channelDao = channelDao,
+        channelDao    = channelDao,
         channelMapper = channelMapper
     )
 
     private val historyRepository: WatchHistoryRepository = WatchHistoryRepositoryImpl(
-        historyDao = historyDao,
+        historyDao    = historyDao,
         historyMapper = historyMapper
     )
 
-
     // ── UseCase: Playlist ──
-    val getPlaylistsUseCase = GetPlaylistsUseCase(playlistRepository)
-    val addPlaylistUseCase = AddPlaylistUseCase(playlistRepository)
-    val deletePlaylistUseCase = DeletePlaylistUseCase(playlistRepository)
+    val getPlaylistsUseCase    = GetPlaylistsUseCase(playlistRepository)
+    val addPlaylistUseCase     = AddPlaylistUseCase(playlistRepository)
+    val deletePlaylistUseCase  = DeletePlaylistUseCase(playlistRepository)
 
     // ── UseCase: Channel ──
     val getChannelsUseCase = GetChannelsUseCase(channelRepository)
 
     // ── UseCase: History ──
-    val addWatchHistoryUseCase = AddWatchHistoryUseCase(historyRepository)
-    val getWatchHistoryUseCase = GetWatchHistoryUseCase(historyRepository)
+    val addWatchHistoryUseCase    = AddWatchHistoryUseCase(historyRepository)
+    val getWatchHistoryUseCase    = GetWatchHistoryUseCase(historyRepository)
     val deleteWatchHistoryUseCase = DeleteWatchHistoryUseCase(historyRepository)
-
 }

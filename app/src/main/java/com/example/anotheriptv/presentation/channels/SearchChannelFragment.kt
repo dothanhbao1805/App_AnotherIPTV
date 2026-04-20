@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,6 +28,7 @@ class SearchChannelFragment : Fragment() {
 
     private var _binding: FragmentSearchChannelBinding? = null
     private val binding get() = _binding!!
+    private var playlistId: Long = -1L
 
     private lateinit var channelAdapter: ChannelAdapter
 
@@ -49,6 +51,7 @@ class SearchChannelFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        playlistId = arguments?.getLong("playlistId") ?: -1L
 
         setupRecyclerView()
         setupSearchLogic()
@@ -63,7 +66,12 @@ class SearchChannelFragment : Fragment() {
 
     private fun setupRecyclerView() {
         channelAdapter = ChannelAdapter { channel ->
-            viewModel.addToHistory(channel.id, channel.name, channel.logo)
+            viewModel.addToHistory(
+                channelId = channel.id,
+                playlistId = playlistId,
+                channelName = channel.name,
+                channelLogo = channel.logo
+            )
             val intent = Intent(requireContext(), PlayerActivity::class.java).apply {
                 putExtra("channelName", channel.name)
                 putExtra("streamUrl", channel.url)
@@ -76,6 +84,7 @@ class SearchChannelFragment : Fragment() {
             adapter = channelAdapter
         }
     }
+
 
     private fun setupSearchLogic() {
         binding.etSearch.requestFocus()
@@ -112,10 +121,10 @@ class SearchChannelFragment : Fragment() {
 
     private fun filterChannels(query: String) {
 
-        android.util.Log.d("SEARCH_DEBUG", "Đang gõ: '$query'")
+        Log.d("SEARCH_DEBUG", "Đang gõ: '$query'")
         val allChannels = viewModel.channels.value
 
-        android.util.Log.d("SEARCH_DEBUG", "Tổng số kênh lấy từ ViewModel: ${allChannels.size}")
+        Log.d("SEARCH_DEBUG", "Tổng số kênh lấy từ ViewModel: ${allChannels.size}")
         val filteredList = if (query.isEmpty()) {
             allChannels
         } else {
@@ -125,7 +134,7 @@ class SearchChannelFragment : Fragment() {
             }
         }
 
-        android.util.Log.d("SEARCH_DEBUG", "Số kênh sau khi lọc: ${filteredList.size}")
+        Log.d("SEARCH_DEBUG", "Số kênh sau khi lọc: ${filteredList.size}")
         channelAdapter.submitList(filteredList)
 
         binding.tvNoResult.visibility = if (filteredList.isEmpty() && query.isNotEmpty()) {

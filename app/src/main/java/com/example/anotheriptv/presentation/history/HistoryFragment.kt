@@ -26,6 +26,7 @@ class HistoryFragment : Fragment() {
 
     private var _binding: FragmentHistoryBinding? = null
     private val binding get() = _binding!!
+    private var playlistId: Long = -1L
 
     private lateinit var historyAdapter: HistoryAdapter
 
@@ -48,17 +49,28 @@ class HistoryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        playlistId = arguments?.getLong("playlistId") ?: -1L
+
         setupRecyclerView()
         setupMenu()
-
-        // 2. Gọi hàm lắng nghe dữ liệu
         observeViewModel()
+
+        viewModel.loadHistory(playlistId)
     }
 
     private fun setupRecyclerView() {
         historyAdapter = HistoryAdapter(
             onItemClick = { historyItem ->
-                // 3. Mở Player khi click vào item lịch sử (Sử dụng streamUrl đã được JOIN)
+                if (historyItem.streamUrl.isNullOrEmpty()) {
+                    android.widget.Toast.makeText(
+                        requireContext(),
+                        "Không tìm thấy URL stream",
+                        android.widget.Toast.LENGTH_SHORT
+                    ).show()
+                    return@HistoryAdapter
+                }
+
                 val intent = android.content.Intent(requireContext(), PlayerActivity::class.java).apply {
                     putExtra("channelName", historyItem.channelName)
                     putExtra("streamUrl", historyItem.streamUrl)
@@ -68,13 +80,12 @@ class HistoryFragment : Fragment() {
             onRemoveClick = { historyItem ->
                 showDeleteConfirmationDialog(historyItem)
             }
-
         )
 
         binding.recyclerHistory.apply {
             layoutManager = LinearLayoutManager(
                 requireContext(),
-                LinearLayoutManager.HORIZONTAL, // Cuộn ngang
+                LinearLayoutManager.HORIZONTAL,
                 false
             )
             adapter = historyAdapter

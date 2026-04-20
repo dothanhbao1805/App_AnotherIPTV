@@ -16,28 +16,46 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface WatchHistoryDao {
 
-    @Query("DELETE FROM watch_history WHERE channelId = :channelId")
-    suspend fun removeOldHistoryByChannelId(channelId: Long)
-
-    @Insert
-    suspend fun insertHistory(history: WatchHistoryEntity)
-
-    @Transaction
-    suspend fun upsertHistory(history: WatchHistoryEntity) {
-        removeOldHistoryByChannelId(history.channelId)
-        insertHistory(history)
-    }
-
     @Query("""
-        SELECT h.id as historyId, h.channelId, h.channelName, h.channelLogo, c.url as streamUrl, h.watchedAt 
-        FROM watch_history h 
-        INNER JOIN channels c ON h.channelId = c.id 
+        SELECT 
+            h.id as historyId,
+            h.channelId,
+            h.playlistId,
+            h.channelName,
+            h.channelLogo,
+            c.url as streamUrl,
+            h.watchedAt
+        FROM watch_history h
+        LEFT JOIN channels c ON h.channelId = c.id
         ORDER BY h.watchedAt DESC
     """)
-    fun getHistoryWithUrl(): Flow<List<HistoryWithUrl>>
+    fun getAll(): Flow<List<HistoryWithUrl>>
 
-    @Query("DELETE FROM watch_history WHERE id = :historyId")
-    suspend fun deleteHistoryById(historyId: Long)
+    @Query("""
+        SELECT 
+            h.id as historyId,
+            h.channelId,
+            h.playlistId,
+            h.channelName,
+            h.channelLogo,
+            c.url as streamUrl,
+            h.watchedAt
+        FROM watch_history h
+        LEFT JOIN channels c ON h.channelId = c.id
+        WHERE h.playlistId = :playlistId
+        ORDER BY h.watchedAt DESC
+    """)
+    fun getByPlaylistId(playlistId: Long): Flow<List<HistoryWithUrl>>
 
+    @Query("DELETE FROM watch_history WHERE channelId = :channelId AND playlistId = :playlistId")
+    suspend fun deleteExisting(channelId: Long, playlistId: Long)
 
+    @Query("DELETE FROM watch_history WHERE id = :id")
+    suspend fun deleteById(id: Long)
+
+    @Insert
+    suspend fun insert(entity: WatchHistoryEntity)
+
+    @Query("DELETE FROM watch_history")
+    suspend fun clearAll()
 }
