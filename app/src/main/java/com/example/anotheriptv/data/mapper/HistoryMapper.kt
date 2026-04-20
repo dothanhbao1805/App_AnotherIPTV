@@ -10,9 +10,10 @@ class HistoryMapper {
         return WatchHistory(
             id          = entity.historyId,
             channelId   = entity.channelId,
+            playlistId  = entity.playlistId,
             channelName = entity.channelName,
             channelLogo = entity.channelLogo,
-            streamUrl = entity.streamUrl,
+            streamUrl = entity.streamUrl ?: "",
             watchedAt   = entity.watchedAt
         )
     }
@@ -21,6 +22,7 @@ class HistoryMapper {
         return WatchHistoryEntity(
             id = domain.id,
             channelId = domain.channelId,
+            playlistId  = domain.playlistId,
             channelName = domain.channelName,
             channelLogo = domain.channelLogo,
             watchedAt = domain.watchedAt

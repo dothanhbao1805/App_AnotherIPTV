@@ -51,11 +51,12 @@ class ChannelViewModel(
         }
     }
 
-    fun addToHistory(channelId: Long, channelName: String, channelLogo: String) {
+    fun addToHistory(channelId: Long,playlistId: Long, channelName: String, channelLogo: String) {
         viewModelScope.launch(Dispatchers.IO) {
             val historyItem = WatchHistory(
                 id = 0,
                 channelId = channelId,
+                playlistId  = playlistId,
                 channelName = channelName,
                 channelLogo = channelLogo,
                 streamUrl = "",

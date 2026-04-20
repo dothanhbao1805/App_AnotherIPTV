@@ -15,7 +15,7 @@ import com.example.anotheriptv.data.local.entity.WatchHistoryEntity
         ChannelEntity::class,
         WatchHistoryEntity::class
     ],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 

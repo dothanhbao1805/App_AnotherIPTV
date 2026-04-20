@@ -7,7 +7,8 @@ import androidx.room.PrimaryKey
 data class WatchHistoryEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
-    val channelId: Long,      // FK → ChannelEntity
+    val channelId: Long,
+    val playlistId: Long,
     val channelName: String,
     val channelLogo: String,
     val watchedAt: Long

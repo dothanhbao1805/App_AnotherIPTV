@@ -26,6 +26,7 @@ class ChannelFragment : Fragment() {
 
     private var _binding: FragmentChannelBinding? = null
     private val binding get() = _binding!!
+    private var playlistId: Long = -1L
 
     private lateinit var channelAdapter: ChannelAdapter
     private var selectedCategory = "View All"
@@ -50,15 +51,18 @@ class ChannelFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val playlistId = arguments?.getLong("playlistId") ?: return
-        val playlistName = arguments?.getString("playlistName") ?: "Channels"
+        playlistId = arguments?.getLong("playlistId") ?: return
 
         binding.toolbar.setNavigationOnClickListener {
             parentFragmentManager.popBackStack()
         }
 
         binding.ivSearch.setOnClickListener {
-            val searchFragment = SearchChannelFragment()
+            val searchFragment = SearchChannelFragment().apply {
+                arguments = Bundle().apply {
+                    putLong("playlistId", playlistId)  // ← thêm playlistId vào đây
+                }
+            }
 
             parentFragmentManager.beginTransaction()
                 .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out, android.R.anim.fade_in, android.R.anim.fade_out)
@@ -77,6 +81,7 @@ class ChannelFragment : Fragment() {
         channelAdapter = ChannelAdapter { channel ->
             viewModel.addToHistory(
                 channelId = channel.id,
+                playlistId  = playlistId,
                 channelName = channel.name,
                 channelLogo = channel.logo
             )

@@ -13,18 +13,22 @@ class WatchHistoryRepositoryImpl(
 ) : WatchHistoryRepository {
 
     override fun getWatchHistory(): Flow<List<WatchHistory>> {
-        // Gọi hàm getHistoryWithUrl() đã tạo trong DAO để lấy dữ liệu có chứa URL
-        return historyDao.getHistoryWithUrl()
-            .map { entities -> entities.map { historyMapper.toDomain(it) } }
+        return historyDao.getAll()
+            .map { list -> list.map { historyMapper.toDomain(it) } }
+    }
+
+    override fun getWatchHistoryByPlaylist(playlistId: Long): Flow<List<WatchHistory>> {
+        return historyDao.getByPlaylistId(playlistId)
+            .map { list -> list.map { historyMapper.toDomain(it) } }
     }
 
     override suspend fun upsertHistory(watchHistory: WatchHistory) {
-        // Gọi hàm upsertHistory trong DAO
-        historyDao.upsertHistory(historyMapper.toEntity(watchHistory))
+        historyDao.deleteExisting(watchHistory.channelId, watchHistory.playlistId)
+        historyDao.insert(historyMapper.toEntity(watchHistory))
     }
 
     override suspend fun deleteHistoryById(id: Long) {
-        // Gọi hàm xóa theo ID
-        historyDao.deleteHistoryById(id)
+        historyDao.deleteById(id)
     }
+
 }

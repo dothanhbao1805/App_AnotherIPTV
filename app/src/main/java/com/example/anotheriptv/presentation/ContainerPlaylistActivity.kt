@@ -24,7 +24,12 @@ class ContainerPlaylistActivity : AppCompatActivity() {
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
 
         if (savedInstanceState == null) {
-            replaceFragment(HistoryFragment())
+            val historyFragment = HistoryFragment().apply {
+                arguments = Bundle().apply {
+                    putLong("playlistId", currentPlaylistId)  // ← thêm
+                }
+            }
+            replaceFragment(historyFragment)
             bottomNavigationView.selectedItemId = R.id.nav_history
         }
 
@@ -32,11 +37,15 @@ class ContainerPlaylistActivity : AppCompatActivity() {
         bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_history -> {
-                    replaceFragment(HistoryFragment())
+                    val historyFragment = HistoryFragment().apply {
+                        arguments = Bundle().apply {
+                            putLong("playlistId", currentPlaylistId)  // ← thêm
+                        }
+                    }
+                    replaceFragment(historyFragment)
                     true
                 }
                 R.id.nav_all -> {
-                    // TẠI ĐÂY: Tạo ChannelFragment và nhét cái ID đang nhớ vào arguments
                     val channelFragment = ChannelFragment().apply {
                         arguments = Bundle().apply {
                             putLong("playlistId", currentPlaylistId)
@@ -47,12 +56,12 @@ class ContainerPlaylistActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_settings -> {
-
                     false
                 }
                 else -> false
             }
         }
+
     }
 
     private fun replaceFragment(fragment: Fragment) {

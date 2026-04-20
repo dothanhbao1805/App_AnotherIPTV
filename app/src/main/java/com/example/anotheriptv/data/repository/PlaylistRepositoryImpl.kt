@@ -18,6 +18,7 @@ import java.io.File
 
 
 class PlaylistRepositoryImpl(
+    private val context: android.content.Context,
     private val playlistDao: PlaylistDao,
     private val channelDao: ChannelDao,
     private val playlistMapper: PlaylistMapper,
@@ -100,10 +101,20 @@ class PlaylistRepositoryImpl(
     private suspend fun readFile(filePath: String): String? {
         return withContext(Dispatchers.IO) {
             try {
-                File(filePath).readText()
+                val uri = android.net.Uri.parse(filePath)
+                // Nếu là content:// URI thì dùng ContentResolver
+                if (uri.scheme == "content") {
+                    context.contentResolver.openInputStream(uri)?.use { inputStream ->
+                        inputStream.bufferedReader().readText()
+                    }
+                } else {
+                    // Nếu là file path thông thường
+                    java.io.File(filePath).readText()
+                }
             } catch (e: Exception) {
                 null
             }
         }
     }
+
 }
