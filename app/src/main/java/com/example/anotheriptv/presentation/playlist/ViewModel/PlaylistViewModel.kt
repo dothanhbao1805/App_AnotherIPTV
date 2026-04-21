@@ -42,6 +42,7 @@ class PlaylistViewModel(
 
                     _uiState.value = PlaylistUiState.Success(createdPlaylist)
                 }.onFailure { exception ->
+                    android.util.Log.e("XstreamDebug", "Failure: ${exception.message}", exception)
                     _uiState.value = PlaylistUiState.Error(exception.message ?: "Lỗi khi lưu Playlist")
                 }
 

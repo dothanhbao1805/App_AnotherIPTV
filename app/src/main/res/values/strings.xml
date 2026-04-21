@@ -76,4 +76,9 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+<!--    loading xstream-->
+    <string name="title_loading_xstream">Another IPTV\nPlayer</string>
+    <string name="desc_loading_xstream">Open Source IPTV Player</string>
+    <string name="text_loading_live">Loading live channels</string>
+
 </resources>

@@ -28,11 +28,12 @@ class M3UParser {
                 if (url.isNotEmpty() && !url.startsWith("#")) {
                     channels.add(
                         ChannelEntity(
-                            playlistId = playlistId,
-                            name       = name,
-                            url        = url,
-                            category   = category,
-                            logo       = logo
+                            playlistId  = playlistId,
+                            contentType = "LIVE",
+                            name        = name,
+                            url         = url,
+                            category    = category,
+                            logo        = logo
                         )
                     )
                 }

@@ -2,20 +2,26 @@ package com.example.anotheriptv.data.repository
 
 import com.example.anotheriptv.data.local.dao.ChannelDao
 import com.example.anotheriptv.data.local.dao.PlaylistDao
+import com.example.anotheriptv.data.local.entity.ChannelEntity
 import com.example.anotheriptv.data.mapper.ChannelMapper
 import com.example.anotheriptv.data.mapper.PlaylistMapper
 import com.example.anotheriptv.data.remote.parser.M3UParser
+import com.example.anotheriptv.data.remote.parser.XstreamParser
 import com.example.anotheriptv.domain.model.Playlist
 import com.example.anotheriptv.domain.repository.PlaylistRepository
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
-import okhttp3.Request
 import okhttp3.OkHttpClient
-import java.io.File
 
+
+import io.ktor.client.request.get
+import io.ktor.client.request.headers
+import io.ktor.client.statement.bodyAsText
 
 class PlaylistRepositoryImpl(
     private val context: android.content.Context,
@@ -24,6 +30,7 @@ class PlaylistRepositoryImpl(
     private val playlistMapper: PlaylistMapper,
     private val channelMapper: ChannelMapper,
     private val m3uParser: M3UParser,
+    private val xstreamParser: XstreamParser,
     private val okHttpClient: OkHttpClient
 ) : PlaylistRepository {
 
@@ -39,15 +46,14 @@ class PlaylistRepositoryImpl(
 
     override suspend fun addPlaylist(playlist: Playlist): Long {
         return withContext(Dispatchers.IO) {
-
-            val content = fetchM3UContent(playlist)
-                ?: throw Exception("Không lấy được dữ liệu từ URL")
-
-            val entity = playlistMapper.toEntity(playlist)
+            val entity     = playlistMapper.toEntity(playlist)
             val playlistId = playlistDao.insert(entity)
 
-            val channels = m3uParser.parse(content, playlistId)
-            channelDao.insertAll(channels)
+            when (playlist.type) {
+                "M3U"     -> handleM3U(playlistId, playlist)
+                "XSTREAM" -> handleXstream(playlistId, playlist)
+                else      -> throw Exception("Loại playlist không hợp lệ: ${playlist.type}")
+            }
 
             playlistId
         }
@@ -58,15 +64,20 @@ class PlaylistRepositoryImpl(
         channelDao.deleteByPlaylistId(id)
     }
 
-    private suspend fun fetchAndSaveChannels(playlistId: Long, playlist: Playlist) {
-        val content = when (playlist.type) {
-            "M3U"     -> fetchM3UContent(playlist)
-            "XSTREAM" -> fetchXStreamContent(playlist)
-            else      -> return
+    // ─── M3U ────────────────────────────────────────────────────────────────────
+
+    private suspend fun handleM3U(playlistId: Long, playlist: Playlist) {
+        val content = fetchM3UContent(playlist)
+            ?: throw Exception("Không lấy được dữ liệu M3U")
+
+        val channels = m3uParser.parse(content, playlistId)
+        if (channels.isEmpty()) throw Exception("File M3U không có kênh nào")
+
+        channels.take(5).forEach { channel ->
+            android.util.Log.d("M3UDebug", "name=${channel.name}, logo=${channel.logo}, url=${channel.url}")
         }
-        if (content.isNullOrEmpty()) return
-        val channelEntities = m3uParser.parse(content, playlistId)
-        channelDao.insertAll(channelEntities)
+
+        channelDao.insertAll(channels)
     }
 
     private suspend fun fetchM3UContent(playlist: Playlist): String? {
@@ -77,22 +88,90 @@ class PlaylistRepositoryImpl(
         }
     }
 
-    private suspend fun fetchXStreamContent(playlist: Playlist): String? {
-        val url = "${playlist.url}/get.php" +
-                "?username=${playlist.userName}" +
-                "&password=${playlist.password}" +
-                "&type=m3u_plus&output=ts"
-        return downloadText(url)
+    // ─── XSTREAM ────────────────────────────────────────────────────────────────
+
+    private suspend fun handleXstream(playlistId: Long, playlist: Playlist) {
+        val baseUrl  = playlist.url ?: throw Exception("Thiếu URL Xtream")
+        val username = playlist.userName ?: throw Exception("Thiếu username")
+        val password = playlist.password ?: throw Exception("Thiếu password")
+
+        val infoUrl  = buildXstreamUrl(baseUrl, username, password, "get_account_info")
+        downloadText(infoUrl) ?: throw Exception("Không kết nối được tới server Xtream")
+
+        coroutineScope {
+            val liveDeferred   = async { fetchXstreamLive(baseUrl, username, password, playlistId) }
+            val movieDeferred  = async { fetchXstreamMovies(baseUrl, username, password, playlistId) }
+            val seriesDeferred = async { fetchXstreamSeries(baseUrl, username, password, playlistId) }
+
+            // ↓ khai báo type tường minh để Kotlin biết đây là List<ChannelEntity>
+            val all: List<ChannelEntity> = liveDeferred.await() +
+                    movieDeferred.await() +
+                    seriesDeferred.await()
+
+            if (all.isEmpty()) throw Exception("Server không trả về kênh nào")
+            channelDao.insertAll(all)
+        }
+    }
+
+    private suspend fun fetchXstreamLive(
+        baseUrl: String, username: String, password: String, playlistId: Long
+    ): List<ChannelEntity> = try {
+        val url  = buildXstreamUrl(baseUrl, username, password, "get_live_streams")
+        val json = downloadText(url) ?: return@fetchXstreamLive emptyList()
+        xstreamParser.parseLive(json, playlistId, baseUrl, username, password)
+    } catch (e: Exception) {
+        emptyList()
+    }
+
+    private suspend fun fetchXstreamMovies(
+        baseUrl: String, username: String, password: String, playlistId: Long
+    ): List<ChannelEntity> = try {
+        val url  = buildXstreamUrl(baseUrl, username, password, "get_vod_streams")
+        val json = downloadText(url) ?: return@fetchXstreamMovies emptyList()
+        xstreamParser.parseMovies(json, playlistId, baseUrl, username, password)
+    } catch (e: Exception) {
+        emptyList()
+    }
+
+    private suspend fun fetchXstreamSeries(
+        baseUrl: String, username: String, password: String, playlistId: Long
+    ): List<ChannelEntity> = try {
+        val url  = buildXstreamUrl(baseUrl, username, password, "get_series")
+        val json = downloadText(url) ?: return@fetchXstreamSeries emptyList()
+        xstreamParser.parseSeries(json, playlistId, baseUrl, username, password)
+    } catch (e: Exception) {
+        emptyList()
+    }
+
+    // ─── Helpers ────────────────────────────────────────────────────────────────
+
+    private fun buildXstreamUrl(
+        baseUrl: String, username: String, password: String, action: String
+    ): String {
+        val url = "$baseUrl/player_api.php?username=${username.trim()}&password=$password&action=$action"
+        android.util.Log.d("XstreamDebug", "Built URL: $url")
+        return url
     }
 
     private suspend fun downloadText(url: String): String? {
         return withContext(Dispatchers.IO) {
             try {
-                val request = Request.Builder().url(url).build()
-                okHttpClient.newCall(request).execute().use { response ->
-                    if (response.isSuccessful) response.body?.string() else null
+                val client = io.ktor.client.HttpClient(io.ktor.client.engine.android.Android) {
+                    engine {
+                        connectTimeout = 30_000
+                        socketTimeout = 30_000
+                    }
                 }
+                val response = client.get(url) {
+                    headers {
+                        append("User-Agent", "okhttp/3.12.1")
+                        append("Accept", "*/*")
+                    }
+                }
+                client.close()
+                response.bodyAsText()
             } catch (e: Exception) {
+                android.util.Log.e("XstreamDebug", "Ktor failed: ${e.message}")
                 null
             }
         }
@@ -102,13 +181,9 @@ class PlaylistRepositoryImpl(
         return withContext(Dispatchers.IO) {
             try {
                 val uri = android.net.Uri.parse(filePath)
-                // Nếu là content:// URI thì dùng ContentResolver
                 if (uri.scheme == "content") {
-                    context.contentResolver.openInputStream(uri)?.use { inputStream ->
-                        inputStream.bufferedReader().readText()
-                    }
+                    context.contentResolver.openInputStream(uri)?.use { it.bufferedReader().readText() }
                 } else {
-                    // Nếu là file path thông thường
                     java.io.File(filePath).readText()
                 }
             } catch (e: Exception) {
@@ -116,5 +191,4 @@ class PlaylistRepositoryImpl(
             }
         }
     }
-
 }

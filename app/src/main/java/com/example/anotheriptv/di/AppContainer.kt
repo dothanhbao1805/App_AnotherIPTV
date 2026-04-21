@@ -5,11 +5,13 @@ import androidx.room.Room
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.anotheriptv.data.local.database.AppDatabase
+import java.util.concurrent.TimeUnit
 import com.example.anotheriptv.data.local.datastore.SettingsDataStore
 import com.example.anotheriptv.data.mapper.ChannelMapper
 import com.example.anotheriptv.data.mapper.HistoryMapper
 import com.example.anotheriptv.data.mapper.PlaylistMapper
 import com.example.anotheriptv.data.remote.parser.M3UParser
+import com.example.anotheriptv.data.remote.parser.XstreamParser
 import com.example.anotheriptv.data.repository.ChannelRepositoryImpl
 import com.example.anotheriptv.data.repository.PlaylistRepositoryImpl
 import com.example.anotheriptv.data.repository.WatchHistoryRepositoryImpl
@@ -46,7 +48,27 @@ class AppContainer(context: Context) {
                 db.execSQL("ALTER TABLE watch_history_new RENAME TO watch_history")
             }
         }
+
+        val MIGRATION_2_3 = object : Migration(2, 3) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                // Thêm các cột mới vào bảng channels
+                db.execSQL("ALTER TABLE channels ADD COLUMN contentType TEXT NOT NULL DEFAULT 'LIVE'")
+                db.execSQL("ALTER TABLE channels ADD COLUMN description TEXT")
+                db.execSQL("ALTER TABLE channels ADD COLUMN genre TEXT")
+                db.execSQL("ALTER TABLE channels ADD COLUMN releaseDate TEXT")
+                db.execSQL("ALTER TABLE channels ADD COLUMN cast TEXT")
+                db.execSQL("ALTER TABLE channels ADD COLUMN trailerUrl TEXT")
+                db.execSQL("ALTER TABLE channels ADD COLUMN rating REAL")
+                db.execSQL("ALTER TABLE channels ADD COLUMN seriesId INTEGER")
+                db.execSQL("ALTER TABLE channels ADD COLUMN seasonNumber INTEGER")
+                db.execSQL("ALTER TABLE channels ADD COLUMN episodeNumber INTEGER")
+                db.execSQL("ALTER TABLE channels ADD COLUMN episodeDuration INTEGER")
+            }
+        }
+
     }
+
+
 
     // ── Database ──
     private val database = Room.databaseBuilder(
@@ -54,7 +76,7 @@ class AppContainer(context: Context) {
         AppDatabase::class.java,
         "anotheriptv.db"
     )
-        .addMigrations(MIGRATION_1_2)
+        .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
         .build()
 
     // ── DAO ──
@@ -71,8 +93,16 @@ class AppContainer(context: Context) {
     private val historyMapper = HistoryMapper()
 
     // ── Parser + Network ──
-    private val okHttpClient = OkHttpClient()
+    private val okHttpClient = OkHttpClient.Builder()
+        .connectTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
+        .readTimeout(60, java.util.concurrent.TimeUnit.SECONDS)
+        .protocols(listOf(okhttp3.Protocol.HTTP_1_1))
+        .retryOnConnectionFailure(true)
+        .build()
+
     private val m3uParser = M3UParser()
+
+    private val xstreamParser = XstreamParser()
 
     // ── Repository ──
     private val playlistRepository: PlaylistRepository = PlaylistRepositoryImpl(
@@ -82,8 +112,9 @@ class AppContainer(context: Context) {
         playlistMapper = playlistMapper,
         channelMapper  = channelMapper,
         m3uParser      = m3uParser,
-        okHttpClient   = okHttpClient
-    )
+        okHttpClient   = okHttpClient,
+        xstreamParser  = xstreamParser
+        )
 
     private val channelRepository: ChannelRepository = ChannelRepositoryImpl(
         channelDao    = channelDao,
