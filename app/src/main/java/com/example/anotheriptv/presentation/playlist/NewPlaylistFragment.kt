@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.anotheriptv.R
 import androidx.fragment.app.Fragment
-import com.example.anotheriptv.XstreamPlaylistFragment
 import com.example.anotheriptv.databinding.FragmentNewPlaylistBinding
 
 class NewPlaylistFragment : Fragment() {

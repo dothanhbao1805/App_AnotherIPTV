@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" />
 
     <application
@@ -15,15 +16,19 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AnotherIPTV">
+        android:theme="@style/Theme.AnotherIPTV"
+        android:usesCleartextTraffic="true">
+        <activity
+            android:name=".LoadingActivity"
+            android:exported="false" />
         <activity
             android:name=".presentation.player.PlayerActivity"
             android:exported="false" />
         <activity
             android:name=".presentation.ContainerPlaylistActivity"
-            android:screenOrientation="sensor"
             android:configChanges="orientation|screenSize"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="sensor" />
         <activity
             android:name=".presentation.MainActivity"
             android:exported="true">
