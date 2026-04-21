@@ -1,5 +1,6 @@
 package com.example.anotheriptv.presentation.playlist
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -7,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -19,7 +21,7 @@ import com.example.anotheriptv.R
 import com.example.anotheriptv.databinding.FragmentXstreamPlaylistBinding
 import com.example.anotheriptv.domain.model.Playlist
 import com.example.anotheriptv.presentation.ContainerPlaylistActivity
-import com.example.anotheriptv.presentation.playlist.UiState.PlaylistUiState
+import com.example.anotheriptv.presentation.playlist.UiState.LoadingUiState
 import com.example.anotheriptv.presentation.playlist.ViewModel.PlaylistViewModel
 import com.example.anotheriptv.presentation.playlist.ViewModelFactory.PlaylistViewModelFactory
 import kotlinx.coroutines.launch
@@ -28,7 +30,6 @@ class XstreamPlaylistFragment : Fragment() {
 
     private var _binding: FragmentXstreamPlaylistBinding? = null
     private val binding get() = _binding!!
-
     private var loadingDialog: AlertDialog? = null
 
     private val viewModel: PlaylistViewModel by activityViewModels {
@@ -36,7 +37,8 @@ class XstreamPlaylistFragment : Fragment() {
         PlaylistViewModelFactory(
             container.getPlaylistsUseCase,
             container.addPlaylistUseCase,
-            container.deletePlaylistUseCase
+            container.deletePlaylistUseCase,
+            container.addXstreamUseCase
         )
     }
 
@@ -71,7 +73,7 @@ class XstreamPlaylistFragment : Fragment() {
         val name     = binding.etPlaylistName.text.toString().trim()
         val url      = binding.etUrl.text.toString().trim()
         val username = binding.etUsername.text.toString().trim()
-        val password = binding.etPassword.text.toString()   // không trim password
+        val password = binding.etPassword.text.toString()
 
         // Validate
         if (name.isEmpty() || url.isEmpty() || username.isEmpty() || password.isEmpty()) {
@@ -88,9 +90,6 @@ class XstreamPlaylistFragment : Fragment() {
 
         hideError()
 
-        // Chuẩn hoá URL: bỏ dấu / cuối nếu có
-        val baseUrl = url.trimEnd('/')
-
         val playlist = Playlist(
             name       = name,
             type       = "XSTREAM",
@@ -101,7 +100,7 @@ class XstreamPlaylistFragment : Fragment() {
             createdAt  = System.currentTimeMillis()
         )
 
-        viewModel.addPlaylist(playlist)
+        viewModel.addXstream(playlist)
     }
 
     // ─── Observe ────────────────────────────────────────────────────────────────
@@ -109,42 +108,45 @@ class XstreamPlaylistFragment : Fragment() {
     private fun observeUiState() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.uiState.collect { state ->
+                viewModel.loadingState.collect { state ->
                     when (state) {
-                        is PlaylistUiState.Loading -> {
-                            showLoading()
+                        is LoadingUiState.Loading -> {
                             binding.btnCreatePlaylist.isEnabled = false
+                            if (state.progress == 0 &&
+                                parentFragmentManager.findFragmentByTag("LoadingFragment") == null) {
+                                parentFragmentManager.beginTransaction()
+                                    .replace(R.id.fragmentContainer, LoadingFragment(), "LoadingFragment")
+                                    .addToBackStack("LoadingFragment")
+                                    .commit()
+                            }
                         }
 
-                        is PlaylistUiState.Success -> {
-                            hideLoading()
+                        is LoadingUiState.Success -> {
                             state.playlist?.let { newPlaylist ->
-                                val intent = android.content.Intent(
-                                    requireContext(),
-                                    ContainerPlaylistActivity::class.java
-                                ).apply {
-                                    putExtra("playlistId",   newPlaylist.id)
-                                    putExtra("playlistName", newPlaylist.name)
-                                }
-                                startActivity(intent)
+                                startActivity(
+                                    Intent(requireContext(), ContainerPlaylistActivity::class.java).apply {
+                                        putExtra("playlistId", newPlaylist.id)
+                                        putExtra("playlistName", newPlaylist.name)
+                                    }
+                                )
                                 viewModel.resetState()
                                 parentFragmentManager.popBackStack()
                             }
                         }
 
-                        is PlaylistUiState.Error -> {
-                            hideLoading()
+                        is LoadingUiState.Error -> {
                             showError()
                             binding.btnCreatePlaylist.isEnabled = true
                             viewModel.resetState()
                         }
 
-                        is PlaylistUiState.Idle -> updateButtonState()
+                        is LoadingUiState.Idle -> updateButtonState()
                     }
                 }
             }
         }
     }
+
 
     // ─── UI helpers ─────────────────────────────────────────────────────────────
 
@@ -173,7 +175,6 @@ class XstreamPlaylistFragment : Fragment() {
                 android.text.InputType.TYPE_CLASS_TEXT or
                         android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD
             }
-            // Giữ cursor ở cuối
             binding.etPassword.setSelection(binding.etPassword.text?.length ?: 0)
 //            binding.ivShowPassword.setImageResource(
 //                if (isVisible) R.drawable.ic_eye_off else R.drawable.ic_eye
@@ -232,4 +233,5 @@ class XstreamPlaylistFragment : Fragment() {
         loadingDialog = null
         _binding = null
     }
+
 }

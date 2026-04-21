@@ -19,9 +19,6 @@
         android:theme="@style/Theme.AnotherIPTV"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".LoadingActivity"
-            android:exported="false" />
-        <activity
             android:name=".presentation.player.PlayerActivity"
             android:exported="false" />
         <activity

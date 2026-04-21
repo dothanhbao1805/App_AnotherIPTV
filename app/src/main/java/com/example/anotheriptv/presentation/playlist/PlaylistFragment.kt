@@ -38,7 +38,8 @@ class PlaylistFragment : Fragment() {
         PlaylistViewModelFactory(
             container.getPlaylistsUseCase,
             container.addPlaylistUseCase,
-            container.deletePlaylistUseCase
+            container.deletePlaylistUseCase,
+            container.addXstreamUseCase
         )
     }
 
