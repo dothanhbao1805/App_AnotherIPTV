@@ -7,54 +7,84 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.anotheriptv.databinding.ItemPlaylistBinding
+import com.example.anotheriptv.databinding.ItemXstreamBinding
 import com.example.anotheriptv.domain.model.Playlist
 
 class PlaylistAdapter(
     private val onPlaylistClick: (Playlist) -> Unit,
     private val onMoreClick: (Playlist, View) -> Unit
-) : ListAdapter<Playlist, PlaylistAdapter.PlaylistViewHolder>(DiffCallback()) {
+) : ListAdapter<Playlist, RecyclerView.ViewHolder>(DiffCallback()) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlaylistViewHolder {
-        val binding = ItemPlaylistBinding.inflate(
-            LayoutInflater.from(parent.context), parent, false
-        )
-        return PlaylistViewHolder(binding)
+    companion object {
+        const val VIEW_TYPE_M3U     = 0
+        const val VIEW_TYPE_XSTREAM = 1
     }
 
-    override fun onBindViewHolder(holder: PlaylistViewHolder, position: Int) {
-        holder.bind(getItem(position))
+    override fun getItemViewType(position: Int): Int {
+        return if (getItem(position).type == "M3U") VIEW_TYPE_M3U else VIEW_TYPE_XSTREAM
     }
 
-    inner class PlaylistViewHolder(
-        val binding: ItemPlaylistBinding
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return when (viewType) {
+            VIEW_TYPE_M3U -> {
+                val binding = ItemPlaylistBinding.inflate(
+                    LayoutInflater.from(parent.context), parent, false
+                )
+                M3UViewHolder(binding)
+            }
+            else -> {
+                val binding = ItemXstreamBinding.inflate(
+                    LayoutInflater.from(parent.context), parent, false
+                )
+                XstreamViewHolder(binding)
+            }
+        }
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        val playlist = getItem(position)
+        when (holder) {
+            is M3UViewHolder     -> holder.bind(playlist)
+            is XstreamViewHolder -> holder.bind(playlist)
+        }
+    }
+
+    // ── ViewHolder M3U ──────────────────────────────────────────────────────────
+    inner class M3UViewHolder(
+        private val binding: ItemPlaylistBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(playlist: Playlist) {
-            // 1. Gán dữ liệu hiển thị
             binding.tvPlaylistName.text = playlist.name
-
-            // Bạn có thể mở comment các dòng dưới nếu model Playlist của bạn có các trường này:
-            // binding.tvUrl.text = playlist.url
-            // binding.tvBadgeType.text = playlist.type
-            // binding.tvDate.text = playlist.date
-
-            // 2. Sự kiện click vào toàn bộ Card (vào xem chi tiết)
-            binding.root.setOnClickListener {
-                onPlaylistClick(playlist)
+            binding.root.setOnClickListener { onPlaylistClick(playlist) }
+            binding.btnMore.setOnClickListener { onMoreClick(playlist, it) }
+            if(playlist.sourceType == "URL")
+            {
+                binding.tvUrl.text = playlist.m3uUrl
             }
-
-            // 3. Sự kiện click riêng cho nút More (hiện nút Delete)
-            binding.btnMore.setOnClickListener { view ->
-                // Trả về đối tượng playlist và chính cái view btnMore để làm mỏ neo cho PopupWindow
-                onMoreClick(playlist, view)
+            else{
+                binding.tvUrl.text = playlist.filePath
             }
+        }
+
+    }
+
+    // ── ViewHolder Xstream ──────────────────────────────────────────────────────
+    inner class XstreamViewHolder(
+        private val binding: ItemXstreamBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(playlist: Playlist) {
+            binding.tvPlaylistName.text = playlist.name
+            binding.tvUrl.text = playlist.url
+            binding.root.setOnClickListener { onPlaylistClick(playlist) }
+            binding.btnMore.setOnClickListener { onMoreClick(playlist, it) }
         }
     }
 
     class DiffCallback : DiffUtil.ItemCallback<Playlist>() {
         override fun areItemsTheSame(oldItem: Playlist, newItem: Playlist) =
             oldItem.id == newItem.id
-
         override fun areContentsTheSame(oldItem: Playlist, newItem: Playlist) =
             oldItem == newItem
     }

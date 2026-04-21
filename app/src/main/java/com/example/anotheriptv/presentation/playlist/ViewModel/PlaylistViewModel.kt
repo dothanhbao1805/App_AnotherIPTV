@@ -5,9 +5,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.anotheriptv.domain.model.Playlist
 import com.example.anotheriptv.domain.usecase.playlist.AddPlaylistUseCase
+import com.example.anotheriptv.domain.usecase.playlist.AddXstreamUseCase
 import com.example.anotheriptv.domain.usecase.playlist.DeletePlaylistUseCase
 import com.example.anotheriptv.domain.usecase.playlist.GetPlaylistsUseCase
+import com.example.anotheriptv.presentation.playlist.UiState.LoadingUiState
 import com.example.anotheriptv.presentation.playlist.UiState.PlaylistUiState
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -18,11 +21,16 @@ import kotlinx.coroutines.launch
 class PlaylistViewModel(
     private val getPlaylistsUseCase: GetPlaylistsUseCase,
     private val addPlaylistUseCase: AddPlaylistUseCase,
-    private val deletePlaylistUseCase: DeletePlaylistUseCase
+    private val deletePlaylistUseCase: DeletePlaylistUseCase,
+    private val addXstreamUSeCase: AddXstreamUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<PlaylistUiState>(PlaylistUiState.Idle)
+
+    private val _loadingState =  MutableStateFlow<LoadingUiState>(LoadingUiState.Idle)
     val uiState: StateFlow<PlaylistUiState> = _uiState.asStateFlow()
+
+    val loadingState: StateFlow<LoadingUiState> = _loadingState.asStateFlow()
 
     val playlists = getPlaylistsUseCase()
         .stateIn(
@@ -52,6 +60,30 @@ class PlaylistViewModel(
         }
     }
 
+    fun addXstream(playlist: Playlist) {
+        viewModelScope.launch {
+            _loadingState.value = LoadingUiState.Loading(0, "Preparing...")
+            android.util.Log.d("ProgressDebug", "emit: 0 Preparing")
+            try {
+                val result = addXstreamUSeCase(playlist) { progress, status ->
+                    android.util.Log.d("ProgressDebug", "callback: $progress $status")
+                    _loadingState.value = LoadingUiState.Loading(progress, status)
+                    android.util.Log.d("ProgressDebug", "emit: $progress $status")
+                }
+                result.onSuccess {
+                    android.util.Log.d("ProgressDebug", "success")
+                    _loadingState.value = LoadingUiState.Success(playlist.copy(id = it))
+                }.onFailure {
+                    android.util.Log.e("ProgressDebug", "failure: ${it.message}")
+                    _loadingState.value = LoadingUiState.Error(it.message ?: "Lỗi")
+                }
+            } catch (e: Exception) {
+                android.util.Log.e("ProgressDebug", "exception: ${e.message}")
+                _loadingState.value = LoadingUiState.Error(e.message ?: "Unknown")
+            }
+        }
+    }
+
     fun deletePlaylist(id: Long) {
         viewModelScope.launch {
             _uiState.value = PlaylistUiState.Loading
@@ -67,5 +99,6 @@ class PlaylistViewModel(
 
     fun resetState() {
         _uiState.value = PlaylistUiState.Idle
+        _loadingState.value = LoadingUiState.Idle
     }
 }

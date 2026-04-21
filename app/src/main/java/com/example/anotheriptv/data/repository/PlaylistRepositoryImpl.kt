@@ -59,6 +59,71 @@ class PlaylistRepositoryImpl(
         }
     }
 
+    override suspend fun addPlaylistXstream(
+        playlist: Playlist,
+        onProgress: (progress: Int, status: String) -> Unit
+    ): Long {
+        return withContext(Dispatchers.IO) {
+            val entity = playlistMapper.toEntity(playlist)
+            val playlistId = playlistDao.insert(entity)
+
+            when (playlist.type) {
+                "M3U" -> {
+                    onProgress(30, "Downloading M3U file...")
+                    handleM3U(playlistId, playlist)
+                    onProgress(100, "Done!")
+                }
+                "XSTREAM" -> {
+                    onProgress(10, "Connecting to server...")
+                    handleXstreamWithProgress(playlistId, playlist, onProgress)
+                }
+                else -> throw Exception("Loại playlist không hợp lệ")
+            }
+
+            playlistId
+        }
+    }
+
+    private suspend fun handleXstreamWithProgress(
+        playlistId: Long,
+        playlist: Playlist,
+        onProgress: (Int, String) -> Unit
+    ) {
+        val baseUrl  = playlist.url ?: throw Exception("Thiếu URL Xtream")
+        val username = playlist.userName ?: throw Exception("Thiếu username")
+        val password = playlist.password ?: throw Exception("Thiếu password")
+
+        // Verify server
+        onProgress(15, "Verifying credentials...")
+        val infoUrl = buildXstreamUrl(baseUrl, username, password, "get_account_info")
+        downloadText(infoUrl) ?: throw Exception("Không kết nối được tới server Xtream")
+
+        val allChannels = mutableListOf<ChannelEntity>()
+
+        // Fetch Live
+        onProgress(30, "Loading live channels...")
+        val live = fetchXstreamLive(baseUrl, username, password, playlistId)
+        allChannels.addAll(live)
+
+        // Fetch Movies
+        onProgress(55, "Loading movies...")
+        val movies = fetchXstreamMovies(baseUrl, username, password, playlistId)
+        allChannels.addAll(movies)
+
+        // Fetch Series
+        onProgress(75, "Loading series...")
+        val series = fetchXstreamSeries(baseUrl, username, password, playlistId)
+        allChannels.addAll(series)
+
+        if (allChannels.isEmpty()) throw Exception("Server không trả về kênh nào")
+
+        // Save to DB
+        onProgress(90, "Saving to database...")
+        channelDao.insertAll(allChannels)
+
+        onProgress(100, "Complete!")
+    }
+
     override suspend fun deletePlaylist(id: Long) {
         playlistDao.deleteById(id)
         channelDao.deleteByPlaylistId(id)

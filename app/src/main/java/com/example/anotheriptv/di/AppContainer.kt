@@ -24,6 +24,7 @@ import com.example.anotheriptv.domain.usecase.history.AddWatchHistoryUseCase
 import com.example.anotheriptv.domain.usecase.history.DeleteWatchHistoryUseCase
 import com.example.anotheriptv.domain.usecase.history.GetWatchHistoryUseCase
 import com.example.anotheriptv.domain.usecase.playlist.AddPlaylistUseCase
+import com.example.anotheriptv.domain.usecase.playlist.AddXstreamUseCase
 import com.example.anotheriptv.domain.usecase.playlist.DeletePlaylistUseCase
 import com.example.anotheriptv.domain.usecase.playlist.GetPlaylistsUseCase
 import okhttp3.OkHttpClient
@@ -130,6 +131,8 @@ class AppContainer(context: Context) {
     val getPlaylistsUseCase    = GetPlaylistsUseCase(playlistRepository)
     val addPlaylistUseCase     = AddPlaylistUseCase(playlistRepository)
     val deletePlaylistUseCase  = DeletePlaylistUseCase(playlistRepository)
+
+    val addXstreamUseCase = AddXstreamUseCase(playlistRepository)
 
     // ── UseCase: Channel ──
     val getChannelsUseCase = GetChannelsUseCase(channelRepository)
