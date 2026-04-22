@@ -1,4 +1,4 @@
-package com.example.anotheriptv.presentation
+package com.example.anotheriptv.presentation.xstream
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -6,26 +6,27 @@ import androidx.fragment.app.Fragment
 import com.example.anotheriptv.R
 import com.example.anotheriptv.presentation.channels.ChannelFragment
 import com.example.anotheriptv.presentation.history.HistoryFragment
+import com.example.anotheriptv.presentation.xstream.live.LiveXstreamFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class ContainerPlaylistActivity : AppCompatActivity() {
+class ContainerXstreamActivity : AppCompatActivity() {
 
     private var currentPlaylistId: Long = -1L
-    private var currentPlaylistName: String = "All Channels"
+    private var currentPlaylistName: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_container_playlist)
+        setContentView(R.layout.activity_container_xstream)
 
-        currentPlaylistId = intent.getLongExtra("playlistId", -1L)
-        currentPlaylistName = intent.getStringExtra("playlistName") ?: "All Channels"
+        currentPlaylistId   = intent.getLongExtra("playlistId", -1L)
+        currentPlaylistName = intent.getStringExtra("playlistName") ?: ""
 
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
 
         if (savedInstanceState == null) {
             val historyFragment = HistoryFragment().apply {
                 arguments = Bundle().apply {
-                    putLong("playlistId", currentPlaylistId)  // ← thêm
+                    putLong("playlistId", currentPlaylistId)
                 }
             }
             replaceFragment(historyFragment)
@@ -37,29 +38,37 @@ class ContainerPlaylistActivity : AppCompatActivity() {
                 R.id.nav_history -> {
                     val historyFragment = HistoryFragment().apply {
                         arguments = Bundle().apply {
-                            putLong("playlistId", currentPlaylistId)  // ← thêm
+                            putLong("playlistId", currentPlaylistId)
                         }
                     }
                     replaceFragment(historyFragment)
                     true
                 }
-                R.id.nav_all -> {
-                    val channelFragment = ChannelFragment().apply {
+                R.id.nav_live -> {
+                    val liveXstreamlFragment = LiveXstreamFragment().apply {
                         arguments = Bundle().apply {
                             putLong("playlistId", currentPlaylistId)
-                            putString("playlistName", currentPlaylistName)
                         }
                     }
-                    replaceFragment(channelFragment)
+                    replaceFragment(liveXstreamlFragment)
+                    true
+                }
+
+                R.id.nav_movie -> {
+                    // TODO: mở MoviesFragment
+                    true
+                }
+                R.id.nav_series -> {
+                    // TODO: mở SeriesFragment
                     true
                 }
                 R.id.nav_settings -> {
-                    false
+                    // TODO: mở SettingsFragment
+                    true
                 }
                 else -> false
             }
         }
-
     }
 
     private fun replaceFragment(fragment: Fragment) {
@@ -67,4 +76,5 @@ class ContainerPlaylistActivity : AppCompatActivity() {
             .replace(R.id.fragment_container, fragment)
             .commit()
     }
+
 }

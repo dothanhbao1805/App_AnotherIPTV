@@ -49,19 +49,81 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingHorizontal="@dimen/spacing_large" android:paddingTop="@dimen/spacing_medium"> <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/spacing_medium" android:text="@string/section_live_streams"
-            android:textAppearance="@style/TextAppearance.AnotherIPTV.ToolbarTitle" />
+            android:orientation="vertical">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerHistory"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="false"
-                tools:listitem="@layout/item_history" />
+                android:orientation="vertical"
+                android:paddingTop="@dimen/spacing_medium"
+                android:paddingHorizontal="@dimen/spacing_large">
+
+                <!-- Cụm LIVE -->
+                <LinearLayout
+                    android:id="@+id/layoutLive"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/spacing_medium"
+                        android:text="@string/section_live_streams"
+                        android:textAppearance="@style/TextAppearance.AnotherIPTV.ToolbarTitle" />
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerLive"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false"
+                        tools:listitem="@layout/item_history" />
+                </LinearLayout>
+
+                <!-- Cụm MOVIE -->
+                <LinearLayout
+                    android:id="@+id/layoutMovie"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_large"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/spacing_medium"
+                        android:text="Movies"
+                        android:textAppearance="@style/TextAppearance.AnotherIPTV.ToolbarTitle" />
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerMovie"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false"
+                        tools:listitem="@layout/item_history" />
+                </LinearLayout>
+
+                <!-- Cụm SERIES -->
+                <LinearLayout
+                    android:id="@+id/layoutSeries"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_large"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/spacing_medium"
+                        android:text="Series"
+                        android:textAppearance="@style/TextAppearance.AnotherIPTV.ToolbarTitle" />
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerSeries"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false"
+                        tools:listitem="@layout/item_history" />
+                </LinearLayout>
+
+            </LinearLayout>
 
         </LinearLayout>
 

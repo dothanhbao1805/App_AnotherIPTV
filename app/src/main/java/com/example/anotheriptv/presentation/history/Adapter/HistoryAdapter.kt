@@ -6,62 +6,67 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.anotheriptv.R
+import com.example.anotheriptv.data.local.entity.HistoryWithUrl
 import com.example.anotheriptv.databinding.ItemHistoryBinding
-import com.example.anotheriptv.domain.model.WatchHistory
 
 class HistoryAdapter(
-    private val onItemClick: (WatchHistory) -> Unit,
-    private val onRemoveClick: (WatchHistory) -> Unit
-) : ListAdapter<WatchHistory, HistoryAdapter.HistoryViewHolder>(DiffCallback) {
+    private val onItemClick: (HistoryWithUrl) -> Unit,
+    private val onRemoveClick: (HistoryWithUrl) -> Unit
+) : ListAdapter<HistoryWithUrl, HistoryAdapter.ViewHolder>(DiffCallback()) { // Thêm () để khởi tạo class DiffCallback
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryViewHolder {
-        val binding = ItemHistoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return HistoryViewHolder(binding)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val binding = ItemHistoryBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
+        return ViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: HistoryViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
 
-    inner class HistoryViewHolder(private val binding: ItemHistoryBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(
+        private val binding: ItemHistoryBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(historyItem: WatchHistory) {
-            // 1. Gắn tên kênh vào tvChannelName
-            binding.tvChannelName.text = historyItem.channelName
+        fun bind(item: HistoryWithUrl) {
+            // 1. Gắn tên kênh
+            binding.tvChannelName.text = item.channelName
 
-            // 2. Tải logo vào ivLogo bằng Glide
-            if (historyItem.channelLogo.isNotEmpty()) {
+            // 2. Tải logo
+            if (item.channelLogo.isNotEmpty()) {
                 Glide.with(binding.root.context)
-                    .load(historyItem.channelLogo)
-                    .placeholder(com.example.anotheriptv.R.drawable.ic_tv_placeholder)
-                    .error(com.example.anotheriptv.R.drawable.ic_tv_placeholder)
+                    .load(item.channelLogo)
+                    .placeholder(R.drawable.ic_tv_placeholder)
+                    .error(R.drawable.ic_tv_placeholder)
                     .into(binding.ivLogo)
             } else {
-                binding.ivLogo.setImageResource(com.example.anotheriptv.R.drawable.ic_tv_placeholder)
+                binding.ivLogo.setImageResource(R.drawable.ic_tv_placeholder)
             }
 
-            // 3. Bắt sự kiện click vào Card để xem video (dùng cardHistory thay vì root để tránh click nhầm viền margin)
+            // 3. Sự kiện click xem (Dùng cardHistory như bạn muốn)
             binding.cardHistory.setOnClickListener {
-                onItemClick(historyItem)
+                onItemClick(item)
             }
 
-            // 4. Bắt sự kiện click vào nút X để xóa lịch sử (đúng ID ivRemove của bạn)
+            // 4. Sự kiện click xóa
             binding.ivRemove.setOnClickListener {
-                onRemoveClick(historyItem)
+                onRemoveClick(item)
             }
         }
     }
 
-    companion object {
-        private val DiffCallback = object : DiffUtil.ItemCallback<WatchHistory>() {
-            override fun areItemsTheSame(oldItem: WatchHistory, newItem: WatchHistory): Boolean {
-                return oldItem.id == newItem.id
-            }
+    // Class so sánh dữ liệu
+    class DiffCallback : DiffUtil.ItemCallback<HistoryWithUrl>() {
+        override fun areItemsTheSame(oldItem: HistoryWithUrl, newItem: HistoryWithUrl): Boolean {
+            return oldItem.historyId == newItem.historyId
+        }
 
-            override fun areContentsTheSame(oldItem: WatchHistory, newItem: WatchHistory): Boolean {
-                return oldItem == newItem
-            }
+        override fun areContentsTheSame(oldItem: HistoryWithUrl, newItem: HistoryWithUrl): Boolean {
+            return oldItem == newItem
         }
     }
 }

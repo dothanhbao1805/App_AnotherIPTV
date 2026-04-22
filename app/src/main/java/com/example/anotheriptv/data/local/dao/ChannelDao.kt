@@ -81,4 +81,33 @@ interface ChannelDao {
 
     @Query("SELECT COUNT(*) FROM channels WHERE playlistId = :playlistId")
     suspend fun countByPlaylistId(playlistId: Long): Int
+
+    // ── Xstream ──
+
+    // Lấy tất cả theo contentType
+    @Query("SELECT * FROM channels WHERE playlistId = :playlistId AND contentType = :contentType")
+    fun getChannels(playlistId: Long, contentType: String): Flow<List<ChannelEntity>>
+
+    // Lấy theo contentType + categoryId
+    @Query("SELECT * FROM channels WHERE playlistId = :playlistId AND contentType = :contentType AND categoryId = :categoryId")
+    fun getChannelsByCategory(playlistId: Long, contentType: String, categoryId: String): Flow<List<ChannelEntity>>
+
+    // Tìm kiếm theo tên
+    @Query("SELECT * FROM channels WHERE playlistId = :playlistId AND contentType = :contentType AND name LIKE '%' || :query || '%'")
+    fun searchChannels(playlistId: Long, contentType: String, query: String): Flow<List<ChannelEntity>>
+
+    @Query("""
+        SELECT * FROM channels 
+        WHERE playlistId = :playlistId 
+        AND contentType = :contentType 
+        AND categoryId = :categoryId
+        LIMIT 10
+    """)
+
+    suspend fun getChannelsByCategoryLimit10(
+        playlistId: Long,
+        contentType: String,
+        categoryId: String
+    ): List<ChannelEntity>
+
 }

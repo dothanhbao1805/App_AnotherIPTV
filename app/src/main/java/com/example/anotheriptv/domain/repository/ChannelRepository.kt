@@ -9,4 +9,9 @@ interface ChannelRepository {
     suspend fun insertChannels(channels: List<Channel>)
     suspend fun toggleFavorite(channelId: Long, isFavorite: Boolean)
     suspend fun deleteChannelsByPlaylistId(playlistId: Long)
+    suspend fun getChannelsByCategoryLimit10(
+        playlistId: Long,
+        contentType: String,
+        categoryId: String
+    ): List<Channel>
 }

@@ -6,6 +6,7 @@ data class HistoryWithUrl(
     val playlistId: Long,
     val channelName: String,
     val channelLogo: String,
-    val streamUrl: String?, // Lấy từ bảng channels
-    val watchedAt: Long
+    val streamUrl: String?,
+    val watchedAt: Long,
+    val contentType: String
 )

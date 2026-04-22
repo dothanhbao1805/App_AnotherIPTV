@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardHistory"
+    android:layout_width="@dimen/card_width"
+    android:layout_height="@dimen/card_live_xstream_height"
+    android:layout_marginEnd="@dimen/spacing_medium"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackground"
+    app:cardBackgroundColor="?attr/colorSurfaceVariant"
+    app:cardCornerRadius="@dimen/radius_card"
+    app:cardElevation="2dp">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/ivLogo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/spacing_medium"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_tv_placeholder" />
+
+        <TextView
+            android:id="@+id/tvLogoPlaceholder"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#E3E2E7"
+            android:textColor="@android:color/black"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:padding="4dp"
+            android:visibility="gone" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_gravity="bottom"
+            android:background="@drawable/gradient_bottom" />
+
+        <TextView
+            android:id="@+id/tvChannelName"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/desc_xstream_height"
+            android:layout_gravity="bottom"
+            android:ellipsize="end"
+            android:background="#434247"
+            android:maxLines="2"
+            android:padding="@dimen/spacing_small"
+            android:textAppearance="?attr/textAppearanceLabelLarge"
+            android:textColor="@android:color/white"
+            tools:text="VTV1 HD (1080p)" />
+
+
+    </FrameLayout>
+
+</androidx.cardview.widget.CardView>

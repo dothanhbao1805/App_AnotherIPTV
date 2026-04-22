@@ -1,5 +1,6 @@
 package com.example.anotheriptv.domain.repository
 
+import com.example.anotheriptv.data.local.entity.HistoryWithUrl
 import com.example.anotheriptv.domain.model.WatchHistory
 import kotlinx.coroutines.flow.Flow
 
@@ -8,5 +9,7 @@ interface WatchHistoryRepository {
     fun getWatchHistoryByPlaylist(playlistId: Long): Flow<List<WatchHistory>>
     suspend fun upsertHistory(watchHistory: WatchHistory)
     suspend fun deleteHistoryById(id: Long)
+    fun getHistoryWithCategory(playlistId: Long): Flow<List<HistoryWithUrl>>
+
 
 }

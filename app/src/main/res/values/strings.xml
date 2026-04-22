@@ -33,6 +33,10 @@
     <string name="error_title_xstream">An error occurred</string>
     <string name="error_desc_xstream">Could not get a response from your IPTV provider, please check your information</string>
 
+<!--    fragment_live_xstream-->
+    <string name="title_live_xstream">Live Streams</string>
+    <string name="category_name">PPV | UFC</string>
+    <string name="viewAll_xstream">View All</string>
 
     <!--    fragment_m3u_playlist-->
     <string name="title_m3u_playlist">M3U Playlist</string>

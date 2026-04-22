@@ -67,9 +67,25 @@ class AppContainer(context: Context) {
             }
         }
 
+        val MIGRATION_3_4 = object : Migration(3, 4) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                // Thêm column categoryId vào bảng channels
+                db.execSQL("ALTER TABLE channels ADD COLUMN categoryId TEXT NOT NULL DEFAULT ''")
+
+                // Tạo bảng categories mới
+                db.execSQL("""
+            CREATE TABLE IF NOT EXISTS categories (
+                playlistId  INTEGER NOT NULL,
+                categoryId  TEXT    NOT NULL,
+                contentType TEXT    NOT NULL,
+                name        TEXT    NOT NULL,
+                PRIMARY KEY (playlistId, categoryId, contentType)
+            )
+        """)
+            }
+        }
+
     }
-
-
 
     // ── Database ──
     private val database = Room.databaseBuilder(
@@ -77,13 +93,14 @@ class AppContainer(context: Context) {
         AppDatabase::class.java,
         "anotheriptv.db"
     )
-        .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
+        .addMigrations(MIGRATION_1_2, MIGRATION_2_3,MIGRATION_3_4)
         .build()
 
     // ── DAO ──
     private val playlistDao = database.playlistDao()
     private val channelDao = database.channelDao()
     private val historyDao = database.watchHistoryDao()
+    val categoryDao = database.categoryDao()
 
     // ── DataStore ──
     private val settingsDataStore = SettingsDataStore(context)
@@ -110,14 +127,14 @@ class AppContainer(context: Context) {
         context        = context,
         playlistDao    = playlistDao,
         channelDao     = channelDao,
+        categoryDao    = categoryDao,
         playlistMapper = playlistMapper,
         channelMapper  = channelMapper,
         m3uParser      = m3uParser,
-        okHttpClient   = okHttpClient,
         xstreamParser  = xstreamParser
         )
 
-    private val channelRepository: ChannelRepository = ChannelRepositoryImpl(
+    val channelRepository: ChannelRepository = ChannelRepositoryImpl(
         channelDao    = channelDao,
         channelMapper = channelMapper
     )

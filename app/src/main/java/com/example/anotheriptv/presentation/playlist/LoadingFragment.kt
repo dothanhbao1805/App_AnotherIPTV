@@ -15,6 +15,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.example.anotheriptv.MyApp
 import com.example.anotheriptv.R
 import com.example.anotheriptv.databinding.FragmentLoadingBinding
+import com.example.anotheriptv.presentation.xstream.ContainerXstreamActivity
 import com.example.anotheriptv.presentation.playlist.UiState.LoadingUiState
 import com.example.anotheriptv.presentation.playlist.ViewModel.PlaylistViewModel
 import com.example.anotheriptv.presentation.playlist.ViewModelFactory.PlaylistViewModelFactory
@@ -70,9 +71,21 @@ class LoadingFragment : Fragment() {
                         is LoadingUiState.Loading -> {
                             updateProgress(state.progress, state.statusText)
                         }
-                        is LoadingUiState.Success,
+                        is LoadingUiState.Success -> {
+                            state.playlist?.let { playlist ->
+                                val intent = android.content.Intent(
+                                    requireContext(),
+                                    ContainerXstreamActivity::class.java
+                                ).apply {
+                                    putExtra("playlistId",   playlist.id)
+                                    putExtra("playlistName", playlist.name)
+                                }
+                                startActivity(intent)
+                                viewModel.resetState()
+                            }
+                            parentFragmentManager.popBackStack()
+                        }
                         is LoadingUiState.Error -> {
-                            // Tự pop khi xong
                             parentFragmentManager.popBackStack()
                         }
                         else -> {}
@@ -80,6 +93,7 @@ class LoadingFragment : Fragment() {
                 }
             }
         }
+
     }
 
     private fun updateProgress(progress: Int, status: String) {
