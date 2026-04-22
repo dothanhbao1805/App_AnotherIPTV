@@ -34,4 +34,14 @@ class ChannelRepositoryImpl(
     override suspend fun deleteChannelsByPlaylistId(playlistId: Long) {
         channelDao.deleteByPlaylistId(playlistId)
     }
+
+    override suspend fun getChannelsByCategoryLimit10(
+        playlistId: Long,
+        contentType: String,
+        categoryId: String
+    ): List<Channel> {
+        return channelDao.getChannelsByCategoryLimit10(playlistId, contentType, categoryId)
+            .map { channelMapper.toDomain(it) }
+    }
+
 }

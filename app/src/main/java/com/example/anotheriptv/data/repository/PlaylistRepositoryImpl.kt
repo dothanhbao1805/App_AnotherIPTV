@@ -1,7 +1,9 @@
 package com.example.anotheriptv.data.repository
 
+import com.example.anotheriptv.data.local.dao.CategoryDao
 import com.example.anotheriptv.data.local.dao.ChannelDao
 import com.example.anotheriptv.data.local.dao.PlaylistDao
+import com.example.anotheriptv.data.local.entity.CategoryEntity
 import com.example.anotheriptv.data.local.entity.ChannelEntity
 import com.example.anotheriptv.data.mapper.ChannelMapper
 import com.example.anotheriptv.data.mapper.PlaylistMapper
@@ -16,7 +18,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
-import okhttp3.OkHttpClient
 
 
 import io.ktor.client.request.get
@@ -27,11 +28,11 @@ class PlaylistRepositoryImpl(
     private val context: android.content.Context,
     private val playlistDao: PlaylistDao,
     private val channelDao: ChannelDao,
+    private val categoryDao: CategoryDao,
     private val playlistMapper: PlaylistMapper,
     private val channelMapper: ChannelMapper,
     private val m3uParser: M3UParser,
     private val xstreamParser: XstreamParser,
-    private val okHttpClient: OkHttpClient
 ) : PlaylistRepository {
 
     override fun getPlaylists(): Flow<List<Playlist>> {
@@ -89,44 +90,117 @@ class PlaylistRepositoryImpl(
         playlist: Playlist,
         onProgress: (Int, String) -> Unit
     ) {
-        val baseUrl  = playlist.url ?: throw Exception("Thiếu URL Xtream")
+        val baseUrl  = playlist.url      ?: throw Exception("Thiếu URL Xtream")
         val username = playlist.userName ?: throw Exception("Thiếu username")
         val password = playlist.password ?: throw Exception("Thiếu password")
 
         // Verify server
-        onProgress(15, "Verifying credentials...")
+        onProgress(10, "Connecting to server...")
         val infoUrl = buildXstreamUrl(baseUrl, username, password, "get_account_info")
         downloadText(infoUrl) ?: throw Exception("Không kết nối được tới server Xtream")
+
+        // Fetch categories song song
+        onProgress(20, "Preparing categories...")
+        val liveCatMap: Map<String, String>
+        val movieCatMap: Map<String, String>
+        val seriesCatMap: Map<String, String>
+
+        coroutineScope {
+            val liveC   = async { fetchCategoryMap(baseUrl, username, password, "get_live_categories") }
+            val movieC  = async { fetchCategoryMap(baseUrl, username, password, "get_vod_categories") }
+            val seriesC = async { fetchCategoryMap(baseUrl, username, password, "get_series_categories") }
+            liveCatMap   = liveC.await()
+            movieCatMap  = movieC.await()
+            seriesCatMap = seriesC.await()
+        }
+
+        // Lưu categories vào DB
+        val categoryEntities = mutableListOf<CategoryEntity>()
+        liveCatMap.forEach   { (id, name) -> categoryEntities.add(CategoryEntity(playlistId, id, "LIVE",   name)) }
+        movieCatMap.forEach  { (id, name) -> categoryEntities.add(CategoryEntity(playlistId, id, "MOVIE",  name)) }
+        seriesCatMap.forEach { (id, name) -> categoryEntities.add(CategoryEntity(playlistId, id, "SERIES", name)) }
+        categoryDao.insertAll(categoryEntities)
 
         val allChannels = mutableListOf<ChannelEntity>()
 
         // Fetch Live
         onProgress(30, "Loading live channels...")
-        val live = fetchXstreamLive(baseUrl, username, password, playlistId)
+        val live = fetchXstreamLive(baseUrl, username, password, playlistId, liveCatMap)
         allChannels.addAll(live)
 
         // Fetch Movies
         onProgress(55, "Loading movies...")
-        val movies = fetchXstreamMovies(baseUrl, username, password, playlistId)
+        val movies = fetchXstreamMovies(baseUrl, username, password, playlistId, movieCatMap)
         allChannels.addAll(movies)
 
         // Fetch Series
         onProgress(75, "Loading series...")
-        val series = fetchXstreamSeries(baseUrl, username, password, playlistId)
+        val series = fetchXstreamSeries(baseUrl, username, password, playlistId, seriesCatMap)
         allChannels.addAll(series)
 
         if (allChannels.isEmpty()) throw Exception("Server không trả về kênh nào")
 
-        // Save to DB
         onProgress(90, "Saving to database...")
         channelDao.insertAll(allChannels)
 
         onProgress(100, "Complete!")
     }
 
+    // Fetch category map: categoryId -> categoryName
+    private suspend fun fetchCategoryMap(
+        baseUrl: String, username: String, password: String, action: String
+    ): Map<String, String> = try {
+        val url  = buildXstreamUrl(baseUrl, username, password, action)
+        val json = downloadText(url) ?: return emptyMap()
+        val array = org.json.JSONArray(json)
+        buildMap {
+            for (i in 0 until array.length()) {
+                val obj  = array.optJSONObject(i) ?: continue
+                val id   = obj.optString("category_id", "")
+                val name = obj.optString("category_name", "Uncategorized")
+                if (id.isNotEmpty()) put(id, name)
+            }
+        }
+    } catch (e: Exception) {
+        emptyMap()
+    }
+
+    // Cập nhật fetch functions để nhận categoryMap
+    private suspend fun fetchXstreamLive(
+        baseUrl: String, username: String, password: String,
+        playlistId: Long,
+        categoryMap: Map<String, String> = emptyMap()
+    ): List<ChannelEntity> = try {
+        val url  = buildXstreamUrl(baseUrl, username, password, "get_live_streams")
+        val json = downloadText(url) ?: return emptyList()
+        xstreamParser.parseLive(json, playlistId, baseUrl, username, password, categoryMap)
+    } catch (e: Exception) { emptyList() }
+
+    private suspend fun fetchXstreamMovies(
+        baseUrl: String, username: String, password: String,
+        playlistId: Long,
+        categoryMap: Map<String, String> = emptyMap()
+    ): List<ChannelEntity> = try {
+        val url  = buildXstreamUrl(baseUrl, username, password, "get_vod_streams")
+        val json = downloadText(url) ?: return emptyList()
+        xstreamParser.parseMovies(json, playlistId, baseUrl, username, password, categoryMap)
+    } catch (e: Exception) { emptyList() }
+
+    private suspend fun fetchXstreamSeries(
+        baseUrl: String, username: String, password: String,
+        playlistId: Long,
+        categoryMap: Map<String, String> = emptyMap()
+    ): List<ChannelEntity> = try {
+        val url  = buildXstreamUrl(baseUrl, username, password, "get_series")
+        val json = downloadText(url) ?: return emptyList()
+        xstreamParser.parseSeries(json, playlistId, baseUrl, username, password, categoryMap)
+    } catch (e: Exception) { emptyList() }
+
+
     override suspend fun deletePlaylist(id: Long) {
         playlistDao.deleteById(id)
         channelDao.deleteByPlaylistId(id)
+        categoryDao.deleteByPlaylistId(id)
     }
 
     // ─── M3U ────────────────────────────────────────────────────────────────────

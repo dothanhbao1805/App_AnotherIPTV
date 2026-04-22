@@ -14,4 +14,9 @@
     <dimen name="icon_size_small">28dp</dimen>
     <dimen name="card_width">100dp</dimen>
     <dimen name="card_height">140dp</dimen>
+    <dimen name="desc_xstream_height">56dp</dimen>
+
+    <dimen name="card_live_xstream_height">170dp</dimen>
+
+
 </resources>

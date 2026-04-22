@@ -1,6 +1,7 @@
 package com.example.anotheriptv.data.repository
 
 import com.example.anotheriptv.data.local.dao.WatchHistoryDao
+import com.example.anotheriptv.data.local.entity.HistoryWithUrl
 import com.example.anotheriptv.data.mapper.HistoryMapper
 import com.example.anotheriptv.domain.model.WatchHistory
 import com.example.anotheriptv.domain.repository.WatchHistoryRepository
@@ -16,6 +17,11 @@ class WatchHistoryRepositoryImpl(
         return historyDao.getAll()
             .map { list -> list.map { historyMapper.toDomain(it) } }
     }
+
+    override fun getHistoryWithCategory(playlistId: Long): Flow<List<HistoryWithUrl>> {
+        return historyDao.getHistoryWithCategory(playlistId)
+    }
+
 
     override fun getWatchHistoryByPlaylist(playlistId: Long): Flow<List<WatchHistory>> {
         return historyDao.getByPlaylistId(playlistId)

@@ -14,6 +14,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.anotheriptv.MyApp
 import com.example.anotheriptv.R
+import com.example.anotheriptv.data.local.entity.HistoryWithUrl
 import com.example.anotheriptv.databinding.FragmentHistoryBinding
 import com.example.anotheriptv.domain.model.WatchHistory
 import com.example.anotheriptv.presentation.history.Adapter.HistoryAdapter
@@ -29,6 +30,10 @@ class HistoryFragment : Fragment() {
     private var playlistId: Long = -1L
 
     private lateinit var historyAdapter: HistoryAdapter
+
+    private lateinit var liveAdapter: HistoryAdapter
+    private lateinit var movieAdapter: HistoryAdapter
+    private lateinit var seriesAdapter: HistoryAdapter
 
     private val viewModel: HistoryViewModel by viewModels {
         val container = (requireActivity().application as MyApp).container
@@ -60,7 +65,8 @@ class HistoryFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        historyAdapter = HistoryAdapter(
+
+        fun createHistoryAdapter() = HistoryAdapter(
             onItemClick = { historyItem ->
                 if (historyItem.streamUrl.isNullOrEmpty()) {
                     android.widget.Toast.makeText(
@@ -70,7 +76,6 @@ class HistoryFragment : Fragment() {
                     ).show()
                     return@HistoryAdapter
                 }
-
                 val intent = android.content.Intent(requireContext(), PlayerActivity::class.java).apply {
                     putExtra("channelName", historyItem.channelName)
                     putExtra("streamUrl", historyItem.streamUrl)
@@ -82,17 +87,28 @@ class HistoryFragment : Fragment() {
             }
         )
 
-        binding.recyclerHistory.apply {
-            layoutManager = LinearLayoutManager(
-                requireContext(),
-                LinearLayoutManager.HORIZONTAL,
-                false
-            )
-            adapter = historyAdapter
+        liveAdapter = createHistoryAdapter()
+        movieAdapter = createHistoryAdapter()
+        seriesAdapter = createHistoryAdapter()
+
+        binding.recyclerLive.apply {
+            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            adapter = liveAdapter
         }
+
+        binding.recyclerMovie.apply {
+            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            adapter = movieAdapter
+        }
+
+        binding.recyclerSeries.apply {
+            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            adapter = seriesAdapter
+        }
+
     }
 
-    private fun showDeleteConfirmationDialog(historyItem: WatchHistory) {
+    private fun showDeleteConfirmationDialog(historyItem: HistoryWithUrl) {
 
         val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_remove_history, null)
 
@@ -111,7 +127,7 @@ class HistoryFragment : Fragment() {
 
         btnRemove.setOnClickListener {
 
-            viewModel.deleteHistory(historyItem.id)
+            viewModel.deleteHistory(historyItem.historyId)
             dialog.dismiss()
 
         }
@@ -122,14 +138,34 @@ class HistoryFragment : Fragment() {
     private fun observeViewModel() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                // 5. Lắng nghe StateFlow từ ViewModel
+                // Lắng nghe dữ liệu trả về từ Flow<List<HistoryWithUrl>>
                 viewModel.historyChannels.collect { historyList ->
-                    Log.d("DEBUG_HISTORY", "Đã lấy được ${historyList.size} kênh lịch sử")
+                    Log.d("DEBUG_HISTORY", "Nhận được: ${historyList.size} mục lịch sử")
 
-                    historyAdapter.submitList(historyList)
+                    // 1. Phân loại cho Live Streams
+                    val liveList = historyList.filter { it.contentType == "LIVE" }
+                    updateSection(binding.layoutLive, liveAdapter, liveList)
+
+                    // 2. Phân loại cho Movies
+                    val movieList = historyList.filter { it.contentType == "MOVIE" }
+                    updateSection(binding.layoutMovie, movieAdapter, movieList)
+
+                    // 3. Phân loại cho Series
+                    val seriesList = historyList.filter { it.contentType == "SERIES" }
+                    updateSection(binding.layoutSeries, seriesAdapter, seriesList)
 
                 }
+
             }
+        }
+    }
+
+    private fun updateSection(layout: View, adapter: HistoryAdapter, data: List<HistoryWithUrl>) {
+        if (data.isEmpty()) {
+            layout.visibility = View.GONE
+        } else {
+            layout.visibility = View.VISIBLE
+            adapter.submitList(data)
         }
     }
 

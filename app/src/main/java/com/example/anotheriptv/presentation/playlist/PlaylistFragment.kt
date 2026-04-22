@@ -23,6 +23,7 @@ import com.example.anotheriptv.presentation.playlist.Adapter.PlaylistAdapter
 import com.example.anotheriptv.presentation.playlist.UiState.PlaylistUiState
 import com.example.anotheriptv.presentation.playlist.ViewModel.PlaylistViewModel
 import com.example.anotheriptv.presentation.playlist.ViewModelFactory.PlaylistViewModelFactory
+import com.example.anotheriptv.presentation.xstream.ContainerXstreamActivity
 import com.google.android.material.button.MaterialButton
 import kotlinx.coroutines.launch
 
@@ -78,8 +79,15 @@ class PlaylistFragment : Fragment() {
 
     private fun setupRecyclerView() {
         playlistAdapter = PlaylistAdapter(
+
             onPlaylistClick = { playlist ->
-                val intent = android.content.Intent(requireContext(), ContainerPlaylistActivity::class.java).apply {
+                val targetActivity = if (playlist.type == "XSTREAM") {
+                    ContainerXstreamActivity::class.java
+                } else {
+                    ContainerPlaylistActivity::class.java
+                }
+
+                val intent = android.content.Intent(requireContext(), targetActivity).apply {
                     putExtra("playlistId", playlist.id)
                     putExtra("playlistName", playlist.name)
                 }
