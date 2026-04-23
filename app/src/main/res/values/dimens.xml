@@ -18,5 +18,9 @@
 
     <dimen name="card_live_xstream_height">170dp</dimen>
 
+    <dimen name="card_width_all_xstream">138dp</dimen>
+    <dimen name="card_height_all_xstream">175dp</dimen>
+
+
 
 </resources>

@@ -1,6 +1,7 @@
 package com.example.anotheriptv.data.repository
 
 import com.example.anotheriptv.data.local.dao.ChannelDao
+import com.example.anotheriptv.data.local.entity.ChannelEntity
 import com.example.anotheriptv.data.mapper.ChannelMapper
 import com.example.anotheriptv.domain.model.Channel
 import com.example.anotheriptv.domain.repository.ChannelRepository
@@ -42,6 +43,15 @@ class ChannelRepositoryImpl(
     ): List<Channel> {
         return channelDao.getChannelsByCategoryLimit10(playlistId, contentType, categoryId)
             .map { channelMapper.toDomain(it) }
+    }
+
+    override fun getChannelsByCategory(
+        playlistId: Long,
+        contentType: String,
+        categoryId: String
+    ): Flow<List<Channel>> {
+        return channelDao.getChannelsByCategory(playlistId, contentType, categoryId)
+            .map { list -> list.map { channelMapper.toDomain(it) } }
     }
 
 }

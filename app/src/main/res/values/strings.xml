@@ -33,10 +33,15 @@
     <string name="error_title_xstream">An error occurred</string>
     <string name="error_desc_xstream">Could not get a response from your IPTV provider, please check your information</string>
 
-<!--    fragment_live_xstream-->
+    <!--    fragment_live_xstream-->
     <string name="title_live_xstream">Live Streams</string>
     <string name="category_name">PPV | UFC</string>
     <string name="viewAll_xstream">View All</string>
+
+    <!--    fragment_movie_xstream-->
+    <string name="title_movie_xstream">Movies</string>
+    <string name="movie_category_name">2026 Movies</string>
+    <string name="movie_viewAll_xstream">View All</string>
 
     <!--    fragment_m3u_playlist-->
     <string name="title_m3u_playlist">M3U Playlist</string>
@@ -84,5 +89,14 @@
     <string name="title_loading_xstream">Another IPTV\nPlayer</string>
     <string name="desc_loading_xstream">Open Source IPTV Player</string>
     <string name="text_loading_live">Loading live channels</string>
+
+    <!--    detail movie-->
+    <string name="back">Back</string>
+    <string name="rating">Rating</string>
+    <string name="info">Info</string>
+    <string name="added_date">Added Date</string>
+    <string name="trailer">Trailer</string>
+    <string name="start_watching">Start Watching</string>
+
 
 </resources>

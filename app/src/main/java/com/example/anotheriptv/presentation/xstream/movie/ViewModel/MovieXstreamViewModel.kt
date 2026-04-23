@@ -1,4 +1,4 @@
-package com.example.anotheriptv.presentation.xstream.live.ViewModel
+package com.example.anotheriptv.presentation.xstream.movie.ViewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 
-class LiveXstreamViewModel(
+class MovieXstreamViewModel(
     private val channelRepository: ChannelRepository,
     private val categoryDao: CategoryDao,
     private val addWatchHistoryUseCase: AddWatchHistoryUseCase
@@ -25,11 +25,11 @@ class LiveXstreamViewModel(
 
     fun loadLiveChannels(playlistId: Long) {
         viewModelScope.launch(Dispatchers.IO) {
-            val categories = categoryDao.getCategoriesByPlaylistAndType(playlistId, "LIVE")
+            val categories = categoryDao.getCategoriesByPlaylistAndType(playlistId, "MOVIE")
             val result = categories.map { cat ->
                 val channels = channelRepository.getChannelsByCategoryLimit10(
                     playlistId  = playlistId,
-                    contentType = "LIVE",
+                    contentType = "MOVIE",
                     categoryId  = cat.categoryId
                 ).map { it }
                 CategoryWithChannels(

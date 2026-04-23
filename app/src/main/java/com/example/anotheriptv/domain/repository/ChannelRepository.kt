@@ -1,5 +1,6 @@
 package com.example.anotheriptv.domain.repository
 
+import com.example.anotheriptv.data.local.entity.ChannelEntity
 import com.example.anotheriptv.domain.model.Channel
 import kotlinx.coroutines.flow.Flow
 
@@ -14,4 +15,11 @@ interface ChannelRepository {
         contentType: String,
         categoryId: String
     ): List<Channel>
+
+    fun getChannelsByCategory(
+        playlistId: Long,
+        contentType: String,
+        categoryId: String
+    ):Flow<List<Channel>>
+
 }

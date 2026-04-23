@@ -1,5 +1,7 @@
-package com.example.anotheriptv.presentation.xstream.live
+package com.example.anotheriptv.presentation.xstream.movie
 
+import android.content.Intent
+import com.example.anotheriptv.presentation.xstream.live.LiveXstreamAllFragment
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,24 +14,23 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.anotheriptv.MyApp
 import com.example.anotheriptv.R
-import com.example.anotheriptv.databinding.FragmentLiveXstreamBinding
-import com.example.anotheriptv.presentation.channels.Adapter.CategoryAdapter
-import com.example.anotheriptv.presentation.player.PlayerActivity
-import com.example.anotheriptv.presentation.xstream.live.ViewModelFactory.LiveXstreamViewModelFactory
-import com.example.anotheriptv.presentation.xstream.live.ViewModel.LiveXstreamViewModel
+import com.example.anotheriptv.databinding.FragmentMovieXstreamBinding
+import com.example.anotheriptv.presentation.xstream.movie.Adapter.CategoryAdapter
+import com.example.anotheriptv.presentation.xstream.movie.ViewModelFactory.MovieXstreamViewModelFactory
+import com.example.anotheriptv.presentation.xstream.movie.ViewModel.MovieXstreamViewModel
 import kotlinx.coroutines.launch
 
-class LiveXstreamFragment : Fragment() {
+class MovieXstreamFragment : Fragment() {
 
-    private var _binding: FragmentLiveXstreamBinding? = null
+    private var _binding: FragmentMovieXstreamBinding? = null
     private val binding get() = _binding!!
     private var playlistId: Long = -1L
 
     private lateinit var categoryAdapter: CategoryAdapter
 
-    private val viewModel: LiveXstreamViewModel by viewModels {
+    private val viewModel: MovieXstreamViewModel by viewModels {
         val container = (requireActivity().application as MyApp).container
-        LiveXstreamViewModelFactory(
+        MovieXstreamViewModelFactory(
             container.channelRepository,
             container.categoryDao,
             container.addWatchHistoryUseCase
@@ -39,7 +40,7 @@ class LiveXstreamFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentLiveXstreamBinding.inflate(inflater, container, false)
+        _binding = FragmentMovieXstreamBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -57,15 +58,14 @@ class LiveXstreamFragment : Fragment() {
     private fun setupRecyclerView() {
         categoryAdapter = CategoryAdapter(
             onChannelClick = { channel ->
-                viewModel.addToHistory(
-                    channelId   = channel.id,
-                    playlistId  = playlistId,
-                    channelName = channel.name,
-                    channelLogo = channel.logo
-                )
-                val intent = android.content.Intent(requireContext(), PlayerActivity::class.java).apply {
-                    putExtra("channelName", channel.name)
-                    putExtra("streamUrl", channel.url)
+
+                // Mở DetailMovieActivity
+                val intent = Intent(requireContext(), DetailMovieActivity::class.java).apply {
+                    putExtra(DetailMovieActivity.EXTRA_LOGO,         channel.logo)
+                    putExtra(DetailMovieActivity.EXTRA_NAME,         channel.name)
+                    putExtra(DetailMovieActivity.EXTRA_RATING,       channel.rating?.toFloat() ?: 0f)
+                    putExtra(DetailMovieActivity.EXTRA_RELEASE_DATE, channel.releaseDate.orEmpty())
+                    putExtra(DetailMovieActivity.EXTRA_STREAM_URL,   channel.url)
                 }
                 startActivity(intent)
             },
@@ -74,14 +74,13 @@ class LiveXstreamFragment : Fragment() {
                     putLong("playlistId", playlistId)
                     putString("contentType", "LIVE")
                     putString("categoryId", category.categoryId)
-                    putString("categoryName",category.categoryName)
+                    putString("categoryName", category.categoryName)
                 }
                 parentFragmentManager.beginTransaction()
                     .replace(R.id.fragment_container, LiveXstreamAllFragment().apply { arguments = bundle })
                     .addToBackStack(null)
                     .commit()
             }
-
         )
 
         binding.recyclerLive.apply {
