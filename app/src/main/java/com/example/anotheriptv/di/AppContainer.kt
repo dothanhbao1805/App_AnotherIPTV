@@ -19,6 +19,7 @@ import com.example.anotheriptv.domain.repository.ChannelRepository
 import com.example.anotheriptv.domain.repository.PlaylistRepository
 import com.example.anotheriptv.domain.repository.SettingsRepository
 import com.example.anotheriptv.domain.repository.WatchHistoryRepository
+import com.example.anotheriptv.domain.usecase.channel.GetChannelsByCategoryUseCase
 import com.example.anotheriptv.domain.usecase.channel.GetChannelsUseCase
 import com.example.anotheriptv.domain.usecase.history.AddWatchHistoryUseCase
 import com.example.anotheriptv.domain.usecase.history.DeleteWatchHistoryUseCase
@@ -153,6 +154,7 @@ class AppContainer(context: Context) {
 
     // ── UseCase: Channel ──
     val getChannelsUseCase = GetChannelsUseCase(channelRepository)
+    val getChannelsByCategoryUseCase   = GetChannelsByCategoryUseCase(channelRepository)
 
     // ── UseCase: History ──
     val addWatchHistoryUseCase    = AddWatchHistoryUseCase(historyRepository)

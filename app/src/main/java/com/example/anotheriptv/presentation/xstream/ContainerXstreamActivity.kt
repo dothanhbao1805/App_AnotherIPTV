@@ -7,6 +7,7 @@ import com.example.anotheriptv.R
 import com.example.anotheriptv.presentation.channels.ChannelFragment
 import com.example.anotheriptv.presentation.history.HistoryFragment
 import com.example.anotheriptv.presentation.xstream.live.LiveXstreamFragment
+import com.example.anotheriptv.presentation.xstream.movie.MovieXstreamFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class ContainerXstreamActivity : AppCompatActivity() {
@@ -55,7 +56,12 @@ class ContainerXstreamActivity : AppCompatActivity() {
                 }
 
                 R.id.nav_movie -> {
-                    // TODO: mở MoviesFragment
+                    val movieXstreamlFragment = MovieXstreamFragment().apply {
+                        arguments = Bundle().apply {
+                            putLong("playlistId", currentPlaylistId)
+                        }
+                    }
+                    replaceFragment(movieXstreamlFragment)
                     true
                 }
                 R.id.nav_series -> {
