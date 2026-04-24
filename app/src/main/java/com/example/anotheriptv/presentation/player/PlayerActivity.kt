@@ -12,7 +12,6 @@ import androidx.media3.datasource.DefaultDataSource
 import androidx.media3.datasource.okhttp.OkHttpDataSource
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
-import com.example.anotheriptv.R
 import com.example.anotheriptv.databinding.ActivityPlayerBinding
 import okhttp3.OkHttpClient
 import java.security.SecureRandom
@@ -42,8 +41,9 @@ class PlayerActivity : AppCompatActivity() {
 
         setupPlayer(streamUrl)
         setupControls()
-        scheduleHideControls()
     }
+
+    // ── OkHttp (trust all SSL) ────────────────────────────────────────────────
 
     private fun buildOkHttpClient(): OkHttpClient {
         val trustAllCerts = arrayOf<TrustManager>(object : X509TrustManager {
@@ -51,23 +51,23 @@ class PlayerActivity : AppCompatActivity() {
             override fun checkServerTrusted(chain: Array<X509Certificate>, authType: String) {}
             override fun getAcceptedIssuers(): Array<X509Certificate> = arrayOf()
         })
-
         val sslContext = SSLContext.getInstance("SSL").apply {
             init(null, trustAllCerts, SecureRandom())
         }
-
         return OkHttpClient.Builder()
             .sslSocketFactory(sslContext.socketFactory, trustAllCerts[0] as X509TrustManager)
             .hostnameVerifier { _, _ -> true }
             .addInterceptor { chain ->
-                // VLC User-Agent để server Xtream không reset connection
-                val request = chain.request().newBuilder()
-                    .header("User-Agent", "VLC/3.0.0 LibVLC/3.0.0")
-                    .build()
-                chain.proceed(request)
+                chain.proceed(
+                    chain.request().newBuilder()
+                        .header("User-Agent", "VLC/3.0.0 LibVLC/3.0.0")
+                        .build()
+                )
             }
             .build()
     }
+
+    // ── Player setup ──────────────────────────────────────────────────────────
 
     private fun setupPlayer(url: String) {
         val dataSourceFactory = DefaultDataSource.Factory(
@@ -82,16 +82,41 @@ class PlayerActivity : AppCompatActivity() {
                 exo.setMediaItem(MediaItem.fromUri(url))
                 exo.prepare()
                 exo.play()
+                binding.progressBuffering.visibility = View.VISIBLE
 
                 exo.addListener(object : Player.Listener {
+
                     override fun onIsPlayingChanged(isPlaying: Boolean) {
-                        binding.btnPlayPause.setImageResource(
-                            if (isPlaying) R.drawable.ic_pause else R.drawable.ic_play
-                        )
+                        if (player?.playbackState == Player.STATE_BUFFERING) return
+
+                        if (isPlaying) showPauseBtn() else showPlayBtn()
+                    }
+
+                    override fun onPlaybackStateChanged(playbackState: Int) {
+                        when (playbackState) {
+                            Player.STATE_BUFFERING -> {
+                                // Đang buffer → chỉ hiện loading
+                                binding.progressBuffering.visibility = View.VISIBLE
+                                binding.btnPlay.visibility           = View.GONE
+                                binding.btnPause.visibility          = View.GONE
+                            }
+                            Player.STATE_READY -> {
+                                // Sẵn sàng → ẩn loading, hiện đúng nút
+                                binding.progressBuffering.visibility = View.GONE
+                                if (player?.isPlaying == true) showPauseBtn() else showPlayBtn()
+                            }
+                            Player.STATE_ENDED,
+                            Player.STATE_IDLE -> {
+                                binding.progressBuffering.visibility = View.GONE
+                                binding.btnPlay.visibility           = View.GONE
+                                binding.btnPause.visibility          = View.GONE
+                            }
+                        }
                     }
                 })
             }
 
+        // Cập nhật seekbar + time mỗi 500ms
         binding.playerView.postDelayed(object : Runnable {
             override fun run() {
                 player?.let { p ->
@@ -108,11 +133,20 @@ class PlayerActivity : AppCompatActivity() {
         }, 500)
     }
 
+    // ── Controls setup ────────────────────────────────────────────────────────
+
     private fun setupControls() {
         binding.btnBack.setOnClickListener { finish() }
 
-        binding.btnPlayPause.setOnClickListener {
-            player?.let { if (it.isPlaying) it.pause() else it.play() }
+        binding.btnPause.setOnClickListener {
+            player?.pause()
+            showPlayBtn()
+            scheduleHideControls()
+        }
+
+        binding.btnPlay.setOnClickListener {
+            player?.play()
+            showPauseBtn()
             scheduleHideControls()
         }
 
@@ -152,16 +186,46 @@ class PlayerActivity : AppCompatActivity() {
         }
     }
 
+    // ── Visibility helpers ────────────────────────────────────────────────────
+
+    private fun showPlayBtn() {
+        if (binding.layoutTopControls.visibility == View.VISIBLE) {
+            binding.btnPlay.visibility  = View.VISIBLE
+            binding.btnPause.visibility = View.GONE
+        }
+    }
+
+    private fun showPauseBtn() {
+        if (binding.layoutTopControls.visibility == View.VISIBLE) {
+            binding.btnPause.visibility = View.VISIBLE
+            binding.btnPlay.visibility  = View.GONE
+        }
+    }
+
     private fun showControls() {
-        binding.layoutTopControls.visibility  = View.VISIBLE
+        binding.layoutTopControls.visibility    = View.VISIBLE
         binding.layoutBottomControls.visibility = View.VISIBLE
-        binding.btnPlayPause.visibility        = View.VISIBLE
+
+        if (binding.progressBuffering.visibility == View.VISIBLE) {
+            binding.btnPlay.visibility  = View.GONE
+            binding.btnPause.visibility = View.GONE
+            return
+        }
+
+        if (player?.isPlaying == true) {
+            binding.btnPause.visibility = View.VISIBLE
+            binding.btnPlay.visibility  = View.GONE
+        } else {
+            binding.btnPlay.visibility  = View.VISIBLE
+            binding.btnPause.visibility = View.GONE
+        }
     }
 
     private fun hideControls() {
-        binding.layoutTopControls.visibility  = View.GONE
+        binding.layoutTopControls.visibility    = View.GONE
         binding.layoutBottomControls.visibility = View.GONE
-        binding.btnPlayPause.visibility        = View.GONE
+        binding.btnPlay.visibility              = View.GONE
+        binding.btnPause.visibility             = View.GONE
     }
 
     private fun scheduleHideControls() {
@@ -169,6 +233,7 @@ class PlayerActivity : AppCompatActivity() {
         binding.playerView.postDelayed(hideControlsRunnable, 3000)
     }
 
+    // ──────────────────────────────────────────────────────
     private fun formatTime(ms: Long): String {
         val minutes = TimeUnit.MILLISECONDS.toMinutes(ms)
         val seconds = TimeUnit.MILLISECONDS.toSeconds(ms) % 60
@@ -185,4 +250,5 @@ class PlayerActivity : AppCompatActivity() {
         player?.release()
         player = null
     }
+
 }

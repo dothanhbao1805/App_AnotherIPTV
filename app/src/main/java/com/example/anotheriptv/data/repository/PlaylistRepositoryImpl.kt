@@ -47,13 +47,38 @@ class PlaylistRepositoryImpl(
 
     override suspend fun addPlaylist(playlist: Playlist): Long {
         return withContext(Dispatchers.IO) {
+
+            val channels: List<ChannelEntity> = when (playlist.type) {
+                "M3U" -> {
+                    val content = fetchM3UContent(playlist)
+                        ?: throw Exception("Không lấy được dữ liệu M3U")
+                    val parsed = m3uParser.parse(content, 0L) // playlistId tạm = 0
+                    if (parsed.isEmpty()) throw Exception("File M3U không có kênh nào")
+                    parsed
+                }
+                "XSTREAM" -> {
+                    val baseUrl  = playlist.url      ?: throw Exception("Thiếu URL Xtream")
+                    val username = playlist.userName ?: throw Exception("Thiếu username")
+                    val password = playlist.password ?: throw Exception("Thiếu password")
+                    // Chỉ verify kết nối, chưa fetch hết
+                    val infoUrl = buildXstreamUrl(baseUrl, username, password, "get_account_info")
+                    downloadText(infoUrl) ?: throw Exception("Không kết nối được tới server Xtream")
+                    emptyList()
+                }
+                else -> throw Exception("Loại playlist không hợp lệ: ${playlist.type}")
+            }
+
             val entity     = playlistMapper.toEntity(playlist)
             val playlistId = playlistDao.insert(entity)
 
             when (playlist.type) {
-                "M3U"     -> handleM3U(playlistId, playlist)
-                "XSTREAM" -> handleXstream(playlistId, playlist)
-                else      -> throw Exception("Loại playlist không hợp lệ: ${playlist.type}")
+                "M3U" -> {
+                    val fixed = channels.map { it.copy(playlistId = playlistId) }
+                    channelDao.insertAll(fixed)
+                }
+                "XSTREAM" -> {
+                    handleXstream(playlistId, playlist)
+                }
             }
 
             playlistId
@@ -65,22 +90,61 @@ class PlaylistRepositoryImpl(
         onProgress: (progress: Int, status: String) -> Unit
     ): Long {
         return withContext(Dispatchers.IO) {
-            val entity = playlistMapper.toEntity(playlist)
-            val playlistId = playlistDao.insert(entity)
 
-            when (playlist.type) {
-                "M3U" -> {
-                    onProgress(30, "Downloading M3U file...")
-                    handleM3U(playlistId, playlist)
-                    onProgress(100, "Done!")
-                }
-                "XSTREAM" -> {
-                    onProgress(10, "Connecting to server...")
-                    handleXstreamWithProgress(playlistId, playlist, onProgress)
-                }
-                else -> throw Exception("Loại playlist không hợp lệ")
+            val baseUrl  = playlist.url      ?: throw Exception("Thiếu URL Xtream")
+            val username = playlist.userName ?: throw Exception("Thiếu username")
+            val password = playlist.password ?: throw Exception("Thiếu password")
+
+            // ── Bước 1: Verify kết nối TRƯỚC khi insert DB ──
+            onProgress(10, "Connecting to server...")
+            val infoUrl = buildXstreamUrl(baseUrl, username, password, "get_account_info")
+            downloadText(infoUrl) ?: throw Exception("Không kết nối được tới server Xtream")
+
+            // ── Bước 2: Fetch categories ──
+            onProgress(20, "Preparing categories...")
+            val liveCatMap: Map<String, String>
+            val movieCatMap: Map<String, String>
+            val seriesCatMap: Map<String, String>
+
+            coroutineScope {
+                val liveC   = async { fetchCategoryMap(baseUrl, username, password, "get_live_categories") }
+                val movieC  = async { fetchCategoryMap(baseUrl, username, password, "get_vod_categories") }
+                val seriesC = async { fetchCategoryMap(baseUrl, username, password, "get_series_categories") }
+                liveCatMap   = liveC.await()
+                movieCatMap  = movieC.await()
+                seriesCatMap = seriesC.await()
             }
 
+            // ── Bước 3: Fetch channels (chưa insert DB) ──
+            onProgress(30, "Loading live channels...")
+            val live = fetchXstreamLive(baseUrl, username, password, 0L, liveCatMap)
+
+            onProgress(55, "Loading movies...")
+            val movies = fetchXstreamMovies(baseUrl, username, password, 0L, movieCatMap)
+
+            onProgress(75, "Loading series...")
+            val series = fetchXstreamSeries(baseUrl, username, password, 0L, seriesCatMap)
+
+            val allChannels = live + movies + series
+            if (allChannels.isEmpty()) throw Exception("Server không trả về kênh nào")
+
+            // ── Bước 4: Chỉ insert playlist sau khi fetch thành công ──
+            onProgress(85, "Saving playlist...")
+            val entity     = playlistMapper.toEntity(playlist)
+            val playlistId = playlistDao.insert(entity)
+
+            // ── Bước 5: Insert categories + channels với đúng playlistId ──
+            onProgress(90, "Saving to database...")
+            val categoryEntities = mutableListOf<CategoryEntity>()
+            liveCatMap.forEach   { (id, name) -> categoryEntities.add(CategoryEntity(playlistId, id, "LIVE",   name)) }
+            movieCatMap.forEach  { (id, name) -> categoryEntities.add(CategoryEntity(playlistId, id, "MOVIE",  name)) }
+            seriesCatMap.forEach { (id, name) -> categoryEntities.add(CategoryEntity(playlistId, id, "SERIES", name)) }
+            categoryDao.insertAll(categoryEntities)
+
+            val fixedChannels = allChannels.map { it.copy(playlistId = playlistId) }
+            channelDao.insertAll(fixedChannels)
+
+            onProgress(100, "Complete!")
             playlistId
         }
     }
@@ -164,8 +228,6 @@ class PlaylistRepositoryImpl(
     } catch (e: Exception) {
         emptyMap()
     }
-
-    // Cập nhật fetch functions để nhận categoryMap
     private suspend fun fetchXstreamLive(
         baseUrl: String, username: String, password: String,
         playlistId: Long,
@@ -242,7 +304,7 @@ class PlaylistRepositoryImpl(
             val movieDeferred  = async { fetchXstreamMovies(baseUrl, username, password, playlistId) }
             val seriesDeferred = async { fetchXstreamSeries(baseUrl, username, password, playlistId) }
 
-            // ↓ khai báo type tường minh để Kotlin biết đây là List<ChannelEntity>
+            // khai báo type tường minh để Kotlin biết đây là List<ChannelEntity>
             val all: List<ChannelEntity> = liveDeferred.await() +
                     movieDeferred.await() +
                     seriesDeferred.await()
@@ -330,4 +392,5 @@ class PlaylistRepositoryImpl(
             }
         }
     }
+
 }

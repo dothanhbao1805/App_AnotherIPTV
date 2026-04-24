@@ -110,5 +110,7 @@ interface ChannelDao {
         categoryId: String
     ): List<ChannelEntity>
 
+    @Query("SELECT * FROM channels WHERE playlistId = :playlistId AND contentType = :contentType ORDER BY name ASC")
+    fun getByPlaylistIdAndContentType(playlistId: Long, contentType: String): Flow<List<ChannelEntity>>
 
 }

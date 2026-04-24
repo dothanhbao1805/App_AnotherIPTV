@@ -45,4 +45,5 @@ class M3UParser {
 
         return channels
     }
+
 }

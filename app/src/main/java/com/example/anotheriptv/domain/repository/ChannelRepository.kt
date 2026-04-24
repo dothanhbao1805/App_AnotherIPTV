@@ -22,4 +22,6 @@ interface ChannelRepository {
         categoryId: String
     ):Flow<List<Channel>>
 
+    fun getChannelsByContentType(playlistId: Long, contentType: String): Flow<List<Channel>>
+
 }

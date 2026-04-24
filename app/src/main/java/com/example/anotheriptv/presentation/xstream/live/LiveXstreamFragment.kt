@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -27,7 +28,7 @@ class LiveXstreamFragment : Fragment() {
 
     private lateinit var categoryAdapter: CategoryAdapter
 
-    private val viewModel: LiveXstreamViewModel by viewModels {
+    private val viewModel: LiveXstreamViewModel by activityViewModels {
         val container = (requireActivity().application as MyApp).container
         LiveXstreamViewModelFactory(
             container.channelRepository,
@@ -51,7 +52,23 @@ class LiveXstreamFragment : Fragment() {
         setupRecyclerView()
         observeViewModel()
 
+        viewModel.loadAllLive(playlistId)
         viewModel.loadLiveChannels(playlistId)
+
+        binding.ivSearch.setOnClickListener {
+            val fragment = SearchLiveXstreamFragment.newInstance(playlistId)
+            parentFragmentManager.beginTransaction()
+                .setCustomAnimations(
+                    android.R.anim.fade_in,
+                    android.R.anim.fade_out,
+                    android.R.anim.fade_in,
+                    android.R.anim.fade_out
+                )
+                .replace(R.id.fragment_container, fragment)
+                .addToBackStack(null)
+                .commit()
+        }
+
     }
 
     private fun setupRecyclerView() {
@@ -104,4 +121,5 @@ class LiveXstreamFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
 }
