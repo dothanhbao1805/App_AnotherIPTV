@@ -8,6 +8,7 @@ import com.example.anotheriptv.presentation.channels.ChannelFragment
 import com.example.anotheriptv.presentation.history.HistoryFragment
 import com.example.anotheriptv.presentation.xstream.live.LiveXstreamFragment
 import com.example.anotheriptv.presentation.xstream.movie.MovieXstreamFragment
+import com.example.anotheriptv.presentation.xstream.series.SeriesXstreamFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class ContainerXstreamActivity : AppCompatActivity() {
@@ -65,7 +66,12 @@ class ContainerXstreamActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_series -> {
-                    // TODO: mở SeriesFragment
+                    val seriesXstreamFragment = SeriesXstreamFragment().apply {
+                        arguments = Bundle().apply {
+                            putLong("playlistId", currentPlaylistId)
+                        }
+                    }
+                    replaceFragment(seriesXstreamFragment)
                     true
                 }
                 R.id.nav_settings -> {
@@ -75,6 +81,7 @@ class ContainerXstreamActivity : AppCompatActivity() {
                 else -> false
             }
         }
+
     }
 
     private fun replaceFragment(fragment: Fragment) {

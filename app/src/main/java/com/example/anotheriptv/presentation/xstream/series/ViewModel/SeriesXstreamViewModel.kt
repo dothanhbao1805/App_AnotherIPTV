@@ -1,4 +1,5 @@
-package com.example.anotheriptv.presentation.xstream.movie.ViewModel
+package com.example.anotheriptv.presentation.xstream.series.ViewModel
+
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -15,7 +16,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 
-class MovieXstreamViewModel(
+class SeriesXstreamViewModel(
     private val channelRepository: ChannelRepository,
     private val categoryDao: CategoryDao,
     private val addWatchHistoryUseCase: AddWatchHistoryUseCase
@@ -23,16 +24,16 @@ class MovieXstreamViewModel(
 
     private val _categoriesWithChannels = MutableStateFlow<List<CategoryWithChannels>>(emptyList())
     val categoriesWithChannels: StateFlow<List<CategoryWithChannels>> = _categoriesWithChannels.asStateFlow()
-    private val _allMovies = MutableStateFlow<List<Channel>>(emptyList())
-    val allMovies: StateFlow<List<Channel>> = _allMovies.asStateFlow()
+    private val _allSeries = MutableStateFlow<List<Channel>>(emptyList())
+    val allSeries: StateFlow<List<Channel>> = _allSeries.asStateFlow()
 
     fun loadLiveChannels(playlistId: Long) {
         viewModelScope.launch(Dispatchers.IO) {
-            val categories = categoryDao.getCategoriesByPlaylistAndType(playlistId, "MOVIE")
+            val categories = categoryDao.getCategoriesByPlaylistAndType(playlistId, "SERIES")
             val result = categories.map { cat ->
                 val channels = channelRepository.getChannelsByCategoryLimit10(
                     playlistId  = playlistId,
-                    contentType = "MOVIE",
+                    contentType = "SERIES",
                     categoryId  = cat.categoryId
                 ).map { it }
                 CategoryWithChannels(
@@ -61,10 +62,10 @@ class MovieXstreamViewModel(
         }
     }
 
-    fun loadAllMovies(playlistId: Long) {
+    fun loadAllSeries(playlistId: Long) {
         viewModelScope.launch(Dispatchers.IO) {
-            channelRepository.getChannelsByContentType(playlistId, "MOVIE").collect { movies ->
-                _allMovies.value = movies
+            channelRepository.getChannelsByContentType(playlistId, "SERIES").collect { series ->
+                _allSeries.value = series
             }
         }
     }

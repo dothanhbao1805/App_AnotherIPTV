@@ -16,6 +16,48 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
 
+    <!-- Loading indicator — hiện khi đang buffer -->
+    <ProgressBar
+        android:id="@+id/progressBuffering"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:indeterminateTint="@android:color/white"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Pause button — hiện khi đang phát -->
+    <ImageButton
+        android:id="@+id/btnPause"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:src="@drawable/ic_pause"
+        app:tint="#FFFFFF"
+        android:background="@null"
+        android:alpha="0.85"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Play button — hiện khi đang pause -->
+    <ImageButton
+        android:id="@+id/btnPlay"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:src="@drawable/ic_play_video"
+        app:tint="#FFFFFF"
+        android:background="@null"
+        android:alpha="0.85"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <!-- Top Controls -->
     <LinearLayout
         android:id="@+id/layoutTopControls"
@@ -27,9 +69,9 @@
         android:paddingTop="48dp"
         android:paddingBottom="16dp"
         android:background="@drawable/bg_gradient_top"
+        android:visibility="gone"
         app:layout_constraintTop_toTopOf="parent">
 
-        <!-- Back -->
         <ImageButton
             android:id="@+id/btnBack"
             android:layout_width="36dp"
@@ -38,7 +80,6 @@
             app:tint="#FFFFFF"
             android:background="?attr/selectableItemBackgroundBorderless" />
 
-        <!-- Channel name -->
         <TextView
             android:id="@+id/tvChannelName"
             android:layout_width="0dp"
@@ -52,7 +93,6 @@
             android:ellipsize="end"
             android:layout_marginHorizontal="12dp" />
 
-        <!-- Info -->
         <ImageButton
             android:id="@+id/btnInfo"
             android:layout_width="36dp"
@@ -62,7 +102,6 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:layout_marginEnd="4dp" />
 
-        <!-- Favorite -->
         <ImageButton
             android:id="@+id/btnFavorite"
             android:layout_width="36dp"
@@ -72,7 +111,6 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:layout_marginEnd="4dp" />
 
-        <!-- Settings -->
         <ImageButton
             android:id="@+id/btnSettings"
             android:layout_width="36dp"
@@ -93,9 +131,9 @@
         android:paddingTop="16dp"
         android:paddingBottom="32dp"
         android:background="@drawable/bg_gradient_bottom"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent">
 
-        <!-- Progress bar -->
         <SeekBar
             android:id="@+id/seekBar"
             android:layout_width="match_parent"
@@ -104,7 +142,6 @@
             android:thumbTint="#E53935"
             android:max="100" />
 
-        <!-- Time -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -137,19 +174,5 @@
         </LinearLayout>
 
     </LinearLayout>
-
-    <!-- Play/Pause center -->
-    <ImageButton
-        android:id="@+id/btnPlayPause"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:src="@drawable/ic_pause"
-        app:tint="#FFFFFF"
-        android:background="@null"
-        android:alpha="0.85"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

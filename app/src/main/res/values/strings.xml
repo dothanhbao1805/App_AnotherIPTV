@@ -43,6 +43,11 @@
     <string name="movie_category_name">2026 Movies</string>
     <string name="movie_viewAll_xstream">View All</string>
 
+    <!--    fragment_series_xstream-->
+    <string name="title_series_xstream">Series</string>
+    <string name="series_category_name">2026 Series</string>
+    <string name="series_viewAll_xstream">View All</string>
+
     <!--    fragment_m3u_playlist-->
     <string name="title_m3u_playlist">M3U Playlist</string>
     <string name="subtitle_load_m3u">Load IPTV channels with M3U playlist file or URL</string>

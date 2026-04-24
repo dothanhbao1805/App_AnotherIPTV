@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.anotheriptv.data.local.dao.CategoryDao
 import com.example.anotheriptv.domain.model.CategoryWithChannels
+import com.example.anotheriptv.domain.model.Channel
 import com.example.anotheriptv.domain.model.WatchHistory
 import com.example.anotheriptv.domain.repository.ChannelRepository
 import com.example.anotheriptv.domain.usecase.history.AddWatchHistoryUseCase
@@ -22,6 +23,9 @@ class LiveXstreamViewModel(
 
     private val _categoriesWithChannels = MutableStateFlow<List<CategoryWithChannels>>(emptyList())
     val categoriesWithChannels: StateFlow<List<CategoryWithChannels>> = _categoriesWithChannels.asStateFlow()
+
+    private val _allLive = MutableStateFlow<List<Channel>>(emptyList())
+    val allLive: StateFlow<List<Channel>> = _allLive.asStateFlow()
 
     fun loadLiveChannels(playlistId: Long) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -56,6 +60,15 @@ class LiveXstreamViewModel(
             )
             addWatchHistoryUseCase(historyItem)
         }
+    }
+
+    fun loadAllLive(playlistId: Long) {
+        viewModelScope.launch(Dispatchers.IO) {
+            channelRepository.getChannelsByContentType(playlistId, "LIVE").collect { live ->
+                _allLive.value = live
+            }
+        }
+
     }
 
 }

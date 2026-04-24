@@ -1,13 +1,12 @@
 package com.example.anotheriptv.presentation.xstream.movie
 
 import android.content.Intent
-import com.example.anotheriptv.presentation.xstream.live.LiveXstreamAllFragment
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -28,7 +27,7 @@ class MovieXstreamFragment : Fragment() {
 
     private lateinit var categoryAdapter: CategoryAdapter
 
-    private val viewModel: MovieXstreamViewModel by viewModels {
+    private val viewModel: MovieXstreamViewModel by activityViewModels {
         val container = (requireActivity().application as MyApp).container
         MovieXstreamViewModelFactory(
             container.channelRepository,
@@ -51,8 +50,23 @@ class MovieXstreamFragment : Fragment() {
 
         setupRecyclerView()
         observeViewModel()
-
+        viewModel.loadAllMovies(playlistId)
         viewModel.loadLiveChannels(playlistId)
+
+        binding.ivSearch.setOnClickListener {
+            val fragment = SearchMovieFragment.newInstance(playlistId)
+            parentFragmentManager.beginTransaction()
+                .setCustomAnimations(
+                    android.R.anim.fade_in,
+                    android.R.anim.fade_out,
+                    android.R.anim.fade_in,
+                    android.R.anim.fade_out
+                )
+                .replace(R.id.fragment_container, fragment)
+                .addToBackStack(null)
+                .commit()
+        }
+
     }
 
     private fun setupRecyclerView() {
@@ -66,18 +80,21 @@ class MovieXstreamFragment : Fragment() {
                     putExtra(DetailMovieActivity.EXTRA_RATING,       channel.rating?.toFloat() ?: 0f)
                     putExtra(DetailMovieActivity.EXTRA_RELEASE_DATE, channel.releaseDate.orEmpty())
                     putExtra(DetailMovieActivity.EXTRA_STREAM_URL,   channel.url)
+                    putExtra(DetailMovieActivity.EXTRA_CHANNEL_ID,   channel.id)
+                    putExtra(DetailMovieActivity.EXTRA_PLAYLIST_ID,  playlistId)
                 }
                 startActivity(intent)
             },
+
             onViewAllClick = { category ->
                 val bundle = Bundle().apply {
                     putLong("playlistId", playlistId)
-                    putString("contentType", "LIVE")
+                    putString("contentType", "MOVIE")
                     putString("categoryId", category.categoryId)
                     putString("categoryName", category.categoryName)
                 }
                 parentFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, LiveXstreamAllFragment().apply { arguments = bundle })
+                    .replace(R.id.fragment_container, MovieXstreamAllFragment().apply { arguments = bundle })
                     .addToBackStack(null)
                     .commit()
             }

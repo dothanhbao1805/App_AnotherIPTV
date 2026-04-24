@@ -4,15 +4,35 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
+import com.example.anotheriptv.MyApp
 import com.example.anotheriptv.R
 import com.example.anotheriptv.databinding.ActivityDetailMovieBinding
+import com.example.anotheriptv.presentation.xstream.movie.Adapter.CategoryAdapter
 import com.example.anotheriptv.presentation.player.PlayerActivity
+import com.example.anotheriptv.presentation.xstream.movie.ViewModel.MovieXstreamViewModel
+import com.example.anotheriptv.presentation.xstream.movie.ViewModelFactory.MovieXstreamViewModelFactory
+import kotlin.getValue
 
 class DetailMovieActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailMovieBinding
+    private lateinit var categoryAdapter: CategoryAdapter
+    private var channelId: Long  = -1L
+    private var playlistId: Long = -1L
+
+    private val viewModel: MovieXstreamViewModel by viewModels {
+        val container = (application as MyApp).container
+        MovieXstreamViewModelFactory(
+            container.channelRepository,
+            container.categoryDao,
+            container.addWatchHistoryUseCase
+        )
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,13 +46,16 @@ class DetailMovieActivity : AppCompatActivity() {
         val format      = intent.getStringExtra(EXTRA_FORMAT).orEmpty()
         val streamUrl   = intent.getStringExtra(EXTRA_STREAM_URL).orEmpty()
 
+        channelId  = intent.getLongExtra(EXTRA_CHANNEL_ID,  -1L)
+        playlistId = intent.getLongExtra(EXTRA_PLAYLIST_ID, -1L)
+
         bindPoster(logo)
         bindTitle(name)
         bindRating(rating)
         bindFormat(format)
         bindReleaseDate(releaseDate)
         bindTrailer(name)
-        bindStartWatching(name, streamUrl)
+        bindStartWatching(name, streamUrl,logo)
         bindBackButton()
     }
 
@@ -113,13 +136,20 @@ class DetailMovieActivity : AppCompatActivity() {
 
     // ── Start Watching ────────────────────────────────────────────────────────
 
-    private fun bindStartWatching(channelName: String, streamUrl: String) {
+    private fun bindStartWatching(channelName: String, streamUrl: String, logo: String) {
         binding.btnStartWatching.setOnClickListener {
-            val intent = Intent(this, PlayerActivity::class.java).apply {
-                putExtra("channelName", channelName)
-                putExtra("streamUrl", streamUrl)
+            if (channelId != -1L && playlistId != -1L) {
+                viewModel.addToHistory(
+                    channelId   = channelId,
+                    playlistId  = playlistId,
+                    channelName = channelName,
+                    channelLogo = logo
+                )
             }
-            startActivity(intent)
+            startActivity(Intent(this, PlayerActivity::class.java).apply {
+                putExtra("channelName", channelName)
+                putExtra("streamUrl",   streamUrl)
+            })
         }
     }
 
@@ -138,5 +168,7 @@ class DetailMovieActivity : AppCompatActivity() {
         const val EXTRA_RELEASE_DATE = "extra_release_date"
         const val EXTRA_FORMAT       = "extra_format"
         const val EXTRA_STREAM_URL   = "extra_stream_url"
+        const val EXTRA_CHANNEL_ID   = "extra_channel_id"
+        const val EXTRA_PLAYLIST_ID  = "extra_playlist_id"
     }
 }

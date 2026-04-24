@@ -4,9 +4,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cardHistory"
-    android:layout_width="@dimen/card_width"
-    android:layout_height="@dimen/card_live_xstream_height"
-    android:layout_marginEnd="@dimen/spacing_medium"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp"
     android:clickable="true"
     android:focusable="true"
     android:foreground="?attr/selectableItemBackground"
@@ -16,7 +16,7 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="140dp">
 
         <ImageView
             android:id="@+id/ivLogo"
@@ -34,28 +34,58 @@
             android:gravity="center"
             android:textStyle="bold"
             android:padding="4dp"
+            android:layout_marginBottom="40dp"
             android:visibility="gone" />
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="40dp"
             android:layout_gravity="bottom"
             android:background="@drawable/gradient_bottom" />
+
+        <LinearLayout
+            android:id="@+id/layoutRating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|end"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/bg_rating_badge"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="4dp">
+
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:src="@drawable/ic_star"
+                app:tint="@android:color/black" />
+
+            <TextView
+                android:id="@+id/tvRating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:textColor="@android:color/black"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                tools:text="6.1" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/tvChannelName"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/desc_xstream_height"
+            android:layout_height="40dp"
             android:layout_gravity="bottom"
             android:ellipsize="end"
-            android:background="#99434247"
+            android:background="#B3434247"
+            android:gravity="center"
             android:maxLines="2"
-            android:padding="@dimen/spacing_small"
-            android:textAppearance="?attr/textAppearanceLabelLarge"
+            android:padding="4dp"
+            android:textAppearance="?attr/textAppearanceLabelSmall"
             android:textColor="@android:color/white"
-            tools:text="The Bluff (2026)" />
-
+            tools:text="VTV1 HD (1080p)" />
 
     </FrameLayout>
-
 </androidx.cardview.widget.CardView>

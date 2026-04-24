@@ -1,4 +1,4 @@
-package com.example.anotheriptv.presentation.xstream.live.Adapter
+package com.example.anotheriptv.presentation.xstream.movie.Adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,15 +8,15 @@ import com.example.anotheriptv.domain.model.Channel
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.anotheriptv.databinding.ItemLiveAllXstreamBinding
+import com.example.anotheriptv.databinding.ItemMovieAllXstreamBinding
 import com.example.anotheriptv.R
 
-class ItemLiveXstreamAllAdapter(
+class ItemMovieXstreamAllAdapter(
     private val onChannelClick: (Channel) -> Unit
-) : ListAdapter<Channel, ItemLiveXstreamAllAdapter.ViewHolder>(DiffCallback()) {
+) : ListAdapter<Channel, ItemMovieXstreamAllAdapter.ViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = ItemLiveAllXstreamBinding.inflate(
+        val binding = ItemMovieAllXstreamBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
         )
         return ViewHolder(binding)
@@ -27,11 +27,19 @@ class ItemLiveXstreamAllAdapter(
     }
 
     inner class ViewHolder(
-        private val binding: ItemLiveAllXstreamBinding
+        private val binding: ItemMovieAllXstreamBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(channel: Channel) {
             binding.tvChannelName.text = channel.name
+
+            // ← thêm phần rating
+            if (channel.rating != null && channel.rating > 0) {
+                binding.layoutRating.visibility = View.VISIBLE
+                binding.tvRating.text = String.format("%.1f", channel.rating)
+            } else {
+                binding.layoutRating.visibility = View.GONE
+            }
 
             val logoUrl = channel.logo
             val isValidUrl = logoUrl.isNotEmpty() &&
@@ -61,6 +69,5 @@ class ItemLiveXstreamAllAdapter(
         override fun areItemsTheSame(oldItem: Channel, newItem: Channel) = oldItem.id == newItem.id
         override fun areContentsTheSame(oldItem: Channel, newItem: Channel) = oldItem == newItem
     }
-
 
 }
