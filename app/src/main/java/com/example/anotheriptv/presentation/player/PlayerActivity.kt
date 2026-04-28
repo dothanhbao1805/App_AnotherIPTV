@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.SeekBar
 import androidx.annotation.OptIn
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
@@ -12,7 +13,12 @@ import androidx.media3.datasource.DefaultDataSource
 import androidx.media3.datasource.okhttp.OkHttpDataSource
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
+import com.example.anotheriptv.MyApp
+import com.example.anotheriptv.R
 import com.example.anotheriptv.databinding.ActivityPlayerBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import java.security.SecureRandom
 import java.security.cert.X509Certificate
@@ -26,6 +32,7 @@ class PlayerActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityPlayerBinding
     private var player: ExoPlayer? = null
+    private var isFavorite = false
 
     private val hideControlsRunnable = Runnable { hideControls() }
 
@@ -40,7 +47,11 @@ class PlayerActivity : AppCompatActivity() {
         binding.tvChannelName.text = channelName
 
         setupPlayer(streamUrl)
-        setupControls()
+
+        checkFavoriteStatus(streamUrl)
+
+        setupControls(streamUrl)
+
     }
 
     // ── OkHttp (trust all SSL) ────────────────────────────────────────────────
@@ -135,7 +146,7 @@ class PlayerActivity : AppCompatActivity() {
 
     // ── Controls setup ────────────────────────────────────────────────────────
 
-    private fun setupControls() {
+    private fun setupControls(url: String) {
         binding.btnBack.setOnClickListener { finish() }
 
         binding.btnPause.setOnClickListener {
@@ -151,7 +162,13 @@ class PlayerActivity : AppCompatActivity() {
         }
 
         binding.btnFavorite.setOnClickListener {
-            // TODO: toggle favorite
+            isFavorite = !isFavorite
+            updateFavoriteIcon()
+
+            lifecycleScope.launch(Dispatchers.IO) {
+                val container = (application as MyApp).container
+                container.channelDao.updateFavoriteStatus(url, isFavorite)
+            }
             scheduleHideControls()
         }
 
@@ -184,6 +201,24 @@ class PlayerActivity : AppCompatActivity() {
                 scheduleHideControls()
             }
         }
+    }
+
+    private fun checkFavoriteStatus(url: String) {
+        lifecycleScope.launch(Dispatchers.IO) {
+            val container = (application as MyApp).container
+            // Tìm channel trong DB qua URL
+            val channel = container.channelRepository.getChannelByUrl(url)
+            isFavorite = channel?.isFavorite ?: false
+
+            withContext(Dispatchers.Main) {
+                updateFavoriteIcon()
+            }
+        }
+    }
+
+    private fun updateFavoriteIcon() {
+        val icon = if (isFavorite) R.drawable.ic_favorite_filled else R.drawable.ic_favorite_border
+        binding.btnFavorite.setImageResource(icon)
     }
 
     // ── Visibility helpers ────────────────────────────────────────────────────

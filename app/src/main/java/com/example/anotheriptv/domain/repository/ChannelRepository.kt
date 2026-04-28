@@ -26,4 +26,7 @@ interface ChannelRepository {
 
     fun getEpisodesBySeriesId(playlistId: Long, seriesId: Long): Flow<List<Channel>>
 
+    suspend fun getChannelByUrl(url: String): Channel?
+    suspend fun updateFavoriteStatus(url: String, isFavorite: Boolean)
+
 }

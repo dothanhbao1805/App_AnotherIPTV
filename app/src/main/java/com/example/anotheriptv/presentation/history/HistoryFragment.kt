@@ -21,6 +21,7 @@ import com.example.anotheriptv.presentation.history.Adapter.HistoryAdapter
 import com.example.anotheriptv.presentation.history.ViewModel.HistoryViewModel
 import com.example.anotheriptv.presentation.history.ViewModelFactory.HistoryViewModelFactory
 import com.example.anotheriptv.presentation.player.PlayerActivity
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class HistoryFragment : Fragment() {
@@ -34,6 +35,7 @@ class HistoryFragment : Fragment() {
     private lateinit var liveAdapter: HistoryAdapter
     private lateinit var movieAdapter: HistoryAdapter
     private lateinit var seriesAdapter: HistoryAdapter
+    private lateinit var favoriteAdapter: HistoryAdapter
 
     private val viewModel: HistoryViewModel by viewModels {
         val container = (requireActivity().application as MyApp).container
@@ -66,46 +68,75 @@ class HistoryFragment : Fragment() {
 
     private fun setupRecyclerView() {
 
-        fun createHistoryAdapter() = HistoryAdapter(
+        // 1. Hàm tạo Adapter cho các danh sách bình thường (Live, Movie, Series)
+        fun createNormalHistoryAdapter() = HistoryAdapter(
             onItemClick = { historyItem ->
-                if (historyItem.streamUrl.isNullOrEmpty()) {
-                    android.widget.Toast.makeText(
-                        requireContext(),
-                        "Không tìm thấy URL stream",
-                        android.widget.Toast.LENGTH_SHORT
-                    ).show()
-                    return@HistoryAdapter
-                }
-                val intent = android.content.Intent(requireContext(), PlayerActivity::class.java).apply {
-                    putExtra("channelName", historyItem.channelName)
-                    putExtra("streamUrl", historyItem.streamUrl)
-                }
-                startActivity(intent)
+                playStream(historyItem)
             },
             onRemoveClick = { historyItem ->
                 showDeleteConfirmationDialog(historyItem)
+            },
+            onFavoriteClick = null // Không dùng tính năng bỏ thích ở danh sách thường
+        )
+
+        // 2. Khởi tạo riêng cho Favorite Adapter với logic bỏ yêu thích
+        favoriteAdapter = HistoryAdapter(
+            onItemClick = { historyItem ->
+                playStream(historyItem)
+            },
+            onRemoveClick = { /* Không dùng */ },
+            onFavoriteClick = { historyItem ->
+                // Thực hiện bỏ yêu thích khi nhấn vào icon tim đỏ
+                lifecycleScope.launch(Dispatchers.IO) {
+                    val container = (requireActivity().application as MyApp).container
+                    container.channelRepository.updateFavoriteStatus(historyItem.streamUrl ?: "", false)
+
+                    // Lưu ý: Do dùng Flow, danh sách sẽ tự cập nhật và mục này tự biến mất
+                }
             }
         )
 
-        liveAdapter = createHistoryAdapter()
-        movieAdapter = createHistoryAdapter()
-        seriesAdapter = createHistoryAdapter()
+        // Khởi tạo các adapter còn lại
+        liveAdapter = createNormalHistoryAdapter()
+        movieAdapter = createNormalHistoryAdapter()
+        seriesAdapter = createNormalHistoryAdapter()
+
+        // 3. Gán Adapter và LayoutManager cho từng RecyclerView
+        binding.recyclerFavorite.apply {
+            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            adapter = favoriteAdapter
+            setHasFixedSize(true)
+        }
 
         binding.recyclerLive.apply {
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             adapter = liveAdapter
+            setHasFixedSize(true)
         }
 
         binding.recyclerMovie.apply {
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             adapter = movieAdapter
+            setHasFixedSize(true)
         }
 
         binding.recyclerSeries.apply {
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             adapter = seriesAdapter
+            setHasFixedSize(true)
         }
+    }
 
+    private fun playStream(historyItem: HistoryWithUrl) {
+        if (historyItem.streamUrl.isNullOrEmpty()) {
+            android.widget.Toast.makeText(requireContext(), "Không tìm thấy URL stream", android.widget.Toast.LENGTH_SHORT).show()
+            return
+        }
+        val intent = android.content.Intent(requireContext(), PlayerActivity::class.java).apply {
+            putExtra("channelName", historyItem.channelName)
+            putExtra("streamUrl", historyItem.streamUrl)
+        }
+        startActivity(intent)
     }
 
     private fun showDeleteConfirmationDialog(historyItem: HistoryWithUrl) {
@@ -139,9 +170,7 @@ class HistoryFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.historyChannels.collect { historyList ->
-                    Log.d("DEBUG_HISTORY", "Nhận được: ${historyList.size} mục lịch sử")
-
-                    // KIỂM TRA TRẠNG THÁI TRỐNG
+                    // Nếu danh sách tổng rỗng -> hiện Empty Layout
                     if (historyList.isEmpty()) {
                         binding.layoutEmpty.visibility = View.VISIBLE
                         binding.scrollViewContent.visibility = View.GONE
@@ -149,19 +178,17 @@ class HistoryFragment : Fragment() {
                         binding.layoutEmpty.visibility = View.GONE
                         binding.scrollViewContent.visibility = View.VISIBLE
 
-                        // 1. Phân loại cho Live Streams
-                        val liveList = historyList.filter { it.contentType == "LIVE" }
-                        updateSection(binding.layoutLive, liveAdapter, liveList)
+                        // Lọc mục Favorite (Những mục nào có isFavorite == true)
+                        val favoriteList = historyList.filter { it.isFavorite }.distinctBy { it.channelId }
+                        updateSection(binding.layoutFavorite, favoriteAdapter, favoriteList)
 
-                        // 2. Phân loại cho Movies
-                        val movieList = historyList.filter { it.contentType == "MOVIE" }
-                        updateSection(binding.layoutMovie, movieAdapter, movieList)
-
-                        // 3. Phân loại cho Series
-                        val seriesList = historyList.filter { it.contentType == "SERIES" }
-                        updateSection(binding.layoutSeries, seriesAdapter, seriesList)
+                        // Lọc các mục khác dựa trên contentType
+                        updateSection(binding.layoutLive, liveAdapter, historyList.filter { it.contentType == "LIVE" })
+                        updateSection(binding.layoutMovie, movieAdapter, historyList.filter { it.contentType == "MOVIE" })
+                        updateSection(binding.layoutSeries, seriesAdapter, historyList.filter { it.contentType == "SERIES" })
                     }
                 }
+
             }
         }
     }
