@@ -99,7 +99,7 @@ class AppContainer(context: Context) {
 
     // ── DAO ──
     private val playlistDao = database.playlistDao()
-    private val channelDao = database.channelDao()
+    val channelDao = database.channelDao()
     private val historyDao = database.watchHistoryDao()
     val categoryDao = database.categoryDao()
 
@@ -121,10 +121,10 @@ class AppContainer(context: Context) {
 
     private val m3uParser = M3UParser()
 
-    private val xstreamParser = XstreamParser()
+    val xstreamParser = XstreamParser()
 
     // ── Repository ──
-    private val playlistRepository: PlaylistRepository = PlaylistRepositoryImpl(
+     val playlistRepository: PlaylistRepository = PlaylistRepositoryImpl(
         context        = context,
         playlistDao    = playlistDao,
         channelDao     = channelDao,

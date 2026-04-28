@@ -1,7 +1,6 @@
-package com.example.anotheriptv.presentation.xstream.movie
+package com.example.anotheriptv.presentation.xstream.series
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -18,11 +17,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.anotheriptv.MyApp
 import com.example.anotheriptv.R
-import com.example.anotheriptv.databinding.FragmentSearchMovieBinding
+import com.example.anotheriptv.databinding.FragmentSearchSeriesBinding
 import com.example.anotheriptv.presentation.xstream.ContainerXstreamActivity
-import com.example.anotheriptv.presentation.xstream.movie.Adapter.ItemMovieXstreamAllAdapter
-import com.example.anotheriptv.presentation.xstream.movie.ViewModel.MovieXstreamViewModel
-import com.example.anotheriptv.presentation.xstream.movie.ViewModelFactory.MovieXstreamViewModelFactory
+import com.example.anotheriptv.presentation.xstream.series.Adapter.CategoryAdapter
+import com.example.anotheriptv.presentation.xstream.series.Adapter.ItemSeriesXstreamAllAdapter
+import com.example.anotheriptv.presentation.xstream.series.ViewModel.SeriesXstreamViewModel
+import com.example.anotheriptv.presentation.xstream.series.ViewModelFactory.SeriesXstreamViewModelFactory
 import com.example.anotheriptv.utils.GridSpacingItemDecoration
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -30,13 +30,13 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlin.text.contains
 
-class SearchMovieFragment : Fragment() {
+class SearchSeriesFragment : Fragment() {
 
-    private var _binding: FragmentSearchMovieBinding? = null
+    private var _binding: FragmentSearchSeriesBinding? = null
     private val binding get() = _binding!!
 
     private var playlistId: Long = -1L
-    private lateinit var movieAdapter: ItemMovieXstreamAllAdapter
+    private lateinit var seriesAdapter: ItemSeriesXstreamAllAdapter
     private var searchJob: Job? = null
 
     private val keyboardLayoutListener = ViewTreeObserver.OnGlobalLayoutListener {
@@ -52,12 +52,15 @@ class SearchMovieFragment : Fragment() {
         }
     }
 
-    private val viewModel: MovieXstreamViewModel by activityViewModels {
+
+    private val viewModel: SeriesXstreamViewModel by activityViewModels {
         val container = (requireActivity().application as MyApp).container
-        MovieXstreamViewModelFactory(
+        SeriesXstreamViewModelFactory(
             container.channelRepository,
             container.categoryDao,
-            container.addWatchHistoryUseCase
+            container.addWatchHistoryUseCase,
+            container.channelDao,
+            container.xstreamParser
         )
     }
 
@@ -66,7 +69,7 @@ class SearchMovieFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentSearchMovieBinding.inflate(inflater, container, false)
+        _binding = FragmentSearchSeriesBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -79,32 +82,33 @@ class SearchMovieFragment : Fragment() {
 
         setupRecyclerView()
         setupSearchLogic()
+
         binding.ivClearSearch.setOnClickListener {
             closeKeyboard()
             parentFragmentManager.popBackStack()
         }
+
     }
 
     private fun setupRecyclerView() {
-        movieAdapter = ItemMovieXstreamAllAdapter { channel ->
-            val intent = Intent(requireContext(), DetailMovieActivity::class.java).apply {
-                putExtra(DetailMovieActivity.EXTRA_LOGO,         channel.logo)
-                putExtra(DetailMovieActivity.EXTRA_NAME,         channel.name)
-                putExtra(DetailMovieActivity.EXTRA_RATING,       channel.rating?.toFloat() ?: 0f)
-                putExtra(DetailMovieActivity.EXTRA_RELEASE_DATE, channel.releaseDate.orEmpty())
-                putExtra(DetailMovieActivity.EXTRA_STREAM_URL,   channel.url)
-                putExtra(DetailMovieActivity.EXTRA_CHANNEL_ID,   channel.id)
-                putExtra(DetailMovieActivity.EXTRA_PLAYLIST_ID,  playlistId)
-            }
-            startActivity(intent)
+        seriesAdapter = ItemSeriesXstreamAllAdapter { channel ->
+            parentFragmentManager.beginTransaction()
+                .replace(
+                    R.id.fragment_container,
+                    SeriesDetailFragment.newInstance(
+                        channel    = channel,
+                        playlistId = playlistId
+                    )
+                )
+                .addToBackStack(null)
+                .commit()
         }
 
         binding.recyclerSearch.apply {
-            adapter = movieAdapter
+            adapter = seriesAdapter
             layoutManager = GridLayoutManager(requireContext(), 3)
             addItemDecoration(GridSpacingItemDecoration(spanCount = 3, spacing = 8))
         }
-
     }
 
     private fun setupSearchLogic() {
@@ -127,7 +131,7 @@ class SearchMovieFragment : Fragment() {
         searchJob?.cancel()
 
         if (query.length < 2) {
-            movieAdapter.submitList(emptyList())
+            seriesAdapter.submitList(emptyList())
             binding.layoutEmpty.visibility = View.GONE
             binding.progressBar.visibility = View.GONE
             return
@@ -139,7 +143,7 @@ class SearchMovieFragment : Fragment() {
         searchJob = viewLifecycleOwner.lifecycleScope.launch {
             delay(150)
 
-            val allLive = viewModel.allMovies.value
+            val allLive = viewModel.allSeries.value
             val filtered = withContext(Dispatchers.Default) {
                 allLive.filter { channel ->
                     channel.name.contains(query, ignoreCase = true) ||
@@ -149,15 +153,21 @@ class SearchMovieFragment : Fragment() {
             }
 
             if (isActive) {
-                // Ẩn progress, hiện kết quả
                 binding.progressBar.visibility = View.GONE
                 binding.recyclerSearch.visibility = View.VISIBLE
-                movieAdapter.submitList(filtered)
+                seriesAdapter.submitList(filtered)
                 binding.layoutEmpty.visibility = if (filtered.isEmpty()) View.VISIBLE else View.GONE
             }
         }
     }
 
+    private fun updateParentMenuVisibility(show: Boolean) {
+        (requireActivity() as? ContainerXstreamActivity)?.let { activity ->
+            // Giả sử thanh menu của bạn có ID là bottom_navigation_view
+            val menu = activity.findViewById<View>(R.id.bottom_navigation)
+            menu?.visibility = if (show) View.VISIBLE else View.GONE
+        }
+    }
 
     private fun showKeyboard() {
         binding.etSearch.post {
@@ -173,24 +183,18 @@ class SearchMovieFragment : Fragment() {
         imm.hideSoftInputFromWindow(binding.etSearch.windowToken, 0)
     }
 
-    private fun updateParentMenuVisibility(show: Boolean) {
-        (requireActivity() as? ContainerXstreamActivity)?.let { activity ->
-            // Giả sử thanh menu của bạn có ID là bottom_navigation_view
-            val menu = activity.findViewById<View>(R.id.bottom_navigation)
-            menu?.visibility = if (show) View.VISIBLE else View.GONE
-        }
-    }
-
     override fun onDestroyView() {
+        view?.viewTreeObserver?.removeOnGlobalLayoutListener(keyboardLayoutListener)
         super.onDestroyView()
         _binding = null
     }
 
     companion object {
-        fun newInstance(playlistId: Long) = SearchMovieFragment().apply {
+        fun newInstance(playlistId: Long) = SearchSeriesFragment().apply {
             arguments = Bundle().apply {
                 putLong("playlistId", playlistId)
             }
         }
     }
+
 }

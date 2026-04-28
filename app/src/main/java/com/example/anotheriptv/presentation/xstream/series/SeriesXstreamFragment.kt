@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.anotheriptv.MyApp
+import com.example.anotheriptv.R
 import com.example.anotheriptv.databinding.FragmentSeriesXstreamBinding
 import com.example.anotheriptv.presentation.xstream.series.Adapter.CategoryAdapter
 import com.example.anotheriptv.presentation.xstream.series.ViewModelFactory.SeriesXstreamViewModelFactory
@@ -31,7 +32,9 @@ class SeriesXstreamFragment : Fragment() {
         SeriesXstreamViewModelFactory(
             container.channelRepository,
             container.categoryDao,
-            container.addWatchHistoryUseCase
+            container.addWatchHistoryUseCase,
+            container.channelDao,
+            container.xstreamParser
         )
     }
 
@@ -53,14 +56,35 @@ class SeriesXstreamFragment : Fragment() {
         viewModel.loadLiveChannels(playlistId)
 
         binding.ivSearch.setOnClickListener {
+            val fragment = SearchSeriesFragment.newInstance(playlistId)
+            parentFragmentManager.beginTransaction()
+                .setCustomAnimations(
+                    android.R.anim.fade_in,
+                    android.R.anim.fade_out,
+                    android.R.anim.fade_in,
+                    android.R.anim.fade_out
+                )
+                .replace(R.id.fragment_container, fragment)
+                .addToBackStack(null)
+                .commit()
         }
 
     }
 
     private fun setupRecyclerView() {
         categoryAdapter = CategoryAdapter(
-            onChannelClick = { channel ->
 
+            onChannelClick = { channel ->
+                parentFragmentManager.beginTransaction()
+                    .replace(
+                        R.id.fragment_container,
+                        SeriesDetailFragment.newInstance(
+                            channel    = channel,
+                            playlistId = playlistId
+                        )
+                    )
+                    .addToBackStack(null)
+                    .commit()
             },
 
             onViewAllClick = { category ->

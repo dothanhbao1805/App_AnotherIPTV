@@ -5,40 +5,77 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_main"> <com.google.android.material.appbar.AppBarLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:backgroundTint="@color/bg_main" app:elevation="0dp">
+    android:background="@color/bg_main">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize">
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/bg_main"
+        app:elevation="0dp">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/title_history"
+                android:textAppearance="@style/TextAppearance.AnotherIPTV.ToolbarTitle" />
+
+            <ImageView
+                android:id="@+id/ivMore"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginEnd="@dimen/spacing_large"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@drawable/ic_more_vert"
+                app:tint="@color/text_primary" />
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutEmpty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="32dp"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/ic_history"
+            app:tint="#BDBDBD" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/title_history"
-            android:textAppearance="@style/TextAppearance.AnotherIPTV.ToolbarTitle" />
+            android:layout_marginTop="16dp"
+            android:text="History"
+            android:textColor="#9E9E9E"
+            android:textSize="22sp"
+            android:textStyle="bold" />
 
-        <ImageView
-            android:id="@+id/ivMore"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_gravity="end|center_vertical"
-            android:layout_marginEnd="@dimen/spacing_large"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:clickable="true"
-            android:focusable="true"
-            android:src="@drawable/ic_more_vert"
-            app:tint="@color/text_primary" />
-
-    </androidx.appcompat.widget.Toolbar>
-
-</com.google.android.material.appbar.AppBarLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Your watched videos will appear here"
+            android:textColor="#BDBDBD"
+            android:textSize="16sp"
+            android:textAlignment="center" />
+    </LinearLayout>
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollViewContent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
@@ -49,79 +86,71 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingTop="@dimen/spacing_medium"
+            android:paddingHorizontal="@dimen/spacing_large">
 
             <LinearLayout
+                android:id="@+id/layoutLive"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingTop="@dimen/spacing_medium"
-                android:paddingHorizontal="@dimen/spacing_large">
-
-                <!-- Cụm LIVE -->
-                <LinearLayout
-                    android:id="@+id/layoutLive"
+                android:visibility="gone">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/spacing_medium"
+                    android:text="@string/section_live_streams"
+                    android:textAppearance="@style/TextAppearance.AnotherIPTV.ToolbarTitle" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerLive"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:visibility="gone">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/spacing_medium"
-                        android:text="@string/section_live_streams"
-                        android:textAppearance="@style/TextAppearance.AnotherIPTV.ToolbarTitle" />
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerLive"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:nestedScrollingEnabled="false"
-                        tools:listitem="@layout/item_history" />
-                </LinearLayout>
+                    android:nestedScrollingEnabled="false" />
+            </LinearLayout>
 
-                <!-- Cụm MOVIE -->
-                <LinearLayout
-                    android:id="@+id/layoutMovie"
+            <LinearLayout
+                android:id="@+id/layoutMovie"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/spacing_medium"
+                    android:text="Movies"
+                    android:textAppearance="@style/TextAppearance.AnotherIPTV.ToolbarTitle" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerMovie"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_large"
-                    android:orientation="vertical"
-                    android:visibility="gone">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/spacing_medium"
-                        android:text="Movies"
-                        android:textAppearance="@style/TextAppearance.AnotherIPTV.ToolbarTitle" />
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerMovie"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:nestedScrollingEnabled="false"
-                        tools:listitem="@layout/item_history" />
-                </LinearLayout>
+                    android:nestedScrollingEnabled="false" />
 
-                <!-- Cụm SERIES -->
-                <LinearLayout
-                    android:id="@+id/layoutSeries"
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutSeries"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:orientation="vertical"
+                android:visibility="gone">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/spacing_medium"
+                    android:text="Series"
+                    android:textAppearance="@style/TextAppearance.AnotherIPTV.ToolbarTitle" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerSeries"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_large"
-                    android:orientation="vertical"
-                    android:visibility="gone">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/spacing_medium"
-                        android:text="Series"
-                        android:textAppearance="@style/TextAppearance.AnotherIPTV.ToolbarTitle" />
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerSeries"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:nestedScrollingEnabled="false"
-                        tools:listitem="@layout/item_history" />
-                </LinearLayout>
+                    android:nestedScrollingEnabled="false" />
 
             </LinearLayout>
 

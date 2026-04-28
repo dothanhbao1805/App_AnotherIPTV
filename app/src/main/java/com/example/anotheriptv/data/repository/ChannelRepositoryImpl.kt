@@ -59,4 +59,9 @@ class ChannelRepositoryImpl(
             .map { entities -> entities.map { channelMapper.toDomain(it) } }
     }
 
+    override fun getEpisodesBySeriesId(playlistId: Long, seriesId: Long): Flow<List<Channel>> {
+        return channelDao.getEpisodesBySeriesId(playlistId, seriesId)
+            .map { entities -> entities.map { channelMapper.toDomain(it) } }
+    }
+
 }

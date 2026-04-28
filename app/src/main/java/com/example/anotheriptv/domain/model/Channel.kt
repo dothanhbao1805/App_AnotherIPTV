@@ -1,5 +1,8 @@
 package com.example.anotheriptv.domain.model
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class Channel(
     val id: Long = 0,
     val playlistId: Long,
@@ -23,4 +26,4 @@ data class Channel(
     val seasonNumber: Int? = null,
     val episodeNumber: Int? = null,
     val episodeDuration: Int? = null
-)
+) : Parcelable

@@ -24,4 +24,6 @@ interface ChannelRepository {
 
     fun getChannelsByContentType(playlistId: Long, contentType: String): Flow<List<Channel>>
 
+    fun getEpisodesBySeriesId(playlistId: Long, seriesId: Long): Flow<List<Channel>>
+
 }
