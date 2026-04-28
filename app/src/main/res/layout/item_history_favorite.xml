@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardHistory"
+    android:layout_width="@dimen/card_history_width"
+    android:layout_height="@dimen/card_history_height"
+    android:layout_marginEnd="@dimen/spacing_medium"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackground"
+    app:cardBackgroundColor="?attr/colorSurfaceVariant"
+    app:cardCornerRadius="@dimen/radius_card"
+    app:cardElevation="2dp">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/ivLogo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/spacing_medium"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_tv_placeholder" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_gravity="bottom"
+            android:background="@drawable/gradient_bottom" />
+
+        <TextView
+            android:id="@+id/tvChannelName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:padding="@dimen/spacing_small"
+            android:textAppearance="?attr/textAppearanceLabelLarge"
+            android:textColor="@android:color/white"
+            tools:text="VTV1 HD (1080p)" />
+
+        <ImageView
+            android:id="@+id/ivRemove"
+            android:layout_width="@dimen/icon_size_small"
+            android:layout_height="@dimen/icon_size_small"
+            android:layout_gravity="top|end"
+            android:layout_margin="@dimen/spacing_small"
+            android:background="@drawable/bg_remove_btn"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="@dimen/spacing_tiny"
+            android:src="@drawable/ic_favorite_filled" />
+
+    </FrameLayout>
+
+</androidx.cardview.widget.CardView>

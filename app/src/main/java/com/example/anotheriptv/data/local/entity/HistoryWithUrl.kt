@@ -8,5 +8,6 @@ data class HistoryWithUrl(
     val channelLogo: String,
     val streamUrl: String?,
     val watchedAt: Long,
-    val contentType: String
+    val contentType: String,
+    val isFavorite: Boolean,
 )

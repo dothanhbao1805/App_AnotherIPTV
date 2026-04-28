@@ -64,4 +64,13 @@ class ChannelRepositoryImpl(
             .map { entities -> entities.map { channelMapper.toDomain(it) } }
     }
 
+    override suspend fun getChannelByUrl(url: String): Channel? {
+        val entity = channelDao.getChannelByUrl(url)
+        return entity?.let { channelMapper.toDomain(it) }
+    }
+
+    override suspend fun updateFavoriteStatus(url: String, isFavorite: Boolean) {
+        channelDao.updateFavoriteStatus(url, isFavorite)
+    }
+
 }

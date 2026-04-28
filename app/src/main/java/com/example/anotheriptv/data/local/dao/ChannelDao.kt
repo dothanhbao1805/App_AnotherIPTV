@@ -122,4 +122,14 @@ interface ChannelDao {
 """)
     fun getEpisodesBySeriesId(playlistId: Long, seriesId: Long): Flow<List<ChannelEntity>>
 
+    @Query("UPDATE channels SET isFavorite = :isFavorite WHERE url = :streamUrl")
+    suspend fun updateFavoriteStatus(streamUrl: String, isFavorite: Boolean)
+
+    @Query("SELECT * FROM channels WHERE isFavorite = 1")
+    fun getFavoriteChannels(): Flow<List<ChannelEntity>>
+
+    @androidx.room.Query("SELECT * FROM channels WHERE url = :url LIMIT 1")
+    suspend fun getChannelByUrl(url: String): ChannelEntity?
+
+
 }

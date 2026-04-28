@@ -7,7 +7,6 @@ import com.example.anotheriptv.data.local.entity.HistoryWithUrl
 import com.example.anotheriptv.data.local.entity.WatchHistoryEntity
 import kotlinx.coroutines.flow.Flow
 
-
 @Dao
 interface WatchHistoryDao {
 
@@ -20,14 +19,14 @@ interface WatchHistoryDao {
             h.channelLogo,
             c.url as streamUrl,
             h.watchedAt,
-            c.contentType
+            c.contentType,
+            c.isFavorite -- PHẢI THÊM CỘT NÀY
         FROM watch_history h
         LEFT JOIN channels c ON h.channelId = c.id
         ORDER BY h.watchedAt DESC
     """)
     fun getAll(): Flow<List<HistoryWithUrl>>
 
-    // Sửa getByPlaylistId để lấy thêm contentType
     @Query("""
         SELECT 
             h.id as historyId,
@@ -37,7 +36,8 @@ interface WatchHistoryDao {
             h.channelLogo,
             c.url as streamUrl,
             h.watchedAt,
-            c.contentType
+            c.contentType,
+            c.isFavorite -- PHẢI THÊM CỘT NÀY
         FROM watch_history h
         LEFT JOIN channels c ON h.channelId = c.id
         WHERE h.playlistId = :playlistId
@@ -45,19 +45,19 @@ interface WatchHistoryDao {
     """)
     fun getByPlaylistId(playlistId: Long): Flow<List<HistoryWithUrl>>
 
-    // Sửa getHistoryWithCategory: Thay h.* bằng tên cột cụ thể và thêm streamUrl
     @Query("""
         SELECT 
-            h.id as historyId,
+            h.id as historyId, -- Đồng bộ cách đặt tên ID
             h.channelId,
             h.playlistId,
             h.channelName,
             h.channelLogo,
             c.url as streamUrl,
             h.watchedAt,
-            c.contentType
+            c.contentType,
+            c.isFavorite 
         FROM watch_history h 
-        INNER JOIN channels c ON h.channelId = c.id 
+        LEFT JOIN channels c ON h.channelId = c.id 
         WHERE h.playlistId = :playlistId 
         ORDER BY h.watchedAt DESC
     """)
@@ -74,4 +74,22 @@ interface WatchHistoryDao {
 
     @Query("DELETE FROM watch_history")
     suspend fun clearAll()
+
+    @Query("""
+        SELECT 
+            h.id as historyId,
+            h.channelId,
+            h.playlistId,
+            h.channelName,
+            h.channelLogo,
+            c.url as streamUrl,
+            h.watchedAt,
+            c.contentType, -- Thêm cho đủ field của HistoryWithUrl
+            c.isFavorite 
+        FROM watch_history h 
+        LEFT JOIN channels c ON h.channelId = c.id 
+        WHERE h.playlistId = :playlistId 
+        ORDER BY h.watchedAt DESC
+    """)
+    fun getWatchHistoryWithUrl(playlistId: Long): Flow<List<HistoryWithUrl>>
 }
