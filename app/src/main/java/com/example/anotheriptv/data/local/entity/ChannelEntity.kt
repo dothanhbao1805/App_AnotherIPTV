@@ -3,7 +3,14 @@ package com.example.anotheriptv.data.local.entity
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "channels")
+@Entity(tableName = "channels",
+    indices = [
+        androidx.room.Index(
+            value = ["playlistId", "seriesId", "seasonNumber", "episodeNumber"],
+            unique = true // Ngăn chặn trùng lặp bộ 4 thông tin này
+        )
+    ]
+)
 data class ChannelEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,

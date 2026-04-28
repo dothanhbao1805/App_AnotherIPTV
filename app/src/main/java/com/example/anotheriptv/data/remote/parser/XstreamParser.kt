@@ -69,6 +69,7 @@ class XstreamParser {
         return channels
     }
 
+
     fun parseSeries(
         json: String, playlistId: Long,
         baseUrl: String, username: String, password: String,
@@ -81,6 +82,8 @@ class XstreamParser {
             val obj        = array.optJSONObject(i) ?: continue
             val seriesId   = obj.optLong("series_id", 0L)
             val categoryId = obj.optString("category_id", "")
+            val youtubeId  = obj.optString("youtube_trailer", "").ifBlank { null }
+            val trailerUrl = youtubeId?.let { "https://www.youtube.com/watch?v=$it" }
 
             channels.add(ChannelEntity(
                 playlistId  = playlistId,
@@ -95,16 +98,17 @@ class XstreamParser {
                 genre       = obj.optString("genre", "").ifBlank { null },
                 cast        = obj.optString("cast", "").ifBlank { null },
                 description = obj.optString("plot", "").ifBlank { null },
+                trailerUrl  = trailerUrl,   // ← thêm dòng này
                 seriesId    = seriesId
             ))
         }
         return channels
     }
 
-//    cần sửa lại
     fun parseEpisodes(
         json: String, playlistId: Long, seriesName: String,
-        baseUrl: String, username: String, password: String
+        baseUrl: String, username: String, password: String,
+        seriesId: Long = 0L   // ← thêm param này
     ): List<ChannelEntity> {
         val channels = mutableListOf<ChannelEntity>()
         val root     = tryParseObject(json) ?: return channels
@@ -117,10 +121,11 @@ class XstreamParser {
             val episodeArray = episodes.optJSONArray(seasonKey) ?: continue
 
             for (i in 0 until episodeArray.length()) {
-                val ep  = episodeArray.optJSONObject(i) ?: continue
-                val ext = ep.optString("container_extension", "mp4")
-                val id  = ep.optString("id", "")
-                val url = ep.optString("direct_source", "")
+                val ep   = episodeArray.optJSONObject(i) ?: continue
+                val info = ep.optJSONObject("info")
+                val ext  = ep.optString("container_extension", "mp4")
+                val id   = ep.optString("id", "")
+                val url  = ep.optString("direct_source", "")
                     .ifBlank { "$baseUrl/series/$username/$password/$id.$ext" }
 
                 channels.add(ChannelEntity(
@@ -128,13 +133,16 @@ class XstreamParser {
                     contentType     = "SERIES",
                     name            = ep.optString("title", "$seriesName S${seasonNumber}E${i + 1}"),
                     url             = url,
-                    logo            = ep.optString("movie_image", ""),
+                    logo            = info?.optString("movie_image", "").orEmpty(),
                     category        = "Series",
                     categoryId      = "",
-                    description     = ep.optString("plot", "").ifBlank { null },
-                    episodeDuration = ep.optString("duration_secs", "").toIntOrNull()?.let { it / 60 },
+                    description     = info?.optString("plot", "").orEmpty().ifBlank { null },
+                    rating          = info?.optString("rating", "")?.toFloatOrNull(),
+                    releaseDate     = info?.optString("releasedate", "").orEmpty().ifBlank { null },
+                    episodeDuration = info?.optString("duration_secs", "")?.toIntOrNull()?.let { it / 60 },
                     seasonNumber    = seasonNumber,
-                    episodeNumber   = ep.optString("episode_num", "").toIntOrNull()
+                    episodeNumber   = ep.optString("episode_num", "").toIntOrNull(),
+                    seriesId        = seriesId   // ← set đúng seriesId
                 ))
             }
         }

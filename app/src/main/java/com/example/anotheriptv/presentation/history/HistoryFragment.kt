@@ -138,24 +138,30 @@ class HistoryFragment : Fragment() {
     private fun observeViewModel() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                // Lắng nghe dữ liệu trả về từ Flow<List<HistoryWithUrl>>
                 viewModel.historyChannels.collect { historyList ->
                     Log.d("DEBUG_HISTORY", "Nhận được: ${historyList.size} mục lịch sử")
 
-                    // 1. Phân loại cho Live Streams
-                    val liveList = historyList.filter { it.contentType == "LIVE" }
-                    updateSection(binding.layoutLive, liveAdapter, liveList)
+                    // KIỂM TRA TRẠNG THÁI TRỐNG
+                    if (historyList.isEmpty()) {
+                        binding.layoutEmpty.visibility = View.VISIBLE
+                        binding.scrollViewContent.visibility = View.GONE
+                    } else {
+                        binding.layoutEmpty.visibility = View.GONE
+                        binding.scrollViewContent.visibility = View.VISIBLE
 
-                    // 2. Phân loại cho Movies
-                    val movieList = historyList.filter { it.contentType == "MOVIE" }
-                    updateSection(binding.layoutMovie, movieAdapter, movieList)
+                        // 1. Phân loại cho Live Streams
+                        val liveList = historyList.filter { it.contentType == "LIVE" }
+                        updateSection(binding.layoutLive, liveAdapter, liveList)
 
-                    // 3. Phân loại cho Series
-                    val seriesList = historyList.filter { it.contentType == "SERIES" }
-                    updateSection(binding.layoutSeries, seriesAdapter, seriesList)
+                        // 2. Phân loại cho Movies
+                        val movieList = historyList.filter { it.contentType == "MOVIE" }
+                        updateSection(binding.layoutMovie, movieAdapter, movieList)
 
+                        // 3. Phân loại cho Series
+                        val seriesList = historyList.filter { it.contentType == "SERIES" }
+                        updateSection(binding.layoutSeries, seriesAdapter, seriesList)
+                    }
                 }
-
             }
         }
     }
@@ -192,8 +198,6 @@ class HistoryFragment : Fragment() {
             popup.setOnMenuItemClickListener { item ->
                 when (item.itemId) {
                     R.id.action_refresh -> {
-                        // Vì dùng Flow, dữ liệu tự động refresh rồi nên không cần làm gì ở đây,
-                        // hoặc bạn có thể tạo 1 hiệu ứng Toast nhẹ báo "Đã làm mới"
                         true
                     }
                     R.id.action_clear_all -> {

@@ -7,6 +7,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import android.view.inputmethod.InputMethodManager
@@ -15,7 +16,9 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.anotheriptv.MyApp
+import com.example.anotheriptv.R
 import com.example.anotheriptv.databinding.FragmentSearchLiveXstreamBinding
+import com.example.anotheriptv.presentation.xstream.ContainerXstreamActivity
 import com.example.anotheriptv.presentation.xstream.live.Adapter.ItemLiveXstreamAllAdapter
 import com.example.anotheriptv.presentation.xstream.live.ViewModel.LiveXstreamViewModel
 import com.example.anotheriptv.presentation.xstream.live.ViewModelFactory.LiveXstreamViewModelFactory
@@ -44,6 +47,19 @@ class SearchLiveXstreamFragment : Fragment() {
         )
     }
 
+    private val keyboardLayoutListener = ViewTreeObserver.OnGlobalLayoutListener {
+        _binding?.let { b ->
+            val rect = android.graphics.Rect()
+            b.root.getWindowVisibleDisplayFrame(rect)
+
+            val screenHeight = b.root.rootView.height
+            val keypadHeight = screenHeight - rect.bottom
+            val isKeyboardNowVisible = keypadHeight > screenHeight * 0.15
+
+            updateParentMenuVisibility(!isKeyboardNowVisible)
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -56,6 +72,7 @@ class SearchLiveXstreamFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        view.viewTreeObserver.addOnGlobalLayoutListener(keyboardLayoutListener)
         playlistId = arguments?.getLong("playlistId") ?: -1L
 
         setupRecyclerView()
@@ -130,6 +147,14 @@ class SearchLiveXstreamFragment : Fragment() {
                 liveAdapter.submitList(filtered)
                 binding.layoutEmpty.visibility = if (filtered.isEmpty()) View.VISIBLE else View.GONE
             }
+        }
+    }
+
+    private fun updateParentMenuVisibility(show: Boolean) {
+        (requireActivity() as? ContainerXstreamActivity)?.let { activity ->
+            // Giả sử thanh menu của bạn có ID là bottom_navigation_view
+            val menu = activity.findViewById<View>(R.id.bottom_navigation)
+            menu?.visibility = if (show) View.VISIBLE else View.GONE
         }
     }
 
