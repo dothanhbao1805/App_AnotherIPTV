@@ -16,11 +16,13 @@ import com.example.anotheriptv.MyApp
 import com.example.anotheriptv.R
 import com.example.anotheriptv.data.local.entity.HistoryWithUrl
 import com.example.anotheriptv.databinding.FragmentHistoryBinding
-import com.example.anotheriptv.domain.model.WatchHistory
 import com.example.anotheriptv.presentation.history.Adapter.HistoryAdapter
 import com.example.anotheriptv.presentation.history.ViewModel.HistoryViewModel
 import com.example.anotheriptv.presentation.history.ViewModelFactory.HistoryViewModelFactory
 import com.example.anotheriptv.presentation.player.m3u.PlayerActivity
+import com.example.anotheriptv.presentation.player.xstream.PlayerLiveXstreamActivity
+import com.example.anotheriptv.presentation.player.xstream.PlayerMoviesXstreamActivity
+import com.example.anotheriptv.presentation.xstream.movie.DetailMovieActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -94,6 +96,7 @@ class HistoryFragment : Fragment() {
                     // Lưu ý: Do dùng Flow, danh sách sẽ tự cập nhật và mục này tự biến mất
                 }
             }
+
         )
 
         // Khởi tạo các adapter còn lại
@@ -132,9 +135,28 @@ class HistoryFragment : Fragment() {
             android.widget.Toast.makeText(requireContext(), "Không tìm thấy URL stream", android.widget.Toast.LENGTH_SHORT).show()
             return
         }
-        val intent = android.content.Intent(requireContext(), PlayerActivity::class.java).apply {
-            putExtra("channelName", historyItem.channelName)
-            putExtra("streamUrl", historyItem.streamUrl)
+
+        val intent = when (historyItem.contentType) {
+            "LIVE" -> android.content.Intent(requireContext(), PlayerLiveXstreamActivity::class.java).apply {
+                putExtra("channelName", historyItem.channelName)
+                putExtra("streamUrl",   historyItem.streamUrl)
+                putExtra("playlistId",  playlistId)
+                putExtra("contentType", historyItem.contentType)
+            }
+            "MOVIE" -> android.content.Intent(requireContext(), DetailMovieActivity::class.java).apply {
+                putExtra(DetailMovieActivity.EXTRA_NAME,         historyItem.channelName)
+                putExtra(DetailMovieActivity.EXTRA_LOGO,         historyItem.channelLogo ?: "")
+                putExtra(DetailMovieActivity.EXTRA_STREAM_URL,   historyItem.streamUrl ?: "")
+                putExtra(DetailMovieActivity.EXTRA_PLAYLIST_ID,  playlistId)
+                putExtra(DetailMovieActivity.EXTRA_CHANNEL_ID,   historyItem.channelId)
+                putExtra(DetailMovieActivity.EXTRA_RATING,        historyItem.rating)
+                putExtra(DetailMovieActivity.EXTRA_STREAM_ID,    historyItem.streamId)
+                putExtra(DetailMovieActivity.EXTRA_RELEASE_DATE, historyItem.releaseDate)
+            }
+            else -> android.content.Intent(requireContext(), PlayerActivity::class.java).apply {
+                putExtra("channelName", historyItem.channelName)
+                putExtra("streamUrl",   historyItem.streamUrl)
+            }
         }
         startActivity(intent)
     }

@@ -186,7 +186,7 @@
 
     <!-- Info Panel -->
     <include
-        layout="@layout/layout_info_panel"
+        layout="@layout/layout_info_movies_panel"
         android:id="@+id/layoutInfoPanel"
         android:layout_width="0dp"
         android:layout_height="match_parent"

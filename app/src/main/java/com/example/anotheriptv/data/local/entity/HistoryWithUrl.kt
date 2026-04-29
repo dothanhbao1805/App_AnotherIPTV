@@ -10,4 +10,7 @@ data class HistoryWithUrl(
     val watchedAt: Long,
     val contentType: String,
     val isFavorite: Boolean,
+    val rating: Float = 0f,
+    val streamId: String = "",
+    val releaseDate: String = ""
 )
