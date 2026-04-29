@@ -99,6 +99,9 @@ interface WatchHistoryDao {
     @Query("DELETE FROM watch_history WHERE id = :id")
     suspend fun deleteById(id: Long)
 
+    @Query("DELETE FROM watch_history WHERE channelId = :channelId AND playlistId = :playlistId")
+    suspend fun deleteByChannelId(channelId: Long, playlistId: Long)
+
     @Insert
     suspend fun insert(entity: WatchHistoryEntity)
 

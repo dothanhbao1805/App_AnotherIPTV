@@ -33,4 +33,6 @@ interface ChannelRepository {
     suspend fun getAllChannels(): List<Channel>
     suspend fun getAllCategoriesWithChannels(playlistId: Long, contentType: String): List<CategoryWithChannels>
 
+    suspend fun getChannelById(channelId: Long): Channel?
+
 }
