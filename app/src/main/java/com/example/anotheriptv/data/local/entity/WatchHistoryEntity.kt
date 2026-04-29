@@ -11,5 +11,8 @@ data class WatchHistoryEntity(
     val playlistId: Long,
     val channelName: String,
     val channelLogo: String,
-    val watchedAt: Long
+    val watchedAt: Long,
+    val rating: Float = 0f,
+    val streamId: String = "",
+    val releaseDate: String = ""
 )

@@ -82,6 +82,7 @@ class MovieXstreamFragment : Fragment() {
                     putExtra(DetailMovieActivity.EXTRA_STREAM_URL,   channel.url)
                     putExtra(DetailMovieActivity.EXTRA_CHANNEL_ID,   channel.id)
                     putExtra(DetailMovieActivity.EXTRA_PLAYLIST_ID,  playlistId)
+                    putExtra(DetailMovieActivity.EXTRA_STREAM_ID,   channel.id)
                 }
                 startActivity(intent)
             },

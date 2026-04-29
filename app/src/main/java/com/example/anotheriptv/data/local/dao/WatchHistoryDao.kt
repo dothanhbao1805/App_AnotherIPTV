@@ -20,7 +20,10 @@ interface WatchHistoryDao {
             c.url as streamUrl,
             h.watchedAt,
             c.contentType,
-            c.isFavorite -- PHẢI THÊM CỘT NÀY
+            c.isFavorite,
+            COALESCE(c.rating, 0) as rating,
+            CAST(h.channelId AS TEXT) as streamId,
+            COALESCE(c.releaseDate, '') as releaseDate
         FROM watch_history h
         LEFT JOIN channels c ON h.channelId = c.id
         ORDER BY h.watchedAt DESC
@@ -37,7 +40,10 @@ interface WatchHistoryDao {
             c.url as streamUrl,
             h.watchedAt,
             c.contentType,
-            c.isFavorite -- PHẢI THÊM CỘT NÀY
+            c.isFavorite,
+            COALESCE(c.rating, 0) as rating,
+            CAST(h.channelId AS TEXT) as streamId,
+            COALESCE(c.releaseDate, '') as releaseDate
         FROM watch_history h
         LEFT JOIN channels c ON h.channelId = c.id
         WHERE h.playlistId = :playlistId
@@ -47,7 +53,7 @@ interface WatchHistoryDao {
 
     @Query("""
         SELECT 
-            h.id as historyId, -- Đồng bộ cách đặt tên ID
+            h.id as historyId,
             h.channelId,
             h.playlistId,
             h.channelName,
@@ -55,13 +61,37 @@ interface WatchHistoryDao {
             c.url as streamUrl,
             h.watchedAt,
             c.contentType,
-            c.isFavorite 
+            c.isFavorite,
+            COALESCE(c.rating, 0) as rating,
+            CAST(h.channelId AS TEXT) as streamId,
+            COALESCE(c.releaseDate, '') as releaseDate
         FROM watch_history h 
         LEFT JOIN channels c ON h.channelId = c.id 
         WHERE h.playlistId = :playlistId 
         ORDER BY h.watchedAt DESC
     """)
     fun getHistoryWithCategory(playlistId: Long): Flow<List<HistoryWithUrl>>
+
+    @Query("""
+        SELECT 
+            h.id as historyId,
+            h.channelId,
+            h.playlistId,
+            h.channelName,
+            h.channelLogo,
+            c.url as streamUrl,
+            h.watchedAt,
+            c.contentType,
+            c.isFavorite,
+            COALESCE(c.rating, 0) as rating,
+            CAST(h.channelId AS TEXT) as streamId,
+            COALESCE(c.releaseDate, '') as releaseDate
+        FROM watch_history h 
+        LEFT JOIN channels c ON h.channelId = c.id 
+        WHERE h.playlistId = :playlistId 
+        ORDER BY h.watchedAt DESC
+    """)
+    fun getWatchHistoryWithUrl(playlistId: Long): Flow<List<HistoryWithUrl>>
 
     @Query("DELETE FROM watch_history WHERE channelId = :channelId AND playlistId = :playlistId")
     suspend fun deleteExisting(channelId: Long, playlistId: Long)
@@ -74,22 +104,4 @@ interface WatchHistoryDao {
 
     @Query("DELETE FROM watch_history")
     suspend fun clearAll()
-
-    @Query("""
-        SELECT 
-            h.id as historyId,
-            h.channelId,
-            h.playlistId,
-            h.channelName,
-            h.channelLogo,
-            c.url as streamUrl,
-            h.watchedAt,
-            c.contentType, -- Thêm cho đủ field của HistoryWithUrl
-            c.isFavorite 
-        FROM watch_history h 
-        LEFT JOIN channels c ON h.channelId = c.id 
-        WHERE h.playlistId = :playlistId 
-        ORDER BY h.watchedAt DESC
-    """)
-    fun getWatchHistoryWithUrl(playlistId: Long): Flow<List<HistoryWithUrl>>
 }

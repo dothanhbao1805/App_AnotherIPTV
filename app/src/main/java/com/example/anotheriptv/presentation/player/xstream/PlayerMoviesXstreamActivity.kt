@@ -17,7 +17,7 @@ import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.anotheriptv.MyApp
 import com.example.anotheriptv.R
-import com.example.anotheriptv.databinding.ActivityPlayerLiveXstreamBinding
+import com.example.anotheriptv.databinding.ActivityPlayerMoviesXstreamBinding
 import com.example.anotheriptv.domain.model.CategoryWithChannels
 import com.example.anotheriptv.presentation.player.xstream.Adapter.CategoryAdapter
 import com.example.anotheriptv.presentation.player.xstream.Adapter.ChannelListAdapter
@@ -33,9 +33,9 @@ import javax.net.ssl.TrustManager
 import javax.net.ssl.X509TrustManager
 
 @OptIn(UnstableApi::class)
-class PlayerLiveXstreamActivity : AppCompatActivity() {
+class PlayerMoviesXstreamActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityPlayerLiveXstreamBinding
+    private lateinit var binding: ActivityPlayerMoviesXstreamBinding
     private var player: ExoPlayer? = null
     private var isFavorite = false
     private var isInfoVisible = false
@@ -47,7 +47,7 @@ class PlayerLiveXstreamActivity : AppCompatActivity() {
     private var isShowingChannels = false
 
     private var playlistId: Long = -1L
-    private var contentType: String = "LIVE"
+    private var contentType: String = "MOVIES"
 
     private var currentCategoryName: String = ""
     private var allCategoriesWithChannels: List<CategoryWithChannels> = emptyList()
@@ -61,13 +61,13 @@ class PlayerLiveXstreamActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityPlayerLiveXstreamBinding.inflate(layoutInflater)
+        binding = ActivityPlayerMoviesXstreamBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         channelName = intent.getStringExtra("channelName") ?: "Channel"
         streamUrl   = intent.getStringExtra("streamUrl")   ?: return
         playlistId  = intent.getLongExtra("playlistId", -1L)
-        contentType = intent.getStringExtra("contentType") ?: "live"
+        contentType = intent.getStringExtra("contentType") ?: "MOVIES"
 
         binding.tvChannelName.text = channelName
 
@@ -237,11 +237,6 @@ class PlayerLiveXstreamActivity : AppCompatActivity() {
             hideListPanel()
         }
 
-        binding.layoutListPanel.btnListBack.setOnClickListener {
-            // Quay lại màn Categories
-            showCategories()
-        }
-
         binding.btnList.setOnClickListener {
             toggleListPanel()
         }
@@ -255,14 +250,12 @@ class PlayerLiveXstreamActivity : AppCompatActivity() {
         isListVisible = true
         binding.layoutListPanel.root.visibility = View.VISIBLE
 
-        // Nếu chưa có data thì load, sau đó show channel list luôn
         if (allCategoriesWithChannels.isEmpty()) {
             lifecycleScope.launch(Dispatchers.IO) {
                 val container = (application as MyApp).container
                 allCategoriesWithChannels = container.channelRepository
                     .getAllCategoriesWithChannels(playlistId, contentType)
 
-                // Tìm category của kênh đang phát
                 currentCategoryName = allCategoriesWithChannels
                     .find { group -> group.channels.any { it.url == streamUrl } }
                     ?.categoryName ?: allCategoriesWithChannels.firstOrNull()?.categoryName ?: ""
@@ -272,7 +265,6 @@ class PlayerLiveXstreamActivity : AppCompatActivity() {
                 }
             }
         } else {
-            // Đã có data rồi thì show luôn
             if (currentCategoryName.isEmpty()) {
                 currentCategoryName = allCategoriesWithChannels
                     .find { group -> group.channels.any { it.url == streamUrl } }
@@ -309,7 +301,7 @@ class PlayerLiveXstreamActivity : AppCompatActivity() {
 
             withContext(Dispatchers.Main) {
                 binding.layoutListPanel.rvList.layoutManager =
-                    LinearLayoutManager(this@PlayerLiveXstreamActivity)
+                    LinearLayoutManager(this@PlayerMoviesXstreamActivity)
                 binding.layoutListPanel.rvList.adapter = CategoryAdapter(
                     categoryItems, currentCategoryNameLocal
                 ) { selected ->
@@ -326,7 +318,7 @@ class PlayerLiveXstreamActivity : AppCompatActivity() {
     private fun showChannelsOfCategory(categoryName: String) {
         isShowingChannels = true
         binding.layoutListPanel.tvListTitle.text = categoryName
-        binding.layoutListPanel.btnListBack.visibility = View.VISIBLE
+        binding.layoutListPanel.btnListBack.visibility = View.GONE
 
         val channels = allCategoriesWithChannels
             .find { it.categoryName == categoryName }
@@ -336,12 +328,10 @@ class PlayerLiveXstreamActivity : AppCompatActivity() {
 
         if (existingAdapter is ChannelListAdapter &&
             binding.layoutListPanel.tvListTitle.text == categoryName) {
-            // Cùng category → chỉ update url highlight, không tạo lại adapter
             existingAdapter.updateCurrentUrl(streamUrl)
         } else {
-            // Khác category → tạo adapter mới
             binding.layoutListPanel.rvList.layoutManager =
-                LinearLayoutManager(this@PlayerLiveXstreamActivity)
+                LinearLayoutManager(this@PlayerMoviesXstreamActivity)
             binding.layoutListPanel.rvList.adapter = ChannelListAdapter(
                 channels, streamUrl
             ) { selected ->
@@ -461,16 +451,33 @@ class PlayerLiveXstreamActivity : AppCompatActivity() {
     private fun showInfoPanel() {
         isInfoVisible = true
 
+        // Lấy data từ intent
+        val logo        = intent.getStringExtra("logo") ?: ""
+        val rating      = intent.getFloatExtra("rating", 0f)
+        val streamId    = intent.getStringExtra("streamId") ?: "—"
+        val releaseDate = intent.getStringExtra("releaseDate") ?: "—"
+
+        // Xác định format từ URL
+        val format = when {
+            streamUrl.contains(".mkv", ignoreCase = true) -> "MKV"
+            streamUrl.contains(".mp4", ignoreCase = true) -> "MP4"
+            streamUrl.contains(".avi", ignoreCase = true) -> "AVI"
+            streamUrl.contains(".m3u8", ignoreCase = true) -> "HLS"
+            else -> "Unknown"
+        }
+
         binding.layoutInfoPanel.tvInfoName.text        = channelName
-        binding.layoutInfoPanel.tvInfoContentType.text = "Live Stream"
-        binding.layoutInfoPanel.tvInfoEpgId.text       = intent.getStringExtra("epgId") ?: "—"
-        binding.layoutInfoPanel.tvInfoStreamId.text    = intent.getStringExtra("streamId") ?: "—"
+        binding.layoutInfoPanel.tvInfoContentType.text = "Movies"
+        binding.layoutInfoPanel.tvInfoFormat.text      = format
+        binding.layoutInfoPanel.tvInfoRating.text      = if (rating > 0f) "$rating / 10" else "—"
+        binding.layoutInfoPanel.tvInfoAddedDate.text   = releaseDate
+        binding.layoutInfoPanel.tvInfoStreamId.text    = streamId
         binding.layoutInfoPanel.tvInfoUrl.text         = streamUrl
 
-        binding.layoutInfoPanel.root.visibility = View.VISIBLE  // ← dùng .root
+        binding.layoutInfoPanel.root.visibility = View.VISIBLE
 
         binding.layoutInfoPanel.btnCopyStreamId.setOnClickListener {
-            copyToClipboard("Stream ID", binding.layoutInfoPanel.tvInfoStreamId.text.toString())
+            copyToClipboard("Stream ID", streamId)
         }
         binding.layoutInfoPanel.btnCopyUrl.setOnClickListener {
             copyToClipboard("URL", streamUrl)
@@ -478,17 +485,18 @@ class PlayerLiveXstreamActivity : AppCompatActivity() {
         binding.layoutInfoPanel.btnCloseInfo.setOnClickListener {
             hideInfoPanel()
         }
+
+    }
+
+    private fun hideInfoPanel() {
+        isInfoVisible = false
+        binding.layoutInfoPanel.root.visibility = View.GONE
     }
 
     private fun copyToClipboard(label: String, text: String) {
         val clipboard = getSystemService(CLIPBOARD_SERVICE) as android.content.ClipboardManager
         clipboard.setPrimaryClip(android.content.ClipData.newPlainText(label, text))
         Toast.makeText(this, "$label copied", Toast.LENGTH_SHORT).show()
-    }
-
-    private fun hideInfoPanel() {
-        isInfoVisible = false
-        binding.layoutInfoPanel.root.visibility = View.GONE
     }
 
 

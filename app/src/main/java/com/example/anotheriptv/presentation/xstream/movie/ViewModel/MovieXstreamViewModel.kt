@@ -46,16 +46,27 @@ class MovieXstreamViewModel(
         }
     }
 
-    fun addToHistory(channelId: Long, playlistId: Long, channelName: String, channelLogo: String) {
+    fun addToHistory(
+        channelId: Long,
+        playlistId: Long,
+        channelName: String,
+        channelLogo: String,
+        rating: Float = 0f,
+        streamId: String = "",
+        releaseDate: String = ""
+    ) {
         viewModelScope.launch(Dispatchers.IO) {
             val historyItem = WatchHistory(
-                id = 0,
-                channelId = channelId,
-                playlistId = playlistId,
+                id          = 0,
+                channelId   = channelId,
+                playlistId  = playlistId,
                 channelName = channelName,
                 channelLogo = channelLogo,
-                streamUrl = "",
-                watchedAt = System.currentTimeMillis()
+                streamUrl   = "",
+                watchedAt   = System.currentTimeMillis(),
+                rating      = rating,
+                streamId    = streamId,
+                releaseDate = releaseDate
             )
             addWatchHistoryUseCase(historyItem)
         }

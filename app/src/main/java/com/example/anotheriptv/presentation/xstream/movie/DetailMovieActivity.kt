@@ -6,14 +6,11 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.example.anotheriptv.MyApp
 import com.example.anotheriptv.R
 import com.example.anotheriptv.databinding.ActivityDetailMovieBinding
-import com.example.anotheriptv.presentation.xstream.movie.Adapter.CategoryAdapter
-import com.example.anotheriptv.presentation.player.m3u.PlayerActivity
+import com.example.anotheriptv.presentation.player.xstream.PlayerMoviesXstreamActivity
 import com.example.anotheriptv.presentation.xstream.movie.ViewModel.MovieXstreamViewModel
 import com.example.anotheriptv.presentation.xstream.movie.ViewModelFactory.MovieXstreamViewModelFactory
 import kotlin.getValue
@@ -21,7 +18,6 @@ import kotlin.getValue
 class DetailMovieActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailMovieBinding
-    private lateinit var categoryAdapter: CategoryAdapter
     private var channelId: Long  = -1L
     private var playlistId: Long = -1L
 
@@ -45,6 +41,7 @@ class DetailMovieActivity : AppCompatActivity() {
         val releaseDate = intent.getStringExtra(EXTRA_RELEASE_DATE).orEmpty()
         val format      = intent.getStringExtra(EXTRA_FORMAT).orEmpty()
         val streamUrl   = intent.getStringExtra(EXTRA_STREAM_URL).orEmpty()
+        val streamId    = intent.getStringExtra(EXTRA_STREAM_ID).orEmpty()
 
         channelId  = intent.getLongExtra(EXTRA_CHANNEL_ID,  -1L)
         playlistId = intent.getLongExtra(EXTRA_PLAYLIST_ID, -1L)
@@ -55,7 +52,7 @@ class DetailMovieActivity : AppCompatActivity() {
         bindFormat(format)
         bindReleaseDate(releaseDate)
         bindTrailer(name)
-        bindStartWatching(name, streamUrl,logo)
+        bindStartWatching(name, streamUrl,logo,rating,streamId,releaseDate)
         bindBackButton()
     }
 
@@ -136,19 +133,27 @@ class DetailMovieActivity : AppCompatActivity() {
 
     // ── Start Watching ────────────────────────────────────────────────────────
 
-    private fun bindStartWatching(channelName: String, streamUrl: String, logo: String) {
+    private fun bindStartWatching(channelName: String, streamUrl: String, logo: String, rating: Float,streamId: String, releaseDate: String) {
         binding.btnStartWatching.setOnClickListener {
             if (channelId != -1L && playlistId != -1L) {
                 viewModel.addToHistory(
                     channelId   = channelId,
                     playlistId  = playlistId,
                     channelName = channelName,
-                    channelLogo = logo
+                    channelLogo = logo,
+                    rating      = rating,
+
                 )
             }
-            startActivity(Intent(this, PlayerActivity::class.java).apply {
+            startActivity(Intent(this, PlayerMoviesXstreamActivity::class.java).apply {
                 putExtra("channelName", channelName)
                 putExtra("streamUrl",   streamUrl)
+                putExtra("logo",logo)
+                putExtra("rating",rating)
+                putExtra("streamId",streamId)
+                putExtra("releaseDate",releaseDate)
+                putExtra("playlistId",  playlistId)
+                putExtra("contentType", "MOVIE")
             })
         }
     }
@@ -170,5 +175,6 @@ class DetailMovieActivity : AppCompatActivity() {
         const val EXTRA_STREAM_URL   = "extra_stream_url"
         const val EXTRA_CHANNEL_ID   = "extra_channel_id"
         const val EXTRA_PLAYLIST_ID  = "extra_playlist_id"
+        const val EXTRA_STREAM_ID = "extra_stream_id"
     }
 }

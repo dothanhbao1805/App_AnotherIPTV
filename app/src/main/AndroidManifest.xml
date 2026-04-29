@@ -19,10 +19,12 @@
         android:theme="@style/Theme.AnotherIPTV"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".presentation.player.xstream.PlayerMoviesXstreamActivity"
+            android:exported="false" />
+        <activity
             android:name=".presentation.player.xstream.PlayerLiveXstreamActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:exported="false" />
-
         <activity
             android:name=".presentation.xstream.movie.DetailMovieActivity"
             android:exported="false" />
