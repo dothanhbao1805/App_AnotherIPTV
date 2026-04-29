@@ -10,5 +10,6 @@ data class WatchHistory(
     val watchedAt: Long,
     val rating: Float = 0f,
     val streamId: String = "",
-    val releaseDate: String = ""
+    val releaseDate: String = "",
+    val addedByFavorite: Boolean = false
 )

@@ -100,7 +100,7 @@ class AppContainer(context: Context) {
     // ── DAO ──
     private val playlistDao = database.playlistDao()
     val channelDao = database.channelDao()
-    private val historyDao = database.watchHistoryDao()
+    val historyDao = database.watchHistoryDao()
     val categoryDao = database.categoryDao()
 
     // ── DataStore ──

@@ -21,11 +21,14 @@ import com.example.anotheriptv.presentation.xstream.series.Adapter.SeasonAdapter
 import com.example.anotheriptv.presentation.xstream.series.ViewModel.SeriesXstreamViewModel
 import com.example.anotheriptv.presentation.xstream.series.ViewModelFactory.SeriesXstreamViewModelFactory
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class SeriesDetailFragment : Fragment() {
 
     private var _binding: FragmentSeriesDetailBinding? = null
     private val binding get() = _binding!!
+    private var isFavorite: Boolean = false
 
     private lateinit var seasonAdapter: SeasonAdapter
 
@@ -74,6 +77,7 @@ class SeriesDetailFragment : Fragment() {
         viewModel.clearSeriesData()
         
         bindHeader()
+        loadFavoriteStatus()
         setupSeasonRecycler()
         observeSeasons()
         observeLoadingState()
@@ -119,7 +123,17 @@ class SeriesDetailFragment : Fragment() {
         }
 
         binding.btnBack.setOnClickListener { parentFragmentManager.popBackStack() }
-        binding.btnFavorite.setOnClickListener { /* TODO */ }
+
+        binding.btnFavorite.setOnClickListener {
+            isFavorite = !isFavorite
+            updateFavoriteIcon(isFavorite)
+            viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
+                val container = (requireActivity().application as MyApp).container
+                // Update isFavorite trong channels table
+                container.channelDao.updateFavorite(channel.id, isFavorite)
+            }
+        }
+
     }
 
     private fun buildTrailerUrl(raw: String?): String? {
@@ -162,6 +176,24 @@ class SeriesDetailFragment : Fragment() {
             } else {
                 android.util.Log.w("SeriesDebug", "No playlist credentials → fallback to DB")
                 viewModel.loadSeasons(playlistId, seriesId)
+            }
+        }
+    }
+
+    private fun loadFavoriteStatus() {
+        isFavorite = false
+        updateFavoriteIcon(false)
+
+        android.util.Log.d("FavoriteDebug", "channel.id = ${channel.id}, channel.name = ${channel.name}, channel.url = ${channel.url}")
+
+        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
+            val container = (requireActivity().application as MyApp).container
+            val channelFromDb = container.channelDao.getChannelById(channel.id)
+            android.util.Log.d("FavoriteDebug", "channelFromDb = ${channelFromDb?.name}, isFavorite = ${channelFromDb?.isFavorite}")
+
+            isFavorite = channelFromDb?.isFavorite ?: false
+            withContext(Dispatchers.Main) {
+                updateFavoriteIcon(isFavorite)
             }
         }
     }
@@ -220,6 +252,11 @@ class SeriesDetailFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun updateFavoriteIcon(isFavorite: Boolean) {
+        val icon = if (isFavorite) R.drawable.ic_favorite_filled else R.drawable.ic_favorite_border
+        binding.btnFavorite.setImageResource(icon)
     }
 
     private fun Int.dpToPx(): Int = (this * resources.displayMetrics.density).toInt()

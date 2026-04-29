@@ -3,6 +3,8 @@ package com.example.anotheriptv.presentation.history.ViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.anotheriptv.data.local.entity.HistoryWithUrl
+import com.example.anotheriptv.domain.model.Channel
+import com.example.anotheriptv.domain.repository.ChannelRepository
 import com.example.anotheriptv.domain.usecase.history.DeleteWatchHistoryUseCase
 import com.example.anotheriptv.domain.usecase.history.GetWatchHistoryUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,7 +16,8 @@ import kotlinx.coroutines.launch
 
 class HistoryViewModel(
     private val getWatchHistoryUseCase: GetWatchHistoryUseCase,
-    private val deleteWatchHistoryUseCase: DeleteWatchHistoryUseCase
+    private val deleteWatchHistoryUseCase: DeleteWatchHistoryUseCase,
+    private val channelRepository: ChannelRepository
 ) : ViewModel() {
 
     private val _playlistId = MutableStateFlow(-1L)
@@ -28,6 +31,10 @@ class HistoryViewModel(
             started = SharingStarted.WhileSubscribed(5000),
             initialValue = emptyList()
         )
+
+    val favoriteChannels: StateFlow<List<Channel>> = _playlistId
+        .flatMapLatest { id -> channelRepository.getFavoriteChannels() }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
     fun loadHistory(playlistId: Long) {
         _playlistId.value = playlistId

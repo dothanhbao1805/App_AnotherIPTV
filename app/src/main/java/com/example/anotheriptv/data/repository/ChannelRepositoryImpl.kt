@@ -97,4 +97,10 @@ class ChannelRepositoryImpl(
             .sortedBy { it.categoryName }
     }
 
+    override suspend fun getChannelById(channelId: Long): Channel? {
+        val entity = channelDao.getChannelById(channelId)
+        return entity?.let { channelMapper.toDomain(it) }
+    }
+
+
 }

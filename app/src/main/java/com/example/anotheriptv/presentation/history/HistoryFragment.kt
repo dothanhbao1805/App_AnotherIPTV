@@ -43,7 +43,8 @@ class HistoryFragment : Fragment() {
         val container = (requireActivity().application as MyApp).container
         HistoryViewModelFactory(
             container.getWatchHistoryUseCase,
-            container.deleteWatchHistoryUseCase
+            container.deleteWatchHistoryUseCase,
+            container.channelRepository
         )
     }
 
@@ -88,15 +89,12 @@ class HistoryFragment : Fragment() {
             },
             onRemoveClick = { /* Không dùng */ },
             onFavoriteClick = { historyItem ->
-                // Thực hiện bỏ yêu thích khi nhấn vào icon tim đỏ
                 lifecycleScope.launch(Dispatchers.IO) {
                     val container = (requireActivity().application as MyApp).container
-                    container.channelRepository.updateFavoriteStatus(historyItem.streamUrl ?: "", false)
-
-                    // Lưu ý: Do dùng Flow, danh sách sẽ tự cập nhật và mục này tự biến mất
+                    // Dùng channelId thay vì streamUrl để tránh bug series
+                    container.channelDao.updateFavorite(historyItem.channelId, false)
                 }
             }
-
         )
 
         // Khởi tạo các adapter còn lại
@@ -128,37 +126,60 @@ class HistoryFragment : Fragment() {
             adapter = seriesAdapter
             setHasFixedSize(true)
         }
+
     }
 
     private fun playStream(historyItem: HistoryWithUrl) {
-        if (historyItem.streamUrl.isNullOrEmpty()) {
+        if (historyItem.contentType != "SERIES" && historyItem.streamUrl.isNullOrEmpty()) {
             android.widget.Toast.makeText(requireContext(), "Không tìm thấy URL stream", android.widget.Toast.LENGTH_SHORT).show()
             return
         }
 
-        val intent = when (historyItem.contentType) {
-            "LIVE" -> android.content.Intent(requireContext(), PlayerLiveXstreamActivity::class.java).apply {
+        when (historyItem.contentType) {
+            "LIVE" -> startActivity(android.content.Intent(requireContext(), PlayerLiveXstreamActivity::class.java).apply {
                 putExtra("channelName", historyItem.channelName)
                 putExtra("streamUrl",   historyItem.streamUrl)
                 putExtra("playlistId",  playlistId)
                 putExtra("contentType", historyItem.contentType)
-            }
-            "MOVIE" -> android.content.Intent(requireContext(), DetailMovieActivity::class.java).apply {
+            })
+
+            "MOVIE" -> startActivity(android.content.Intent(requireContext(), DetailMovieActivity::class.java).apply {
                 putExtra(DetailMovieActivity.EXTRA_NAME,         historyItem.channelName)
                 putExtra(DetailMovieActivity.EXTRA_LOGO,         historyItem.channelLogo ?: "")
                 putExtra(DetailMovieActivity.EXTRA_STREAM_URL,   historyItem.streamUrl ?: "")
                 putExtra(DetailMovieActivity.EXTRA_PLAYLIST_ID,  playlistId)
                 putExtra(DetailMovieActivity.EXTRA_CHANNEL_ID,   historyItem.channelId)
-                putExtra(DetailMovieActivity.EXTRA_RATING,        historyItem.rating)
+                putExtra(DetailMovieActivity.EXTRA_RATING,       historyItem.rating)
                 putExtra(DetailMovieActivity.EXTRA_STREAM_ID,    historyItem.streamId)
                 putExtra(DetailMovieActivity.EXTRA_RELEASE_DATE, historyItem.releaseDate)
+            })
+
+            "SERIES" -> {
+                lifecycleScope.launch(Dispatchers.IO) {
+                    val container = (requireActivity().application as MyApp).container
+                    val channel = container.channelRepository.getChannelById(historyItem.channelId)
+                        ?: return@launch
+
+                    kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.Main) {
+                        parentFragmentManager.beginTransaction()
+                            .replace(
+                                R.id.fragment_container,
+                                com.example.anotheriptv.presentation.xstream.series.SeriesDetailFragment.newInstance(
+                                    channel    = channel,
+                                    playlistId = playlistId
+                                )
+                            )
+                            .addToBackStack(null)
+                            .commit()
+                    }
+                }
             }
-            else -> android.content.Intent(requireContext(), PlayerActivity::class.java).apply {
+
+            else -> startActivity(android.content.Intent(requireContext(), PlayerActivity::class.java).apply {
                 putExtra("channelName", historyItem.channelName)
                 putExtra("streamUrl",   historyItem.streamUrl)
-            }
+            })
         }
-        startActivity(intent)
     }
 
     private fun showDeleteConfirmationDialog(historyItem: HistoryWithUrl) {
@@ -189,28 +210,55 @@ class HistoryFragment : Fragment() {
     }
 
     private fun observeViewModel() {
+        // Observe history (Live, Movie, Series)
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.historyChannels.collect { historyList ->
-                    // Nếu danh sách tổng rỗng -> hiện Empty Layout
-                    if (historyList.isEmpty()) {
-                        binding.layoutEmpty.visibility = View.VISIBLE
-                        binding.scrollViewContent.visibility = View.GONE
-                    } else {
-                        binding.layoutEmpty.visibility = View.GONE
-                        binding.scrollViewContent.visibility = View.VISIBLE
+                    val hasContent = historyList.isNotEmpty()
+                    binding.scrollViewContent.visibility = if (hasContent) View.VISIBLE else View.GONE
 
-                        // Lọc mục Favorite (Những mục nào có isFavorite == true)
-                        val favoriteList = historyList.filter { it.isFavorite }.distinctBy { it.channelId }
-                        updateSection(binding.layoutFavorite, favoriteAdapter, favoriteList)
-
-                        // Lọc các mục khác dựa trên contentType
-                        updateSection(binding.layoutLive, liveAdapter, historyList.filter { it.contentType == "LIVE" })
-                        updateSection(binding.layoutMovie, movieAdapter, historyList.filter { it.contentType == "MOVIE" })
-                        updateSection(binding.layoutSeries, seriesAdapter, historyList.filter { it.contentType == "SERIES" })
-                    }
+                    updateSection(binding.layoutLive,   liveAdapter,   historyList.filter { it.contentType == "LIVE" })
+                    updateSection(binding.layoutMovie,  movieAdapter,  historyList.filter { it.contentType == "MOVIE" })
+                    updateSection(binding.layoutSeries, seriesAdapter, historyList.filter { it.contentType == "SERIES" })
                 }
+            }
+        }
 
+        // Observe favorites riêng từ channels table
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.favoriteChannels.collect { favoriteChannels ->
+                    if (favoriteChannels.isEmpty()) {
+                        binding.layoutFavorite.visibility = View.GONE
+                    } else {
+                        binding.layoutFavorite.visibility = View.VISIBLE
+                        // Convert Channel sang HistoryWithUrl để dùng chung adapter
+                        val favoriteList = favoriteChannels.map { channel ->
+                            HistoryWithUrl(
+                                historyId   = channel.id,
+                                channelId   = channel.id,
+                                playlistId  = -1L,
+                                channelName = channel.name,
+                                channelLogo = channel.logo,
+                                streamUrl   = channel.url,
+                                watchedAt   = 0L,
+                                contentType = channel.contentType,
+                                isFavorite  = true,
+                                rating      = channel.rating ?: 0f,
+                                streamId    = channel.id.toString(),
+                                releaseDate = channel.releaseDate ?: ""
+                            )
+                        }
+                        favoriteAdapter.submitList(favoriteList)
+                    }
+
+                    // Update layoutEmpty
+                    val historyList = viewModel.historyChannels.value
+                    binding.layoutEmpty.visibility =
+                        if (historyList.isEmpty() && favoriteChannels.isEmpty()) View.VISIBLE else View.GONE
+                    binding.scrollViewContent.visibility =
+                        if (historyList.isEmpty() && favoriteChannels.isEmpty()) View.GONE else View.VISIBLE
+                }
             }
         }
     }
