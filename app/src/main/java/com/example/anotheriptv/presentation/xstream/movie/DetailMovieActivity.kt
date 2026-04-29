@@ -13,7 +13,7 @@ import com.example.anotheriptv.MyApp
 import com.example.anotheriptv.R
 import com.example.anotheriptv.databinding.ActivityDetailMovieBinding
 import com.example.anotheriptv.presentation.xstream.movie.Adapter.CategoryAdapter
-import com.example.anotheriptv.presentation.player.PlayerActivity
+import com.example.anotheriptv.presentation.player.m3u.PlayerActivity
 import com.example.anotheriptv.presentation.xstream.movie.ViewModel.MovieXstreamViewModel
 import com.example.anotheriptv.presentation.xstream.movie.ViewModelFactory.MovieXstreamViewModelFactory
 import kotlin.getValue

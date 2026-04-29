@@ -1,8 +1,9 @@
-package com.example.anotheriptv.presentation.player
+package com.example.anotheriptv.presentation.player.xstream
 
 import android.os.Bundle
 import android.view.View
 import android.widget.SeekBar
+import android.widget.Toast
 import androidx.annotation.OptIn
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -13,9 +14,13 @@ import androidx.media3.datasource.DefaultDataSource
 import androidx.media3.datasource.okhttp.OkHttpDataSource
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.anotheriptv.MyApp
 import com.example.anotheriptv.R
-import com.example.anotheriptv.databinding.ActivityPlayerBinding
+import com.example.anotheriptv.databinding.ActivityPlayerLiveXstreamBinding
+import com.example.anotheriptv.domain.model.CategoryWithChannels
+import com.example.anotheriptv.presentation.player.xstream.Adapter.CategoryAdapter
+import com.example.anotheriptv.presentation.player.xstream.Adapter.ChannelListAdapter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -28,30 +33,44 @@ import javax.net.ssl.TrustManager
 import javax.net.ssl.X509TrustManager
 
 @OptIn(UnstableApi::class)
-class PlayerActivity : AppCompatActivity() {
+class PlayerLiveXstreamActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityPlayerBinding
+    private lateinit var binding: ActivityPlayerLiveXstreamBinding
     private var player: ExoPlayer? = null
     private var isFavorite = false
+    private var isInfoVisible = false
+
+    private var channelName: String = ""
+    private var streamUrl: String = ""
+
+    private var isListVisible = false
+    private var isShowingChannels = false
+
+    private var playlistId: Long = -1L
+    private var contentType: String = "live"
+
+    private var currentCategoryName: String = ""
+    private var allCategoriesWithChannels: List<CategoryWithChannels> = emptyList()
+
 
     private val hideControlsRunnable = Runnable { hideControls() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityPlayerBinding.inflate(layoutInflater)
+        binding = ActivityPlayerLiveXstreamBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val channelName = intent.getStringExtra("channelName") ?: "Channel"
-        val streamUrl   = intent.getStringExtra("streamUrl")   ?: return
+        channelName = intent.getStringExtra("channelName") ?: "Channel"
+        streamUrl   = intent.getStringExtra("streamUrl")   ?: return
+        playlistId  = intent.getLongExtra("playlistId", -1L)
+        contentType = intent.getStringExtra("contentType") ?: "live"
 
         binding.tvChannelName.text = channelName
 
         setupPlayer(streamUrl)
-
         checkFavoriteStatus(streamUrl)
-
         setupControls(streamUrl)
-
+        setupListPanel()  // ← THIẾU DÒNG NÀY
     }
 
     // ── OkHttp (trust all SSL) ────────────────────────────────────────────────
@@ -173,9 +192,9 @@ class PlayerActivity : AppCompatActivity() {
         }
 
         binding.btnInfo.setOnClickListener {
-            // TODO: show info
-            scheduleHideControls()
+            toggleInfoPanel()
         }
+
 
         binding.btnSettings.setOnClickListener {
             // TODO: show quality settings
@@ -194,6 +213,10 @@ class PlayerActivity : AppCompatActivity() {
         })
 
         binding.playerView.setOnClickListener {
+            if (isInfoVisible) {
+                hideInfoPanel()
+                return@setOnClickListener
+            }
             if (binding.layoutTopControls.visibility == View.VISIBLE) {
                 hideControls()
             } else {
@@ -201,7 +224,158 @@ class PlayerActivity : AppCompatActivity() {
                 scheduleHideControls()
             }
         }
+
     }
+
+    private fun setupListPanel() {
+        binding.layoutListPanel.btnCloseList.setOnClickListener {
+            hideListPanel()
+        }
+
+        binding.layoutListPanel.btnListBack.setOnClickListener {
+            // Quay lại màn Categories
+            showCategories()
+        }
+
+        binding.btnList.setOnClickListener {
+            toggleListPanel()
+        }
+    }
+
+    private fun toggleListPanel() {
+        if (isListVisible) hideListPanel() else showListPanel()
+    }
+
+    private fun showListPanel() {
+        isListVisible = true
+        binding.layoutListPanel.root.visibility = View.VISIBLE
+
+        // Nếu chưa có data thì load, sau đó show channel list luôn
+        if (allCategoriesWithChannels.isEmpty()) {
+            lifecycleScope.launch(Dispatchers.IO) {
+                val container = (application as MyApp).container
+                allCategoriesWithChannels = container.channelRepository
+                    .getAllCategoriesWithChannels(playlistId, contentType)
+
+                // Tìm category của kênh đang phát
+                currentCategoryName = allCategoriesWithChannels
+                    .find { group -> group.channels.any { it.url == streamUrl } }
+                    ?.categoryName ?: allCategoriesWithChannels.firstOrNull()?.categoryName ?: ""
+
+                withContext(Dispatchers.Main) {
+                    showChannelsOfCategory(currentCategoryName)
+                }
+            }
+        } else {
+            // Đã có data rồi thì show luôn
+            if (currentCategoryName.isEmpty()) {
+                currentCategoryName = allCategoriesWithChannels
+                    .find { group -> group.channels.any { it.url == streamUrl } }
+                    ?.categoryName ?: allCategoriesWithChannels.firstOrNull()?.categoryName ?: ""
+            }
+            showChannelsOfCategory(currentCategoryName)
+        }
+    }
+
+    private fun hideListPanel() {
+        isListVisible = false
+        binding.layoutListPanel.root.visibility = View.GONE
+    }
+
+    private fun showCategories() {
+        isShowingChannels = false
+        binding.layoutListPanel.tvListTitle.text = "Categories"
+        binding.layoutListPanel.btnListBack.visibility = View.GONE
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            val currentCategoryNameLocal = allCategoriesWithChannels
+                .find { group -> group.channels.any { it.url == streamUrl } }
+                ?.categoryName ?: ""
+
+            val categoryItems = allCategoriesWithChannels.map {
+                CategoryAdapter.CategoryItem(
+                    name         = it.categoryName,
+                    channelCount = it.channels.size
+                )
+            }
+
+            // Tìm index của category hiện tại
+            val currentIndex = categoryItems.indexOfFirst { it.name == currentCategoryNameLocal }
+
+            withContext(Dispatchers.Main) {
+                binding.layoutListPanel.rvList.layoutManager =
+                    LinearLayoutManager(this@PlayerLiveXstreamActivity)
+                binding.layoutListPanel.rvList.adapter = CategoryAdapter(
+                    categoryItems, currentCategoryNameLocal
+                ) { selected ->
+                    showChannelsOfCategory(selected.name)
+                }
+
+                if (currentIndex >= 0) {
+                    binding.layoutListPanel.rvList.scrollToPosition(currentIndex)
+                }
+            }
+        }
+    }
+
+    private fun showChannelsOfCategory(categoryName: String) {
+        isShowingChannels = true
+        binding.layoutListPanel.tvListTitle.text = categoryName
+        binding.layoutListPanel.btnListBack.visibility = View.VISIBLE
+
+        val channels = allCategoriesWithChannels
+            .find { it.categoryName == categoryName }
+            ?.channels ?: emptyList()
+
+        val existingAdapter = binding.layoutListPanel.rvList.adapter
+
+        if (existingAdapter is ChannelListAdapter &&
+            binding.layoutListPanel.tvListTitle.text == categoryName) {
+            // Cùng category → chỉ update url highlight, không tạo lại adapter
+            existingAdapter.updateCurrentUrl(streamUrl)
+        } else {
+            // Khác category → tạo adapter mới
+            binding.layoutListPanel.rvList.layoutManager =
+                LinearLayoutManager(this@PlayerLiveXstreamActivity)
+            binding.layoutListPanel.rvList.adapter = ChannelListAdapter(
+                channels, streamUrl
+            ) { selected ->
+                switchChannel(selected.name, selected.url ?: "")
+            }
+        }
+
+        val currentIndex = channels.indexOfFirst { it.url == streamUrl }
+        if (currentIndex >= 0) {
+            binding.layoutListPanel.rvList.scrollToPosition(currentIndex)
+        }
+    }
+
+    private fun switchChannel(name: String, url: String) {
+        channelName = name
+        streamUrl   = url
+        binding.tvChannelName.text = channelName
+
+        // Cập nhật category hiện tại theo kênh mới
+        currentCategoryName = allCategoriesWithChannels
+            .find { group -> group.channels.any { it.url == url } }
+            ?.categoryName ?: currentCategoryName
+
+        player?.let { exo ->
+            exo.setMediaItem(MediaItem.fromUri(url))
+            exo.prepare()
+            exo.play()
+        }
+
+        binding.progressBuffering.visibility = View.VISIBLE
+        binding.btnPlay.visibility  = View.GONE
+        binding.btnPause.visibility = View.GONE
+
+        // Refresh adapter để update highlight kênh đang phát
+        showChannelsOfCategory(currentCategoryName)
+
+        checkFavoriteStatus(url)
+    }
+
 
     private fun checkFavoriteStatus(url: String) {
         lifecycleScope.launch(Dispatchers.IO) {
@@ -274,6 +448,44 @@ class PlayerActivity : AppCompatActivity() {
         val seconds = TimeUnit.MILLISECONDS.toSeconds(ms) % 60
         return String.format("%02d:%02d", minutes, seconds)
     }
+
+    private fun toggleInfoPanel() {
+        if (isInfoVisible) hideInfoPanel() else showInfoPanel()
+    }
+
+    private fun showInfoPanel() {
+        isInfoVisible = true
+
+        binding.layoutInfoPanel.tvInfoName.text        = channelName
+        binding.layoutInfoPanel.tvInfoContentType.text = "Live Stream"
+        binding.layoutInfoPanel.tvInfoEpgId.text       = intent.getStringExtra("epgId") ?: "—"
+        binding.layoutInfoPanel.tvInfoStreamId.text    = intent.getStringExtra("streamId") ?: "—"
+        binding.layoutInfoPanel.tvInfoUrl.text         = streamUrl
+
+        binding.layoutInfoPanel.root.visibility = View.VISIBLE  // ← dùng .root
+
+        binding.layoutInfoPanel.btnCopyStreamId.setOnClickListener {
+            copyToClipboard("Stream ID", binding.layoutInfoPanel.tvInfoStreamId.text.toString())
+        }
+        binding.layoutInfoPanel.btnCopyUrl.setOnClickListener {
+            copyToClipboard("URL", streamUrl)
+        }
+        binding.layoutInfoPanel.btnCloseInfo.setOnClickListener {
+            hideInfoPanel()
+        }
+    }
+
+    private fun copyToClipboard(label: String, text: String) {
+        val clipboard = getSystemService(CLIPBOARD_SERVICE) as android.content.ClipboardManager
+        clipboard.setPrimaryClip(android.content.ClipData.newPlainText(label, text))
+        Toast.makeText(this, "$label copied", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun hideInfoPanel() {
+        isInfoVisible = false
+        binding.layoutInfoPanel.root.visibility = View.GONE
+    }
+
 
     override fun onPause() {
         super.onPause()

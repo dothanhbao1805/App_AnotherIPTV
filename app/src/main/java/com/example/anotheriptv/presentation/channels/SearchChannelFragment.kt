@@ -21,7 +21,7 @@ import com.example.anotheriptv.databinding.FragmentSearchChannelBinding
 import com.example.anotheriptv.presentation.channels.Adapter.ChannelAdapter
 import com.example.anotheriptv.presentation.channels.ViewModel.ChannelViewModel
 import com.example.anotheriptv.presentation.channels.ViewModelFactory.ChannelViewModelFactory
-import com.example.anotheriptv.presentation.player.PlayerActivity
+import com.example.anotheriptv.presentation.player.m3u.PlayerActivity
 import kotlinx.coroutines.launch
 
 class SearchChannelFragment : Fragment() {

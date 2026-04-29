@@ -15,7 +15,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.anotheriptv.MyApp
 import com.example.anotheriptv.databinding.FragmentLiveXstreamAllBinding
-import com.example.anotheriptv.presentation.player.PlayerActivity
+import com.example.anotheriptv.presentation.player.m3u.PlayerActivity
 import com.example.anotheriptv.presentation.xstream.live.Adapter.ItemLiveXstreamAllAdapter
 import com.example.anotheriptv.presentation.xstream.live.ViewModel.LiveXstreamAllViewModel
 import com.example.anotheriptv.presentation.xstream.live.ViewModel.LiveXstreamAllViewModelFactory

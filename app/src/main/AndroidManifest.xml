@@ -19,16 +19,20 @@
         android:theme="@style/Theme.AnotherIPTV"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".presentation.player.xstream.PlayerLiveXstreamActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:exported="false" />
+
+        <activity
             android:name=".presentation.xstream.movie.DetailMovieActivity"
-            android:exported="false"
-            />
+            android:exported="false" />
         <activity
             android:name=".presentation.xstream.ContainerXstreamActivity"
             android:configChanges="orientation|screenSize"
             android:exported="false"
             android:screenOrientation="sensor" />
         <activity
-            android:name=".presentation.player.PlayerActivity"
+            android:name=".presentation.player.m3u.PlayerActivity"
             android:exported="false" />
         <activity
             android:name=".presentation.ContainerPlaylistActivity"
