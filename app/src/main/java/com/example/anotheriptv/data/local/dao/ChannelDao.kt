@@ -131,5 +131,13 @@ interface ChannelDao {
     @androidx.room.Query("SELECT * FROM channels WHERE url = :url LIMIT 1")
     suspend fun getChannelByUrl(url: String): ChannelEntity?
 
+    @Query("SELECT * FROM channels")
+    suspend fun getAllChannels(): List<ChannelEntity>
+
+    @Query("SELECT * FROM channels WHERE playlistId = :playlistId AND contentType = :contentType")
+    suspend fun getAllChannelsByPlaylistAndType(
+        playlistId: Long,
+        contentType: String
+    ): List<ChannelEntity>
 
 }

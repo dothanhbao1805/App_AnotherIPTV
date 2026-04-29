@@ -1,6 +1,7 @@
 package com.example.anotheriptv.domain.repository
 
 import com.example.anotheriptv.data.local.entity.ChannelEntity
+import com.example.anotheriptv.domain.model.CategoryWithChannels
 import com.example.anotheriptv.domain.model.Channel
 import kotlinx.coroutines.flow.Flow
 
@@ -28,5 +29,8 @@ interface ChannelRepository {
 
     suspend fun getChannelByUrl(url: String): Channel?
     suspend fun updateFavoriteStatus(url: String, isFavorite: Boolean)
+
+    suspend fun getAllChannels(): List<Channel>
+    suspend fun getAllCategoriesWithChannels(playlistId: Long, contentType: String): List<CategoryWithChannels>
 
 }

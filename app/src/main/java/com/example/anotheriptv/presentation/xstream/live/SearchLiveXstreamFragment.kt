@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.anotheriptv.MyApp
 import com.example.anotheriptv.R
 import com.example.anotheriptv.databinding.FragmentSearchLiveXstreamBinding
+import com.example.anotheriptv.presentation.player.m3u.PlayerActivity
 import com.example.anotheriptv.presentation.xstream.ContainerXstreamActivity
 import com.example.anotheriptv.presentation.xstream.live.Adapter.ItemLiveXstreamAllAdapter
 import com.example.anotheriptv.presentation.xstream.live.ViewModel.LiveXstreamViewModel
@@ -85,7 +86,7 @@ class SearchLiveXstreamFragment : Fragment() {
 
     private fun setupRecyclerView() {
         liveAdapter = ItemLiveXstreamAllAdapter { channel ->
-            val intent = android.content.Intent(requireContext(), com.example.anotheriptv.presentation.player.PlayerActivity::class.java).apply {
+            val intent = android.content.Intent(requireContext(), PlayerActivity::class.java).apply {
                 putExtra("channelName", channel.name)
                 putExtra("streamUrl", channel.url)
             }

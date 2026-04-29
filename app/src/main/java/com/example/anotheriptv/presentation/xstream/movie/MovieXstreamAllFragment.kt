@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.anotheriptv.MyApp
 import com.example.anotheriptv.R
 import com.example.anotheriptv.databinding.FragmentMovieXstreamAllBinding
-import com.example.anotheriptv.presentation.player.PlayerActivity
+import com.example.anotheriptv.presentation.player.m3u.PlayerActivity
 import com.example.anotheriptv.presentation.xstream.movie.Adapter.ItemMovieXstreamAllAdapter
 import com.example.anotheriptv.presentation.xstream.movie.ViewModel.MovieXstreamAllViewModel
 import com.example.anotheriptv.presentation.xstream.movie.ViewModel.MovieXstreamAllViewModelFactory

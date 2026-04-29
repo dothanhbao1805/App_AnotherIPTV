@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -15,7 +14,7 @@ import com.example.anotheriptv.MyApp
 import com.example.anotheriptv.R
 import com.example.anotheriptv.databinding.FragmentLiveXstreamBinding
 import com.example.anotheriptv.presentation.channels.Adapter.CategoryAdapter
-import com.example.anotheriptv.presentation.player.PlayerActivity
+import com.example.anotheriptv.presentation.player.xstream.PlayerLiveXstreamActivity
 import com.example.anotheriptv.presentation.xstream.live.ViewModelFactory.LiveXstreamViewModelFactory
 import com.example.anotheriptv.presentation.xstream.live.ViewModel.LiveXstreamViewModel
 import kotlinx.coroutines.launch
@@ -80,9 +79,11 @@ class LiveXstreamFragment : Fragment() {
                     channelName = channel.name,
                     channelLogo = channel.logo
                 )
-                val intent = android.content.Intent(requireContext(), PlayerActivity::class.java).apply {
+                val intent = android.content.Intent(requireContext(), PlayerLiveXstreamActivity::class.java).apply {
                     putExtra("channelName", channel.name)
                     putExtra("streamUrl", channel.url)
+                    putExtra("playlistId", playlistId)
+                    putExtra("contentType",channel.contentType)
                 }
                 startActivity(intent)
             },

@@ -3,6 +3,7 @@ package com.example.anotheriptv.data.repository
 import com.example.anotheriptv.data.local.dao.ChannelDao
 import com.example.anotheriptv.data.local.entity.ChannelEntity
 import com.example.anotheriptv.data.mapper.ChannelMapper
+import com.example.anotheriptv.domain.model.CategoryWithChannels
 import com.example.anotheriptv.domain.model.Channel
 import com.example.anotheriptv.domain.repository.ChannelRepository
 import kotlinx.coroutines.flow.Flow
@@ -71,6 +72,29 @@ class ChannelRepositoryImpl(
 
     override suspend fun updateFavoriteStatus(url: String, isFavorite: Boolean) {
         channelDao.updateFavoriteStatus(url, isFavorite)
+    }
+
+    override suspend fun getAllChannels(): List<Channel> {
+        return channelDao.getAllChannels().map { channelMapper.toDomain(it) }
+    }
+
+    override suspend fun getAllCategoriesWithChannels(
+        playlistId: Long,
+        contentType: String
+    ): List<CategoryWithChannels> {
+        val allChannels = channelDao.getAllChannelsByPlaylistAndType(playlistId, contentType)
+            .map { channelMapper.toDomain(it) }
+
+        return allChannels
+            .groupBy { it.category ?: "Unknown" }
+            .map { (categoryId, channels) ->
+                CategoryWithChannels(
+                    categoryId   = categoryId,
+                    categoryName = channels.firstOrNull()?.category ?: categoryId,
+                    channels     = channels
+                )
+            }
+            .sortedBy { it.categoryName }
     }
 
 }

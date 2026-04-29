@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:background="@drawable/bg_info_card"
+    android:padding="12dp"
+    android:layout_marginBottom="8dp">
+
+    <!-- Logo kênh -->
+    <ImageView
+        android:id="@+id/ivChannelLogo"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:scaleType="centerCrop"
+        android:background="@drawable/bg_info_card"
+        android:layout_marginEnd="12dp" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvChannelName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Channel Name"
+            android:textColor="#FFFFFF"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:maxLines="1"
+            android:ellipsize="end" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="4dp">
+
+            <ImageView
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:src="@drawable/ic_tv2"
+                app:tint="#888888"
+                android:layout_marginEnd="4dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Live Stream"
+                android:textColor="#888888"
+                android:textSize="11sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Số thứ tự -->
+    <TextView
+        android:id="@+id/tvChannelNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="#1"
+        android:textColor="#555555"
+        android:textSize="11sp" />
+
+</LinearLayout>

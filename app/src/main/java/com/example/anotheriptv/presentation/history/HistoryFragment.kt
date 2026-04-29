@@ -20,7 +20,7 @@ import com.example.anotheriptv.domain.model.WatchHistory
 import com.example.anotheriptv.presentation.history.Adapter.HistoryAdapter
 import com.example.anotheriptv.presentation.history.ViewModel.HistoryViewModel
 import com.example.anotheriptv.presentation.history.ViewModelFactory.HistoryViewModelFactory
-import com.example.anotheriptv.presentation.player.PlayerActivity
+import com.example.anotheriptv.presentation.player.m3u.PlayerActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 

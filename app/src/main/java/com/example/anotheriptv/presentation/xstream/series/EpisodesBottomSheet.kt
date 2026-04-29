@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.anotheriptv.MyApp
 import com.example.anotheriptv.R
 import com.example.anotheriptv.databinding.BottomSheetEpisodesBinding
-import com.example.anotheriptv.presentation.player.PlayerActivity
+import com.example.anotheriptv.presentation.player.m3u.PlayerActivity
 import com.example.anotheriptv.presentation.xstream.series.Adapter.EpisodeAdapter
 import com.example.anotheriptv.presentation.xstream.series.ViewModel.SeriesXstreamViewModel
 import com.example.anotheriptv.presentation.xstream.series.ViewModelFactory.SeriesXstreamViewModelFactory
