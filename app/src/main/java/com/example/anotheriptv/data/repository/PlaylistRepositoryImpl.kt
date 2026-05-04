@@ -178,12 +178,10 @@ class PlaylistRepositoryImpl(
             seriesCatMap = seriesC.await()
         }
 
-        // Lưu categories vào DB
         val categoryEntities = mutableListOf<CategoryEntity>()
         liveCatMap.forEach   { (id, name) -> categoryEntities.add(CategoryEntity(playlistId, id, "LIVE",   name)) }
         movieCatMap.forEach  { (id, name) -> categoryEntities.add(CategoryEntity(playlistId, id, "MOVIE",  name)) }
         seriesCatMap.forEach { (id, name) -> categoryEntities.add(CategoryEntity(playlistId, id, "SERIES", name)) }
-        categoryDao.insertAll(categoryEntities)
 
         val allChannels = mutableListOf<ChannelEntity>()
 
@@ -204,11 +202,20 @@ class PlaylistRepositoryImpl(
 
         if (allChannels.isEmpty()) throw Exception("Server không trả về kênh nào")
 
+        // Xóa data cũ SAU KHI fetch thành công — tránh mất data nếu lỗi giữa chừng
+        onProgress(85, "Updating database...")
+        channelDao.deleteByPlaylistId(playlistId)
+        categoryDao.deleteByPlaylistId(playlistId)
+
+        // Insert data mới
         onProgress(90, "Saving to database...")
+        categoryDao.insertAll(categoryEntities)
         channelDao.insertAll(allChannels)
 
         onProgress(100, "Complete!")
     }
+
+
 
     // Fetch category map: categoryId -> categoryName
     private suspend fun fetchCategoryMap(
@@ -389,6 +396,39 @@ class PlaylistRepositoryImpl(
                 }
             } catch (e: Exception) {
                 null
+            }
+        }
+    }
+
+
+    override suspend fun refreshPlaylist(
+        id: Long,
+        onProgress: (progress: Int, status: String) -> Unit
+    ) {
+        withContext(Dispatchers.IO) {
+            val playlist = playlistDao.getById(id)?.let { playlistMapper.toDomain(it) }
+                ?: throw Exception("Không tìm thấy playlist")
+
+            when (playlist.type) {
+                "M3U" -> {
+                    onProgress(10, "Downloading M3U...")
+                    val content = fetchM3UContent(playlist)
+                        ?: throw Exception("Không lấy được dữ liệu M3U")
+
+                    onProgress(50, "Parsing...")
+                    val channels = m3uParser.parse(content, id)
+                    if (channels.isEmpty()) throw Exception("File M3U không có kênh nào")
+
+                    // Xóa channels cũ (KHÔNG xóa history)
+                    onProgress(70, "Updating database...")
+                    channelDao.deleteByPlaylistId(id)
+                    channelDao.insertAll(channels)
+                    onProgress(100, "Complete!")
+                }
+                "XSTREAM" -> {
+                    handleXstreamWithProgress(id, playlist, onProgress)
+                }
+                else -> throw Exception("Loại playlist không hợp lệ")
             }
         }
     }

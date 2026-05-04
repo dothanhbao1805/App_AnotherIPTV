@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AnotherIPTV</string>
+
+    <!--    dialog_remove_history-->
+    <string name="dialog_title_remove_history">इतिहास से हटाएं</string>
+    <string name="dialog_msg_remove_history">क्या आप वाकई इस आइटम को देखने के इतिहास से हटाना चाहते हैं?</string>
+    <string name="action_cancel">रद्द करें</string>
+    <string name="action_remove">निकालें</string>
+    <string name="action_delete">हटाएं</string>
+
+    <!--    dialog clear all-->
+    <string name="title_clear_all">सभी साफ़ करें</string>
+    <string name="title_desc_clear">क्या आप वाकई पूरा इतिहास हटाना चाहते हैं?</string>
+
+    <!--    dialog_remove_playlist-->
+    <string name="dialog_title_remove_playlist">प्लेलिस्ट हटाएं</string>
+    <string name="dialog_msg_remove_playlist">क्या आप वाकई प्लेलिस्ट ... हटाना चाहते हैं?</string>
+    <string name="dialog_msg_remove_playlist2">इस क्रिया को पूर्ववत नहीं किया जा सकता</string>
+
+    <!--    bottom_nav_menu -->
+    <string name="title_nav_history">इतिहास</string>
+    <string name="title_nav_all">सभी</string>
+    <string name="title_nav_setting">सेटिंग्स</string>
+
+    <!--    bottom_nav_menu_xstream -->
+    <string name="title_nav_live">लाइव</string>
+    <string name="title_nav_movies">फिल्में</string>
+    <string name="title_nav_series">सीरीज़</string>
+
+    <string name="placeholder_channel_name">चैनल का नाम</string>
+    <string name="title_history">इतिहास</string>
+    <string name="section_live_streams">लाइव स्ट्रीम</string>
+
+    <!--    fragment_XStream_playlist-->
+    <string name="title_xstream_playlist">Xtream Code प्लेलिस्ट</string>
+    <string name="subtitle_load_xstream">अपने IPTV प्रदाता की जानकारी के साथ आसानी से जुड़ें</string>
+    <string name="label_xstream_url">API URL</string>
+    <string name="hint_xstream_name">http://example.com:8080</string>
+    <string name="title_username_xstream">उपयोगकर्ता नाम</string>
+    <string name="hint_xstream_username">अपना उपयोगकर्ता नाम दर्ज करें</string>
+    <string name="title_password_xstream">पासवर्ड</string>
+    <string name="hint_xstream_password">अपना पासवर्ड दर्ज करें</string>
+    <string name="btn_save_playlist">प्लेलिस्ट सहेजें</string>
+    <string name="info_desc_xstream">सभी डेटा आपके डिवाइस पर सुरक्षित रूप से संग्रहीत है</string>
+    <string name="info_desc2_xstream">URL प्रारूप http://server:port जैसा होना चाहिए</string>
+    <string name="error_title_xstream">एक त्रुटि हुई</string>
+    <string name="error_desc_xstream">आपके IPTV प्रदाता से प्रतिक्रिया नहीं मिल सकी, कृपया अपनी जानकारी की जाँच करें</string>
+
+    <!--    fragment_live_xstream-->
+    <string name="title_live_xstream">लाइव स्ट्रीम</string>
+    <string name="category_name">PPV | UFC</string>
+    <string name="viewAll_xstream">सभी देखें</string>
+
+    <!--    fragment_movie_xstream-->
+    <string name="title_movie_xstream">फिल्में</string>
+    <string name="movie_category_name">2026 फिल्में</string>
+    <string name="movie_viewAll_xstream">सभी देखें</string>
+
+    <!--    fragment_series_xstream-->
+    <string name="title_series_xstream">सीरीज़</string>
+    <string name="series_category_name">2026 सीरीज़</string>
+    <string name="series_viewAll_xstream">सभी देखें</string>
+
+    <!--    fragment_m3u_playlist-->
+    <string name="title_m3u_playlist">M3U प्लेलिस्ट</string>
+    <string name="subtitle_load_m3u">M3U फ़ाइल या URL के साथ IPTV चैनल लोड करें</string>
+    <string name="label_playlist_name">प्लेलिस्ट का नाम</string>
+    <string name="hint_playlist_name">M3U प्लेलिस्ट-1</string>
+    <string name="label_source_type">स्रोत प्रकार</string>
+    <string name="tab_url">URL</string>
+    <string name="tab_file">फ़ाइल</string>
+    <string name="label_m3u_url">M3U URL</string>
+    <string name="hint_url">http://example.com/playlist.m3u</string>
+    <string name="hint_file">M3U फ़ाइल चुनें (.m3u, .m3u8)</string>
+    <string name="btn_create_playlist">प्लेलिस्ट बनाएं</string>
+    <string name="info_title">जानकारी</string>
+    <string name="error_title">त्रुटि हुई</string>
+    <string name="error_desc_m3u">M3U त्रुटि</string>
+    <string name="info_desc_m3u">सभी डेटा आपके डिवाइस पर सुरक्षित रूप से संग्रहीत है।\nसमर्थित प्रारूप: .m3u, .m3u8\nURL प्रारूप: http:// या https:// से शुरू होना चाहिए</string>
+    <string name="text_error_url">एक मान्य URL प्रारूप दर्ज करें</string>
+
+    <!--    fragment_new_playlist-->
+    <string name="title_create_new_playlist">नई प्लेलिस्ट बनाएं</string>
+    <string name="title_select_playlist_type">प्लेलिस्ट प्रकार चुनें</string>
+    <string name="subtitle_choose_playlist_type">आप किस प्रकार की प्लेलिस्ट बनाना चाहते हैं, उसे चुनें</string>
+
+    <string name="card_title_xtream">Xtream Codes</string>
+    <string name="card_subtitle_xtream">API URL, उपयोगकर्ता नाम और पासवर्ड के साथ जुड़ें</string>
+    <string name="card_desc_xtream">अपने IPTV प्रदाता की जानकारी के साथ आसानी से जुड़ें</string>
+
+    <string name="card_title_m3u">M3U प्लेलिस्ट</string>
+    <string name="card_subtitle_m3u">M3U फ़ाइल या URL के साथ प्लेलिस्ट जोड़ें</string>
+    <string name="card_desc_m3u">पारंपरिक M3U प्रारूप फ़ाइलों का समर्थन करता है</string>
+
+    <string name="info_secure_storage">आपकी प्लेलिस्ट जानकारी आपके डिवाइस पर सुरक्षित रूप से संग्रहीत है।</string>
+
+    <!--    fragment_playlist-->
+    <string name="title_my_playlists">मेरी प्लेलिस्ट</string>
+    <string name="empty_title_playlists">अभी कोई प्लेलिस्ट नहीं</string>
+    <string name="empty_desc_playlists">अपनी पहली प्लेलिस्ट बनाकर शुरुआत करें।\nआप Xtream Code या M3U प्रारूप में प्लेलिस्ट जोड़ सकते हैं।</string>
+    <string name="btn_create_first_playlist">+ मेरी पहली प्लेलिस्ट बनाएं</string>
+    <string name="hello_blank_fragment">नमस्ते खाली अंश</string>
+
+    <!--    loading xstream-->
+    <string name="title_loading_xstream">Another IPTV\nPlayer</string>
+    <string name="desc_loading_xstream">ओपन सोर्स IPTV प्लेयर</string>
+    <string name="text_loading_live">लाइव चैनल लोड हो रहे हैं</string>
+
+    <!--    fragment series detail-->
+    <string name="text_seasons">सीज़न</string>
+    <string name="text_trailer">ट्रेलर</string>
+    <string name="text_desc">विवरण</string>
+    <string name="text_release_date">रिलीज़ की तारीख</string>
+    <string name="text_genre">शैली</string>
+    <string name="text_cast">कलाकार</string>
+    <string name="text_epi">एपिसोड की अवधि</string>
+    <string name="text_cat_id">श्रेणी ID</string>
+    <string name="text_series_id">सीरीज़ ID</string>
+    <string name="text_pre">सीरीज़ लाइब्रेरी तैयार की जा रही है</string>
+
+    <!-- fragment_setting -->
+    <string name="title_setting">सेटिंग्स</string>
+    <string name="title_playlist">प्लेलिस्ट सूची</string>
+    <string name="title_gen">सामान्य सेटिंग्स</string>
+    <string name="refresh_content">सामग्री ताज़ा करें</string>
+    <string name="title_theme">थीम</string>
+    <string name="player_setting">प्लेयर सेटिंग्स</string>
+    <string name="title_continue">बैकग्राउंड में खेलना जारी रखें</string>
+    <string name="title_keep_playing">ऐप बैकग्राउंड में होने पर भी खेलना जारी रखें</string>
+    <string name="title_sub_title">सबटाइटल सेटिंग्स</string>
+    <string name="title_custome">सबटाइटल का रूप कस्टमाइज़ करें</string>
+    <string name="title_brightness">चमक जेस्चर</string>
+    <string name="desc_brightness">बाईं ओर लंबवत स्वाइप करके चमक नियंत्रित करें</string>
+    <string name="title_volume">वॉल्यूम जेस्चर</string>
+    <string name="desc_volume">दाईं ओर लंबवत स्वाइप करके वॉल्यूम नियंत्रित करें</string>
+    <string name="title_seek">सीक जेस्चर</string>
+    <string name="desc_seek">क्षैतिज रूप से स्वाइप करके आगे/पीछे करें</string>
+    <string name="title_speed">देर तक दबाने पर गति बढ़ाएं</string>
+    <string name="desc_speed">स्क्रीन को देर तक दबाने पर प्लेबैक की गति बढ़ाएं</string>
+    <string name="title_double_tap">डबल टैप पर सीक करें</string>
+    <string name="desc_double_tap">डबल टैप करके आगे/पीछे करें</string>
+    <string name="title_about">के बारे में</string>
+    <string name="title_app_version">ऐप संस्करण</string>
+    <string name="default_app_version">1.3.0</string>
+    <string name="title_github">GitHub पर समर्थन करें</string>
+    <string name="desc_github">GitHub पर प्रोजेक्ट में योगदान करें</string>
+    <string name="title_playlist_info">प्लेलिस्ट जानकारी</string>
+    <string name="title_playlist_name">प्लेलिस्ट का नाम</string>
+    <string name="default_playlist_name">M3U प्लेलिस्ट-1</string>
+    <string name="title_server_url">सर्वर URL</string>
+    <string name="default_server_url">https://iptv-org.github.io/iptv/countries/vn.m3u</string>
+
+    <!--    item category-->
+    <string name="title_item_category">श्रेणी</string>
+    <string name="text_channels">0 चैनल</string>
+
+    <!--    item delete-->
+    <string name="delete">हटाएं</string>
+
+    <!--    item playlist-->
+    <string name="date">आज</string>
+
+    <!--    layout_info_movies_panel-->
+    <string name="title_video_info">वीडियो\nजानकारी</string>
+    <string name="label_name">नाम</string>
+    <string name="label_content_type">सामग्री प्रकार</string>
+    <string name="label_format">प्रारूप</string>
+    <string name="label_rating">रेटिंग</string>
+    <string name="label_added_date">जोड़ने की तारीख</string>
+    <string name="label_stream_id">स्ट्रीम ID</string>
+    <string name="label_url">URL</string>
+    <string name="default_dash">—</string>
+
+    <!--    layout_info_panel  -->
+    <string name="title_video_info_panel">वीडियो\nजानकारी</string>
+    <string name="label_epg_channel_id">EPG चैनल ID</string>
+
+    <!-- layout_list_panel -->
+    <string name="title_categories">श्रेणियां</string>
+
+    <!-- layout dialog_loading -->
+    <string name="text_loading_m3u">M3U लोड हो रहा है</string>
+
+    <!-- layout_setting_panel -->
+    <string name="title_settings_panel">सेटिंग्स</string>
+    <string name="title_video_track">वीडियो ट्रैक</string>
+    <string name="title_audio_track">ऑडियो ट्रैक</string>
+    <string name="title_subtitle_track">सबटाइटल ट्रैक</string>
+    <string name="label_auto">स्वत:</string>
+    <string name="label_disabled">अक्षम</string>
+
+    <!--    detail movie-->
+    <string name="back">वापस</string>
+    <string name="rating">रेटिंग</string>
+    <string name="info">जानकारी</string>
+    <string name="added_date">जोड़ने की तारीख</string>
+    <string name="trailer">ट्रेलर</string>
+    <string name="start_watching">देखना शुरू करें</string>
+
+    <!-- Settings -->
+    <string name="label_app_language">ऐप की भाषा</string>
+</resources>

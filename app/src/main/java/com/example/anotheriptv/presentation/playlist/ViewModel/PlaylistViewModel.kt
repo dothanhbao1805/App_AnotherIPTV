@@ -4,6 +4,7 @@ package com.example.anotheriptv.presentation.playlist.ViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.anotheriptv.domain.model.Playlist
+import com.example.anotheriptv.domain.repository.PlaylistRepository
 import com.example.anotheriptv.domain.usecase.playlist.AddPlaylistUseCase
 import com.example.anotheriptv.domain.usecase.playlist.AddXstreamUseCase
 import com.example.anotheriptv.domain.usecase.playlist.DeletePlaylistUseCase
@@ -22,7 +23,8 @@ class PlaylistViewModel(
     private val getPlaylistsUseCase: GetPlaylistsUseCase,
     private val addPlaylistUseCase: AddPlaylistUseCase,
     private val deletePlaylistUseCase: DeletePlaylistUseCase,
-    private val addXstreamUSeCase: AddXstreamUseCase
+    private val addXstreamUSeCase: AddXstreamUseCase,
+    private val playlistRepository: PlaylistRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<PlaylistUiState>(PlaylistUiState.Idle)
@@ -94,6 +96,21 @@ class PlaylistViewModel(
                 .onFailure {
                     _uiState.value = PlaylistUiState.Error(it.message ?: "Xóa thất bại")
                 }
+        }
+    }
+
+    fun refreshXstream(id: Long) {
+        viewModelScope.launch {
+            try {
+                _loadingState.value = LoadingUiState.Loading(0, "Starting...")
+                playlistRepository.refreshPlaylist(id) { progress, status ->
+                    _loadingState.value = LoadingUiState.Loading(progress, status)
+                }
+                val playlist = playlistRepository.getPlaylistById(id)
+                _loadingState.value = LoadingUiState.Success(playlist)
+            } catch (e: Exception) {
+                _loadingState.value = LoadingUiState.Error(e.message ?: "Unknown error")
+            }
         }
     }
 

@@ -48,6 +48,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/title_select_playlist_type"
                 android:textAppearance="?attr/textAppearanceHeadlineSmall"
+                android:textColor="@color/text_primary"
                 android:textStyle="bold" />
 
             <TextView
@@ -67,7 +68,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="?attr/selectableItemBackground"
-                app:cardBackgroundColor="@android:color/white"
+                app:cardBackgroundColor="@color/bg_item_xstream"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="2dp">
 
@@ -99,6 +100,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/card_title_xtream"
                             android:textAppearance="?attr/textAppearanceTitleMedium"
+                            android:textColor="@color/text_primary"
                             android:textStyle="bold" />
 
                         <TextView
@@ -108,7 +110,8 @@
                             android:lineSpacingExtra="2dp"
                             android:text="@string/card_subtitle_xtream"
                             android:textAppearance="?attr/textAppearanceBodySmall"
-                            android:textColor="#005BE0" />
+                            android:textColor="#005BE0"
+                            />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -140,7 +143,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="?attr/selectableItemBackground"
-                app:cardBackgroundColor="@android:color/white"
+                app:cardBackgroundColor="@color/bg_item_xstream"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="2dp">
 
@@ -171,6 +174,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/card_title_m3u"
+                            android:textColor="@color/text_primary"
                             android:textAppearance="?attr/textAppearanceTitleMedium"
                             android:textStyle="bold" />
 
@@ -216,7 +220,7 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:src="@drawable/ic_info"
-                    app:tint="?attr/colorPrimary" />
+                    app:tint="@color/color_info" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -226,7 +230,7 @@
                     android:lineSpacingExtra="2dp"
                     android:text="@string/info_secure_storage"
                     android:textAppearance="?attr/textAppearanceBodySmall"
-                    android:textColor="?attr/colorPrimary" />
+                    android:textColor="@color/color_info" />
 
             </LinearLayout>
 

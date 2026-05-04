@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AnotherIPTV</string>
+
+    <!--    dialog_remove_history-->
+    <string name="dialog_title_remove_history">从历史记录中移除</string>
+    <string name="dialog_msg_remove_history">您确定要从观看历史记录中移除此项目吗？</string>
+    <string name="action_cancel">取消</string>
+    <string name="action_remove">移除</string>
+    <string name="action_delete">删除</string>
+
+    <!--    dialog clear all-->
+    <string name="title_clear_all">清除全部</string>
+    <string name="title_desc_clear">您确定要删除所有历史记录吗？</string>
+
+    <!--    dialog_remove_playlist-->
+    <string name="dialog_title_remove_playlist">删除播放列表</string>
+    <string name="dialog_msg_remove_playlist">您确定要删除播放列表 ... 吗？</string>
+    <string name="dialog_msg_remove_playlist2">此操作无法撤销</string>
+
+    <!--    bottom_nav_menu -->
+    <string name="title_nav_history">历史</string>
+    <string name="title_nav_all">全部</string>
+    <string name="title_nav_setting">设置</string>
+
+    <!--    bottom_nav_menu_xstream -->
+    <string name="title_nav_live">直播</string>
+    <string name="title_nav_movies">电影</string>
+    <string name="title_nav_series">剧集</string>
+
+    <string name="placeholder_channel_name">频道名称</string>
+    <string name="title_history">历史记录</string>
+    <string name="section_live_streams">直播频道</string>
+
+    <!--    fragment_XStream_playlist-->
+    <string name="title_xstream_playlist">Xtream Codes 播放列表</string>
+    <string name="subtitle_load_xstream">使用您的 IPTV 提供商信息轻松连接</string>
+    <string name="label_xstream_url">API URL</string>
+    <string name="hint_xstream_name">http://example.com:8080</string>
+    <string name="title_username_xstream">用户名</string>
+    <string name="hint_xstream_username">请输入用户名</string>
+    <string name="title_password_xstream">密码</string>
+    <string name="hint_xstream_password">请输入密码</string>
+    <string name="btn_save_playlist">保存播放列表</string>
+    <string name="info_desc_xstream">所有数据均安全存储在您的设备上</string>
+    <string name="info_desc2_xstream">URL 格式应如 http://server:port</string>
+    <string name="error_title_xstream">发生错误</string>
+    <string name="error_desc_xstream">无法从您的 IPTV 提供商获取响应，请检查您的信息</string>
+
+    <!--    fragment_live_xstream-->
+    <string name="title_live_xstream">直播频道</string>
+    <string name="category_name">PPV | UFC</string>
+    <string name="viewAll_xstream">查看全部</string>
+
+    <!--    fragment_movie_xstream-->
+    <string name="title_movie_xstream">电影</string>
+    <string name="movie_category_name">2026 电影</string>
+    <string name="movie_viewAll_xstream">查看全部</string>
+
+    <!--    fragment_series_xstream-->
+    <string name="title_series_xstream">剧集</string>
+    <string name="series_category_name">2026 剧集</string>
+    <string name="series_viewAll_xstream">查看全部</string>
+
+    <!--    fragment_m3u_playlist-->
+    <string name="title_m3u_playlist">M3U 播放列表</string>
+    <string name="subtitle_load_m3u">通过 M3U 文件或 URL 加载 IPTV 频道</string>
+    <string name="label_playlist_name">播放列表名称</string>
+    <string name="hint_playlist_name">M3U 播放列表-1</string>
+    <string name="label_source_type">来源类型</string>
+    <string name="tab_url">URL</string>
+    <string name="tab_file">文件</string>
+    <string name="label_m3u_url">M3U URL</string>
+    <string name="hint_url">http://example.com/playlist.m3u</string>
+    <string name="hint_file">选择 M3U 文件 (.m3u, .m3u8)</string>
+    <string name="btn_create_playlist">创建播放列表</string>
+    <string name="info_title">信息</string>
+    <string name="error_title">发生错误</string>
+    <string name="error_desc_m3u">M3U 错误</string>
+    <string name="info_desc_m3u">所有数据均安全存储在您的设备上。\n支持的格式：.m3u, .m3u8\nURL 格式：必须以 http:// 或 https:// 开头</string>
+    <string name="text_error_url">请输入有效的 URL 格式</string>
+
+    <!--    fragment_new_playlist-->
+    <string name="title_create_new_playlist">创建新播放列表</string>
+    <string name="title_select_playlist_type">选择播放列表类型</string>
+    <string name="subtitle_choose_playlist_type">选择您要创建的播放列表类型</string>
+
+    <string name="card_title_xtream">Xtream Codes</string>
+    <string name="card_subtitle_xtream">通过 API URL、用户名和密码连接</string>
+    <string name="card_desc_xtream">使用您的 IPTV 提供商信息轻松连接</string>
+
+    <string name="card_title_m3u">M3U 播放列表</string>
+    <string name="card_subtitle_m3u">通过 M3U 文件或 URL 添加播放列表</string>
+    <string name="card_desc_m3u">支持传统的 M3U 格式文件</string>
+
+    <string name="info_secure_storage">您的播放列表信息安全地存储在设备上。</string>
+
+    <!--    fragment_playlist-->
+    <string name="title_my_playlists">我的播放列表</string>
+    <string name="empty_title_playlists">暂无播放列表</string>
+    <string name="empty_desc_playlists">从创建您的第一个播放列表开始。\n您可以添加 Xtream Code 或 M3U 格式的播放列表。</string>
+    <string name="btn_create_first_playlist">+ 创建我的第一个播放列表</string>
+    <string name="hello_blank_fragment">你好，空白片段</string>
+
+    <!--    loading xstream-->
+    <string name="title_loading_xstream">Another IPTV\nPlayer</string>
+    <string name="desc_loading_xstream">开源 IPTV 播放器</string>
+    <string name="text_loading_live">正在加载直播频道</string>
+
+    <!--    fragment series detail-->
+    <string name="text_seasons">季</string>
+    <string name="text_trailer">预告片</string>
+    <string name="text_desc">描述</string>
+    <string name="text_release_date">发布日期</string>
+    <string name="text_genre">类型</string>
+    <string name="text_cast">演员</string>
+    <string name="text_epi">单集时长</string>
+    <string name="text_cat_id">分类 ID</string>
+    <string name="text_series_id">剧集 ID</string>
+    <string name="text_pre">正在准备剧集库</string>
+
+    <!-- fragment_setting -->
+    <string name="title_setting">设置</string>
+    <string name="title_playlist">播放列表</string>
+    <string name="title_gen">常规设置</string>
+    <string name="refresh_content">刷新内容</string>
+    <string name="title_theme">主题</string>
+    <string name="player_setting">播放器设置</string>
+    <string name="title_continue">后台继续播放</string>
+    <string name="title_keep_playing">即使应用在后台也保持播放</string>
+    <string name="title_sub_title">字幕设置</string>
+    <string name="title_custome">自定义字幕外观</string>
+    <string name="title_brightness">亮度手势</string>
+    <string name="desc_brightness">在左侧垂直滑动以控制亮度</string>
+    <string name="title_volume">音量手势</string>
+    <string name="desc_volume">在右侧垂直滑动以控制音量</string>
+    <string name="title_seek">进度手势</string>
+    <string name="desc_seek">水平滑动以快进或快退</string>
+    <string name="title_speed">长按加速播放</string>
+    <string name="desc_speed">长按屏幕时加速播放</string>
+    <string name="title_double_tap">双击快进/快退</string>
+    <string name="desc_double_tap">双击以快进或快退</string>
+    <string name="title_about">关于</string>
+    <string name="title_app_version">应用版本</string>
+    <string name="default_app_version">1.3.0</string>
+    <string name="title_github">在 GitHub 上支持</string>
+    <string name="desc_github">在 GitHub 上为项目做出贡献</string>
+    <string name="title_playlist_info">播放列表信息</string>
+    <string name="title_playlist_name">播放列表名称</string>
+    <string name="default_playlist_name">M3U 播放列表-1</string>
+    <string name="title_server_url">服务器 URL</string>
+    <string name="default_server_url">https://iptv-org.github.io/iptv/countries/vn.m3u</string>
+
+    <!--    item category-->
+    <string name="title_item_category">分类</string>
+    <string name="text_channels">0 个频道</string>
+
+    <!--    item delete-->
+    <string name="delete">删除</string>
+
+    <!--    item playlist-->
+    <string name="date">今天</string>
+
+    <!--    layout_info_movies_panel-->
+    <string name="title_video_info">视频\n信息</string>
+    <string name="label_name">名称</string>
+    <string name="label_content_type">内容类型</string>
+    <string name="label_format">格式</string>
+    <string name="label_rating">评分</string>
+    <string name="label_added_date">添加日期</string>
+    <string name="label_stream_id">流 ID</string>
+    <string name="label_url">URL</string>
+    <string name="default_dash">—</string>
+
+    <!--    layout_info_panel  -->
+    <string name="title_video_info_panel">视频\n信息</string>
+    <string name="label_epg_channel_id">EPG 频道 ID</string>
+
+    <!-- layout_list_panel -->
+    <string name="title_categories">分类</string>
+
+    <!-- layout dialog_loading -->
+    <string name="text_loading_m3u">正在加载 M3U</string>
+
+    <!-- layout_setting_panel -->
+    <string name="title_settings_panel">设置</string>
+    <string name="title_video_track">视频轨道</string>
+    <string name="title_audio_track">音频轨道</string>
+    <string name="title_subtitle_track">字幕轨道</string>
+    <string name="label_auto">自动</string>
+    <string name="label_disabled">已禁用</string>
+
+    <!--    detail movie-->
+    <string name="back">返回</string>
+    <string name="rating">评分</string>
+    <string name="info">信息</string>
+    <string name="added_date">添加日期</string>
+    <string name="trailer">预告片</string>
+    <string name="start_watching">开始观看</string>
+
+    <!-- Settings -->
+    <string name="label_app_language">应用语言</string>
+</resources>

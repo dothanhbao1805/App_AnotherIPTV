@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AnotherIPTV</string>
+
+    <!--    dialog_remove_history-->
+    <string name="dialog_title_remove_history">Aus Verlauf entfernen</string>
+    <string name="dialog_msg_remove_history">Möchten Sie dieses Element wirklich aus dem Wiedergabeverlauf entfernen?</string>
+    <string name="action_cancel">Abbrechen</string>
+    <string name="action_remove">Entfernen</string>
+    <string name="action_delete">Löschen</string>
+
+    <!--    dialog clear all-->
+    <string name="title_clear_all">Alles löschen</string>
+    <string name="title_desc_clear">Möchten Sie wirklich den gesamten Verlauf löschen?</string>
+
+    <!--    dialog_remove_playlist-->
+    <string name="dialog_title_remove_playlist">Wiedergabeliste löschen</string>
+    <string name="dialog_msg_remove_playlist">Möchten Sie die Wiedergabeliste ... wirklich löschen?</string>
+    <string name="dialog_msg_remove_playlist2">Diese Aktion kann nicht rückgängig gemacht werden</string>
+
+    <!--    bottom_nav_menu -->
+    <string name="title_nav_history">Verlauf</string>
+    <string name="title_nav_all">Alle</string>
+    <string name="title_nav_setting">Einstellungen</string>
+
+    <!--    bottom_nav_menu_xstream -->
+    <string name="title_nav_live">Live</string>
+    <string name="title_nav_movies">Filme</string>
+    <string name="title_nav_series">Serien</string>
+
+    <string name="placeholder_channel_name">Kanalname</string>
+    <string name="title_history">Verlauf</string>
+    <string name="section_live_streams">Live-Streams</string>
+
+    <!--    fragment_XStream_playlist-->
+    <string name="title_xstream_playlist">Xtream Code Wiedergabeliste</string>
+    <string name="subtitle_load_xstream">Stellen Sie ganz einfach eine Verbindung mit den Informationen Ihres IPTV-Anbieters her</string>
+    <string name="label_xstream_url">API URL</string>
+    <string name="hint_xstream_name">http://example.com:8080</string>
+    <string name="title_username_xstream">Benutzername</string>
+    <string name="hint_xstream_username">Geben Sie Ihren Benutzernamen ein</string>
+    <string name="title_password_xstream">Passwort</string>
+    <string name="hint_xstream_password">Geben Sie Ihr Passwort ein</string>
+    <string name="btn_save_playlist">Wiedergabeliste speichern</string>
+    <string name="info_desc_xstream">Alle Daten werden sicher auf Ihrem Gerät gespeichert</string>
+    <string name="info_desc2_xstream">Das URL-Format sollte wie http://server:port aussehen</string>
+    <string name="error_title_xstream">Ein Fehler ist aufgetreten</string>
+    <string name="error_desc_xstream">Keine Antwort von Ihrem IPTV-Anbieter. Bitte überprüfen Sie Ihre Informationen</string>
+
+    <!--    fragment_live_xstream-->
+    <string name="title_live_xstream">Live-Streams</string>
+    <string name="category_name">PPV | UFC</string>
+    <string name="viewAll_xstream">Alle ansehen</string>
+
+    <!--    fragment_movie_xstream-->
+    <string name="title_movie_xstream">Filme</string>
+    <string name="movie_category_name">2026 Filme</string>
+    <string name="movie_viewAll_xstream">Alle ansehen</string>
+
+    <!--    fragment_series_xstream-->
+    <string name="title_series_xstream">Serien</string>
+    <string name="series_category_name">2026 Serien</string>
+    <string name="series_viewAll_xstream">Alle ansehen</string>
+
+    <!--    fragment_m3u_playlist-->
+    <string name="title_m3u_playlist">M3U Wiedergabeliste</string>
+    <string name="subtitle_load_m3u">IPTV-Kanäle mit einer M3U-Datei oder URL laden</string>
+    <string name="label_playlist_name">Name der Wiedergabeliste</string>
+    <string name="hint_playlist_name">M3U Wiedergabeliste-1</string>
+    <string name="label_source_type">Quellentyp</string>
+    <string name="tab_url">URL</string>
+    <string name="tab_file">Datei</string>
+    <string name="label_m3u_url">M3U URL</string>
+    <string name="hint_url">http://example.com/playlist.m3u</string>
+    <string name="hint_file">M3U-Datei auswählen (.m3u, .m3u8)</string>
+    <string name="btn_create_playlist">Wiedergabeliste erstellen</string>
+    <string name="info_title">Info</string>
+    <string name="error_title">Ein Fehler ist aufgetreten</string>
+    <string name="error_desc_m3u">M3U-Fehler</string>
+    <string name="info_desc_m3u">Alle Daten werden sicher auf Ihrem Gerät gespeichert.\nUnterstützte Formate: .m3u, .m3u8\nURL-Format: Muss mit http:// oder https:// beginnen</string>
+    <string name="text_error_url">Geben Sie ein gültiges URL-Format ein</string>
+
+    <!--    fragment_new_playlist-->
+    <string name="title_create_new_playlist">Neue Wiedergabeliste erstellen</string>
+    <string name="title_select_playlist_type">Wiedergabelistentyp auswählen</string>
+    <string name="subtitle_choose_playlist_type">Wählen Sie die Art der Wiedergabeliste aus, die Sie erstellen möchten</string>
+
+    <string name="card_title_xtream">Xtream Codes</string>
+    <string name="card_subtitle_xtream">Mit API-URL, Benutzername und Passwort verbinden</string>
+    <string name="card_desc_xtream">Stellen Sie ganz einfach eine Verbindung mit den Informationen Ihres IPTV-Anbieters her</string>
+
+    <string name="card_title_m3u">M3U Wiedergabeliste</string>
+    <string name="card_subtitle_m3u">Wiedergabeliste mit M3U-Datei oder URL hinzufügen</string>
+    <string name="card_desc_m3u">Unterstützt herkömmliche M3U-Formatdateien</string>
+
+    <string name="info_secure_storage">Ihre Wiedergabelisteninformationen werden sicher auf Ihrem Gerät gespeichert.</string>
+
+    <!--    fragment_playlist-->
+    <string name="title_my_playlists">Meine Wiedergabelisten</string>
+    <string name="empty_title_playlists">Noch keine Wiedergabeliste</string>
+    <string name="empty_desc_playlists">Beginnen Sie, indem Sie Ihre erste Wiedergabeliste erstellen.\nSie können Wiedergabelisten im Xtream Code- oder M3U-Format hinzufügen.</string>
+    <string name="btn_create_first_playlist">+ Meine erste Wiedergabeliste erstellen</string>
+    <string name="hello_blank_fragment">Hallo leeres Fragment</string>
+
+    <!--    loading xstream-->
+    <string name="title_loading_xstream">Another IPTV\nPlayer</string>
+    <string name="desc_loading_xstream">Open Source IPTV Player</string>
+    <string name="text_loading_live">Live-Kanäle werden geladen</string>
+
+    <!--    fragment series detail-->
+    <string name="text_seasons">Staffeln</string>
+    <string name="text_trailer">Trailer</string>
+    <string name="text_desc">Beschreibung</string>
+    <string name="text_release_date">Veröffentlichungsdatum</string>
+    <string name="text_genre">Genre</string>
+    <string name="text_cast">Besetzung</string>
+    <string name="text_epi">Episodenlänge</string>
+    <string name="text_cat_id">Kategorie-ID</string>
+    <string name="text_series_id">Serien-ID</string>
+    <string name="text_pre">Serienbibliothek wird vorbereitet</string>
+
+    <!-- fragment_setting -->
+    <string name="title_setting">Einstellungen</string>
+    <string name="title_playlist">Wiedergabelisten</string>
+    <string name="title_gen">Allgemeine Einstellungen</string>
+    <string name="refresh_content">Inhalt aktualisieren</string>
+    <string name="title_theme">Design</string>
+    <string name="player_setting">Player-Einstellungen</string>
+    <string name="title_continue">Im Hintergrund weiter abspielen</string>
+    <string name="title_keep_playing">Wiedergabe fortsetzen, auch wenn die App im Hintergrund ist</string>
+    <string name="title_sub_title">Untertitel-Einstellungen</string>
+    <string name="title_custome">Untertitel-Erscheinungsbild anpassen</string>
+    <string name="title_brightness">Helligkeitsgeste</string>
+    <string name="desc_brightness">Helligkeit durch vertikales Wischen auf der linken Seite steuern</string>
+    <string name="title_volume">Lautstärkegeste</string>
+    <string name="desc_volume">Lautstärke durch vertikales Wischen auf der rechten Seite steuern</string>
+    <string name="title_seek">Spulgeste</string>
+    <string name="desc_seek">Durch horizontales Wischen vor- oder zurückspulen</string>
+    <string name="title_speed">Beim Gedrückthalten beschleunigen</string>
+    <string name="desc_speed">Wiedergabe beschleunigen, wenn der Bildschirm gedrückt gehalten wird</string>
+    <string name="title_double_tap">Doppeltippen zum Spulen</string>
+    <string name="desc_double_tap">Durch Doppeltippen vor-/zurückspulen</string>
+    <string name="title_about">Über</string>
+    <string name="title_app_version">App-Version</string>
+    <string name="default_app_version">1.3.0</string>
+    <string name="title_github">Support auf GitHub</string>
+    <string name="desc_github">Tragen Sie zum Projekt auf GitHub bei</string>
+    <string name="title_playlist_info">Wiedergabelisten-Informationen</string>
+    <string name="title_playlist_name">Name der Wiedergabeliste</string>
+    <string name="default_playlist_name">M3U Playlist-1</string>
+    <string name="title_server_url">Server-URL</string>
+    <string name="default_server_url">https://iptv-org.github.io/iptv/countries/vn.m3u</string>
+
+    <!--    item category-->
+    <string name="title_item_category">Kategorie</string>
+    <string name="text_channels">0 Kanäle</string>
+
+    <!--    item delete-->
+    <string name="delete">Löschen</string>
+
+    <!--    item playlist-->
+    <string name="date">Heute</string>
+
+    <!--    layout_info_movies_panel-->
+    <string name="title_video_info">Video-\nInformationen</string>
+    <string name="label_name">Name</string>
+    <string name="label_content_type">Inhaltstyp</string>
+    <string name="label_format">Format</string>
+    <string name="label_rating">Bewertung</string>
+    <string name="label_added_date">Hinzugefügt am</string>
+    <string name="label_stream_id">Stream-ID</string>
+    <string name="label_url">URL</string>
+    <string name="default_dash">—</string>
+
+    <!--    layout_info_panel  -->
+    <string name="title_video_info_panel">Video-\nInformationen</string>
+    <string name="label_epg_channel_id">EPG-Kanal-ID</string>
+
+    <!-- layout_list_panel -->
+    <string name="title_categories">Kategorien</string>
+
+    <!-- layout dialog_loading -->
+    <string name="text_loading_m3u">M3U wird geladen</string>
+
+    <!-- layout_setting_panel -->
+    <string name="title_settings_panel">Einstellungen</string>
+    <string name="title_video_track">Videospur</string>
+    <string name="title_audio_track">Audiospur</string>
+    <string name="title_subtitle_track">Untertitelspur</string>
+    <string name="label_auto">Automatisch</string>
+    <string name="label_disabled">Deaktiviert</string>
+
+    <!--    detail movie-->
+    <string name="back">Zurück</string>
+    <string name="rating">Bewertung</string>
+    <string name="info">Info</string>
+    <string name="added_date">Hinzugefügt am</string>
+    <string name="trailer">Trailer</string>
+    <string name="start_watching">Jetzt ansehen</string>
+
+    <!-- Settings -->
+    <string name="label_app_language">App-Sprache</string>
+</resources>

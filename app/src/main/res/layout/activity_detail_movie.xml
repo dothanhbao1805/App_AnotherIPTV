@@ -267,7 +267,7 @@
         android:drawablePadding="10dp"
         android:elevation="4dp"
         android:text="@string/start_watching"
-        android:textColor="@color/white"
+        android:textColor="@color/text_color_Start"
         android:textSize="16sp"
         android:textStyle="bold" />
 

@@ -14,4 +14,9 @@ interface PlaylistRepository {
         onProgress: (progress: Int, status: String) -> Unit = { _, _ -> }
     ): Long
     suspend fun deletePlaylist(id: Long)
+
+    suspend fun refreshPlaylist(
+        id: Long,
+        onProgress: (progress: Int, status: String) -> Unit = { _, _ -> }
+    )
 }

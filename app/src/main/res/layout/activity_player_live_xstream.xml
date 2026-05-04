@@ -7,6 +7,7 @@
     android:background="#000000"
     android:keepScreenOn="true">
 
+
     <!-- Video Surface -->
     <androidx.media3.ui.PlayerView
         android:id="@+id/playerView"
@@ -15,6 +16,40 @@
         app:use_controller="false"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
+
+    <!-- Speed Indicator -->
+    <LinearLayout
+        android:id="@+id/layoutSpeedIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#80000000"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="8dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="72dp">
+
+        <TextView
+            android:id="@+id/tvSpeedIndicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2.0x"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="4dp"
+            android:src="@drawable/ic_fast_forward"
+            app:tint="#FFFFFF" />
+
+    </LinearLayout>
 
     <!-- Loading indicator — hiện khi đang buffer -->
     <ProgressBar

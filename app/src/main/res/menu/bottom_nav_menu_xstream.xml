@@ -4,27 +4,27 @@
     <item
         android:id="@+id/nav_history"
         android:icon="@drawable/ic_history"
-        android:title="History" />
+        android:title="@string/title_nav_history" />
 
     <item
         android:id="@+id/nav_live"
         android:icon="@drawable/ic_tv1"
-        android:title="Live" />
+        android:title="@string/title_nav_live" />
 
     <item
         android:id="@+id/nav_movie"
         android:icon="@drawable/ic_movie"
-        android:title="Movie" />
+        android:title="@string/title_nav_movies" />
 
     <item
         android:id="@+id/nav_series"
         android:icon="@drawable/ic_tv2"
-        android:title="Series" />
+        android:title="@string/title_nav_series" />
 
 
     <item
         android:id="@+id/nav_settings"
         android:icon="@drawable/ic_settings"
-        android:title="Settings" />
+        android:title="@string/title_nav_setting" />
 
 </menu>

@@ -14,6 +14,7 @@ import com.example.anotheriptv.MyApp
 import com.example.anotheriptv.R
 import com.example.anotheriptv.databinding.BottomSheetEpisodesBinding
 import com.example.anotheriptv.presentation.player.m3u.PlayerActivity
+import com.example.anotheriptv.presentation.player.xstream.PlayerSeriesXstreamActivity
 import com.example.anotheriptv.presentation.xstream.series.Adapter.EpisodeAdapter
 import com.example.anotheriptv.presentation.xstream.series.ViewModel.SeriesXstreamViewModel
 import com.example.anotheriptv.presentation.xstream.series.ViewModelFactory.SeriesXstreamViewModelFactory
@@ -54,9 +55,14 @@ class EpisodesBottomSheet : BottomSheetDialogFragment() {
         binding.tvSeasonTitle.text = seasonName
 
         val episodeAdapter = EpisodeAdapter { episode ->
-            startActivity(Intent(requireContext(), PlayerActivity::class.java).apply {
-                putExtra("channelName", episode.name)
-                putExtra("streamUrl",   episode.url)
+            startActivity(Intent(requireContext(), PlayerSeriesXstreamActivity::class.java).apply {
+                putExtra("channelName",   episode.name)
+                putExtra("streamUrl",     episode.url)
+                putExtra("playlistId",    playlistId)
+                putExtra("seriesId",      episode.seriesId)
+                putExtra("seasonNumber",  episode.seasonNumber ?: 1)
+                putExtra("epgId",         "—")
+                putExtra("streamId",      episode.id.toString())
             })
         }
 

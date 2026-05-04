@@ -107,4 +107,7 @@ interface WatchHistoryDao {
 
     @Query("DELETE FROM watch_history")
     suspend fun clearAll()
+
+    @Query("DELETE FROM watch_history WHERE playlistId = :playlistId")
+    suspend fun deleteAllByPlaylistId(playlistId: Long)
 }

@@ -46,10 +46,9 @@ class HistoryViewModel(
         }
     }
 
-    // Thêm hàm xóa tất cả lịch sử nếu bạn định làm tính năng Clear All
     fun clearAllHistory(playlistId: Long) {
         viewModelScope.launch {
-            // Gọi UseCase xóa nếu bạn đã tạo, hoặc gọi trực tiếp repo
+            deleteWatchHistoryUseCase.deleteAll(playlistId)
         }
     }
 }

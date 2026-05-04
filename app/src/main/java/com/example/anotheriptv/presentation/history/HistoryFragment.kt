@@ -1,13 +1,12 @@
 package com.example.anotheriptv.presentation.history
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -39,7 +38,7 @@ class HistoryFragment : Fragment() {
     private lateinit var seriesAdapter: HistoryAdapter
     private lateinit var favoriteAdapter: HistoryAdapter
 
-    private val viewModel: HistoryViewModel by viewModels {
+    private val viewModel: HistoryViewModel by activityViewModels {
         val container = (requireActivity().application as MyApp).container
         HistoryViewModelFactory(
             container.getWatchHistoryUseCase,
@@ -210,29 +209,25 @@ class HistoryFragment : Fragment() {
     }
 
     private fun observeViewModel() {
-        // Observe history (Live, Movie, Series)
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.historyChannels.collect { historyList ->
-                    val hasContent = historyList.isNotEmpty()
-                    binding.scrollViewContent.visibility = if (hasContent) View.VISIBLE else View.GONE
+                kotlinx.coroutines.flow.combine(
+                    viewModel.historyChannels,
+                    viewModel.favoriteChannels
+                ) { historyList, favoriteChannels ->
+                    Pair(historyList, favoriteChannels)
+                }.collect { (historyList, favoriteChannels) ->
 
+                    // Update history sections
                     updateSection(binding.layoutLive,   liveAdapter,   historyList.filter { it.contentType == "LIVE" })
                     updateSection(binding.layoutMovie,  movieAdapter,  historyList.filter { it.contentType == "MOVIE" })
                     updateSection(binding.layoutSeries, seriesAdapter, historyList.filter { it.contentType == "SERIES" })
-                }
-            }
-        }
 
-        // Observe favorites riêng từ channels table
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.favoriteChannels.collect { favoriteChannels ->
+                    // Update favorites
                     if (favoriteChannels.isEmpty()) {
                         binding.layoutFavorite.visibility = View.GONE
                     } else {
                         binding.layoutFavorite.visibility = View.VISIBLE
-                        // Convert Channel sang HistoryWithUrl để dùng chung adapter
                         val favoriteList = favoriteChannels.map { channel ->
                             HistoryWithUrl(
                                 historyId   = channel.id,
@@ -252,12 +247,10 @@ class HistoryFragment : Fragment() {
                         favoriteAdapter.submitList(favoriteList)
                     }
 
-                    // Update layoutEmpty
-                    val historyList = viewModel.historyChannels.value
-                    binding.layoutEmpty.visibility =
-                        if (historyList.isEmpty() && favoriteChannels.isEmpty()) View.VISIBLE else View.GONE
-                    binding.scrollViewContent.visibility =
-                        if (historyList.isEmpty() && favoriteChannels.isEmpty()) View.GONE else View.VISIBLE
+                    // Update empty state — cả 2 đã có giá trị mới nhất
+                    val isEmpty = historyList.isEmpty() && favoriteChannels.isEmpty()
+                    binding.layoutEmpty.visibility      = if (isEmpty) View.VISIBLE else View.GONE
+                    binding.scrollViewContent.visibility = if (isEmpty) View.GONE else View.VISIBLE
                 }
             }
         }
@@ -295,9 +288,11 @@ class HistoryFragment : Fragment() {
             popup.setOnMenuItemClickListener { item ->
                 when (item.itemId) {
                     R.id.action_refresh -> {
+                        viewModel.loadHistory(playlistId)
                         true
                     }
                     R.id.action_clear_all -> {
+                        showClearAllDialog()
                         true
                     }
                     else -> false
@@ -305,6 +300,27 @@ class HistoryFragment : Fragment() {
             }
             popup.show()
         }
+    }
+
+    private fun showClearAllDialog() {
+        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_clear_all, null)
+
+        val dialog = android.app.AlertDialog.Builder(requireContext())
+            .setView(dialogView)
+            .create()
+
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        dialogView.findViewById<com.google.android.material.button.MaterialButton>(R.id.btnCancel).setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialogView.findViewById<com.google.android.material.button.MaterialButton>(R.id.btnRemove).setOnClickListener {
+            viewModel.clearAllHistory(playlistId)
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
 
     override fun onDestroyView() {

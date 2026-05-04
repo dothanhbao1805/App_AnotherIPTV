@@ -9,7 +9,7 @@
     android:clickable="true"
     android:focusable="true"
     android:foreground="?attr/selectableItemBackground"
-    app:cardBackgroundColor="?attr/colorSurfaceVariant"
+    app:cardBackgroundColor="@color/bg_item_season"
     app:cardCornerRadius="12dp"
     app:cardElevation="0dp">
 
@@ -30,7 +30,7 @@
                 android:layout_height="18dp"
                 android:layout_gravity="center"
                 android:src="@drawable/ic_play_circle"
-                app:tint="#1565C0" />
+                app:tint="@color/tint_ic_play" />
 
         </FrameLayout>
 
@@ -45,7 +45,7 @@
                 android:id="@+id/tvSeasonName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="?attr/colorOnSurface"
+                android:textColor="@color/text_primary"
                 android:textSize="15sp"
                 android:textStyle="bold"
                 tools:text="Season 1" />
@@ -55,7 +55,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
-                android:textColor="?attr/colorOnSurfaceVariant"
+                android:textColor="@color/text_desc_episode"
                 android:textSize="12sp"
                 tools:text="8 Episodes" />
 
@@ -64,7 +64,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
-                android:textColor="?attr/colorOnSurfaceVariant"
+                android:textColor="@color/text_desc_episode"
                 android:textSize="12sp"
                 tools:text="2020-05-17" />
 

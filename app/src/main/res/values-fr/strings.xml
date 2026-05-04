@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AnotherIPTV</string>
+
+    <!--    dialog_remove_history-->
+    <string name="dialog_title_remove_history">Supprimer de l\'historique</string>
+    <string name="dialog_msg_remove_history">Êtes-vous sûr de vouloir supprimer cet élément de l\'historique de lecture ?</string>
+    <string name="action_cancel">Annuler</string>
+    <string name="action_remove">Retirer</string>
+    <string name="action_delete">Supprimer</string>
+
+    <!--    dialog clear all-->
+    <string name="title_clear_all">Tout effacer</string>
+    <string name="title_desc_clear">Êtes-vous sûr de vouloir supprimer tout l\'historique ?</string>
+
+    <!--    dialog_remove_playlist-->
+    <string name="dialog_title_remove_playlist">Supprimer la liste de lecture</string>
+    <string name="dialog_msg_remove_playlist">Êtes-vous sûr de vouloir supprimer la liste de lecture ... ?</string>
+    <string name="dialog_msg_remove_playlist2">Cette action est irréversible</string>
+
+    <!--    bottom_nav_menu -->
+    <string name="title_nav_history">Historique</string>
+    <string name="title_nav_all">Tout</string>
+    <string name="title_nav_setting">Paramètres</string>
+
+    <!--    bottom_nav_menu_xstream -->
+    <string name="title_nav_live">En direct</string>
+    <string name="title_nav_movies">Films</string>
+    <string name="title_nav_series">Séries</string>
+
+    <string name="placeholder_channel_name">Nom de la chaîne</string>
+    <string name="title_history">Historique</string>
+    <string name="section_live_streams">Diffusions en direct</string>
+
+    <!--    fragment_XStream_playlist-->
+    <string name="title_xstream_playlist">Liste Xtream Code</string>
+    <string name="subtitle_load_xstream">Connectez-vous facilement avec les informations de votre fournisseur IPTV</string>
+    <string name="label_xstream_url">URL de l\'API</string>
+    <string name="hint_xstream_name">http://exemple.com:8080</string>
+    <string name="title_username_xstream">Nom d\'utilisateur</string>
+    <string name="hint_xstream_username">Entrez votre nom d\'utilisateur</string>
+    <string name="title_password_xstream">Mot de passe</string>
+    <string name="hint_xstream_password">Entrez votre mot de passe</string>
+    <string name="btn_save_playlist">Enregistrer la liste de lecture</string>
+    <string name="info_desc_xstream">Toutes les données sont stockées en toute sécurité sur votre appareil</string>
+    <string name="info_desc2_xstream">Le format de l\'URL doit être comme http://serveur:port</string>
+    <string name="error_title_xstream">Une erreur est survenue</string>
+    <string name="error_desc_xstream">Impossible d\'obtenir une réponse de votre fournisseur IPTV, veuillez vérifier vos informations</string>
+
+    <!--    fragment_live_xstream-->
+    <string name="title_live_xstream">Diffusions en direct</string>
+    <string name="category_name">PPV | UFC</string>
+    <string name="viewAll_xstream">Voir tout</string>
+
+    <!--    fragment_movie_xstream-->
+    <string name="title_movie_xstream">Films</string>
+    <string name="movie_category_name">Films 2026</string>
+    <string name="movie_viewAll_xstream">Voir tout</string>
+
+    <!--    fragment_series_xstream-->
+    <string name="title_series_xstream">Séries</string>
+    <string name="series_category_name">Séries 2026</string>
+    <string name="series_viewAll_xstream">Voir tout</string>
+
+    <!--    fragment_m3u_playlist-->
+    <string name="title_m3u_playlist">Liste de lecture M3U</string>
+    <string name="subtitle_load_m3u">Chargez des chaînes IPTV avec un fichier ou une URL M3U</string>
+    <string name="label_playlist_name">Nom de la liste</string>
+    <string name="hint_playlist_name">Liste M3U-1</string>
+    <string name="label_source_type">Type de source</string>
+    <string name="tab_url">URL</string>
+    <string name="tab_file">Fichier</string>
+    <string name="label_m3u_url">URL M3U</string>
+    <string name="hint_url">http://exemple.com/playlist.m3u</string>
+    <string name="hint_file">Sélectionnez un fichier M3U (.m3u, .m3u8)</string>
+    <string name="btn_create_playlist">Créer la liste de lecture</string>
+    <string name="info_title">Info</string>
+    <string name="error_title">Une erreur est survenue</string>
+    <string name="error_desc_m3u">Erreur M3U</string>
+    <string name="info_desc_m3u">Toutes les données sont stockées en toute sécurité sur votre appareil.\nFormats pris en charge : .m3u, .m3u8\nFormat de l\'URL : Doit commencer par http:// ou https://</string>
+    <string name="text_error_url">Entrez un format d\'URL valide</string>
+
+    <!--    fragment_new_playlist-->
+    <string name="title_create_new_playlist">Créer une nouvelle liste</string>
+    <string name="title_select_playlist_type">Sélectionner le type de liste</string>
+    <string name="subtitle_choose_playlist_type">Choisissez le type de liste de lecture que vous souhaitez créer</string>
+
+    <string name="card_title_xtream">Codes Xtream</string>
+    <string name="card_subtitle_xtream">Connectez-vous avec l\'URL de l\'API, Nom d\'utilisateur et Mot de passe</string>
+    <string name="card_desc_xtream">Connectez-vous facilement avec les informations de votre fournisseur IPTV</string>
+
+    <string name="card_title_m3u">Liste de lecture M3U</string>
+    <string name="card_subtitle_m3u">Ajouter une liste avec un fichier ou une URL M3U</string>
+    <string name="card_desc_m3u">Prend en charge les fichiers au format M3U traditionnel</string>
+
+    <string name="info_secure_storage">Les informations de votre liste de lecture sont stockées en toute sécurité sur votre appareil.</string>
+
+    <!--    fragment_playlist-->
+    <string name="title_my_playlists">Mes listes de lecture</string>
+    <string name="empty_title_playlists">Aucune liste pour le moment</string>
+    <string name="empty_desc_playlists">Commencez par créer votre première liste de lecture.\nVous pouvez ajouter des listes au format Xtream Code ou M3U.</string>
+    <string name="btn_create_first_playlist">+ Créer ma première liste</string>
+    <string name="hello_blank_fragment">Bonjour fragment vide</string>
+
+    <!--    loading xstream-->
+    <string name="title_loading_xstream">Another IPTV\nPlayer</string>
+    <string name="desc_loading_xstream">Lecteur IPTV Open Source</string>
+    <string name="text_loading_live">Chargement des chaînes en direct</string>
+
+    <!--    fragment series detail-->
+    <string name="text_seasons">Saisons</string>
+    <string name="text_trailer">Bande-annonce</string>
+    <string name="text_desc">Description</string>
+    <string name="text_release_date">Date de sortie</string>
+    <string name="text_genre">Genre</string>
+    <string name="text_cast">Distribution</string>
+    <string name="text_epi">Durée de l\'épisode</string>
+    <string name="text_cat_id">ID de la catégorie</string>
+    <string name="text_series_id">ID de la série</string>
+    <string name="text_pre">Préparation de la bibliothèque de séries</string>
+
+    <!-- fragment_setting -->
+    <string name="title_setting">Paramètres</string>
+    <string name="title_playlist">Listes de lecture</string>
+    <string name="title_gen">Paramètres généraux</string>
+    <string name="refresh_content">Actualiser le contenu</string>
+    <string name="title_theme">Thème</string>
+    <string name="player_setting">Paramètres du lecteur</string>
+    <string name="title_continue">Lecture en arrière-plan</string>
+    <string name="title_keep_playing">Continuer la lecture même lorsque l\'application est en arrière-plan</string>
+    <string name="title_sub_title">Paramètres des sous-titres</string>
+    <string name="title_custome">Personnaliser l\'apparence des sous-titres</string>
+    <string name="title_brightness">Geste de luminosité</string>
+    <string name="desc_brightness">Contrôlez la luminosité en balayant verticalement sur le côté gauche</string>
+    <string name="title_volume">Geste de volume</string>
+    <string name="desc_volume">Contrôlez le volume en balayant verticalement sur le côté droit</string>
+    <string name="title_seek">Geste de recherche</string>
+    <string name="desc_seek">Balayez horizontalement pour avancer ou reculer</string>
+    <string name="title_speed">Accélérer par appui long</string>
+    <string name="desc_speed">Accélère la lecture en maintenant l\'écran enfoncé</string>
+    <string name="title_double_tap">Avancer/reculer avec double tap</string>
+    <string name="desc_double_tap">Avancez ou reculez en appuyant deux fois</string>
+    <string name="title_about">À propos</string>
+    <string name="title_app_version">Version de l\'application</string>
+    <string name="default_app_version">1.3.0</string>
+    <string name="title_github">Soutenir sur GitHub</string>
+    <string name="desc_github">Contribuez au projet sur GitHub</string>
+    <string name="title_playlist_info">Informations sur la liste</string>
+    <string name="title_playlist_name">Nom de la liste</string>
+    <string name="default_playlist_name">M3U Playlist-1</string>
+    <string name="title_server_url">URL du serveur</string>
+    <string name="default_server_url">https://iptv-org.github.io/iptv/countries/vn.m3u</string>
+
+    <!--    item category-->
+    <string name="title_item_category">Catégorie</string>
+    <string name="text_channels">0 chaînes</string>
+
+    <!--    item delete-->
+    <string name="delete">Supprimer</string>
+
+    <!--    item playlist-->
+    <string name="date">Aujourd\'hui</string>
+
+    <!--    layout_info_movies_panel-->
+    <string name="title_video_info">Informations\nsur la vidéo</string>
+    <string name="label_name">Nom</string>
+    <string name="label_content_type">Type de contenu</string>
+    <string name="label_format">Format</string>
+    <string name="label_rating">Évaluation</string>
+    <string name="label_added_date">Date d\'ajout</string>
+    <string name="label_stream_id">ID de flux</string>
+    <string name="label_url">URL</string>
+    <string name="default_dash">—</string>
+
+    <!--    layout_info_panel  -->
+    <string name="title_video_info_panel">Informations\nsur la vidéo</string>
+    <string name="label_epg_channel_id">ID de chaîne EPG</string>
+
+    <!-- layout_list_panel -->
+    <string name="title_categories">Catégories</string>
+
+    <!-- layout dialog_loading -->
+    <string name="text_loading_m3u">Chargement M3U</string>
+
+    <!-- layout_setting_panel -->
+    <string name="title_settings_panel">Paramètres</string>
+    <string name="title_video_track">Piste vidéo</string>
+    <string name="title_audio_track">Piste audio</string>
+    <string name="title_subtitle_track">Piste de sous-titres</string>
+    <string name="label_auto">Automatique</string>
+    <string name="label_disabled">Désactivé</string>
+
+    <!--    detail movie-->
+    <string name="back">Retour</string>
+    <string name="rating">Évaluation</string>
+    <string name="info">Info</string>
+    <string name="added_date">Date d\'ajout</string>
+    <string name="trailer">Bande-annonce</string>
+    <string name="start_watching">Commencer à regarder</string>
+
+    <!-- Settings -->
+    <string name="label_app_language">Langue de l\'application</string>
+</resources>

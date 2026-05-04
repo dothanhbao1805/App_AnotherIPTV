@@ -59,6 +59,7 @@
                 android:layout_marginTop="@dimen/spacing_large"
                 android:text="@string/title_m3u_playlist"
                 android:textAppearance="?attr/textAppearanceHeadlineSmall"
+                android:textColor="@color/text_primary"
                 android:textStyle="bold" />
 
             <TextView
@@ -74,8 +75,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="28dp"
+                android:textStyle="bold"
                 android:text="@string/label_playlist_name"
-                android:textAppearance="?attr/textAppearanceTitleSmall" />
+                android:textAppearance="?attr/textAppearanceTitleSmall"
+                android:textColor="@color/text_primary"
+                />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -110,7 +114,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:text="@string/label_source_type"
-                android:textAppearance="?attr/textAppearanceTitleSmall" />
+                android:textStyle="bold"
+                android:textAppearance="?attr/textAppearanceTitleSmall"
+                android:textColor="@color/text_primary"
+                />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -135,7 +142,8 @@
                         android:id="@+id/ivTabUrlIcon"
                         android:layout_width="16dp"
                         android:layout_height="16dp"
-                        android:src="@drawable/ic_link" />
+                        android:src="@drawable/ic_link"
+                        app:tint="@color/color_text_source"/>
 
                     <TextView
                         android:id="@+id/tvTabUrl"
@@ -144,7 +152,7 @@
                         android:layout_marginStart="6dp"
                         android:text="@string/tab_url"
                         android:textAppearance="?attr/textAppearanceTitleSmall"
-                        android:textColor="@android:color/white" />
+                        android:textColor="@color/color_text_source" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -163,7 +171,7 @@
                         android:layout_width="16dp"
                         android:layout_height="16dp"
                         android:src="@drawable/ic_folder"
-                        app:tint="@color/text_secondary" />
+                        app:tint="@color/color_text_source_un" />
 
                     <TextView
                         android:id="@+id/tvTabFile"
@@ -172,7 +180,7 @@
                         android:layout_marginStart="6dp"
                         android:text="@string/tab_file"
                         android:textAppearance="?attr/textAppearanceTitleSmall"
-                        android:textColor="@color/text_secondary" />
+                        android:textColor="@color/color_text_source_un" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -181,6 +189,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:textStyle="bold"
                 android:text="@string/label_m3u_url"
                 android:textAppearance="?attr/textAppearanceTitleSmall" />
 
@@ -358,6 +367,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/info_title"
                         android:textAppearance="?attr/textAppearanceLabelLarge"
+                        android:textColor="@color/text_primary"
                         android:textStyle="bold" />
 
                     <TextView
@@ -366,7 +376,9 @@
                         android:layout_marginTop="4dp"
                         android:lineSpacingExtra="3dp"
                         android:text="@string/info_desc_m3u"
-                        android:textAppearance="?attr/textAppearanceBodySmall" />
+                        android:textAppearance="?attr/textAppearanceBodySmall"
+                        android:textColor="@color/text_primary"
+                        />
                 </LinearLayout>
 
             </LinearLayout>

@@ -37,4 +37,9 @@ class WatchHistoryRepositoryImpl(
         historyDao.deleteById(id)
     }
 
+    override suspend fun deleteAllHistory(playlistId: Long) {
+        historyDao.deleteAllByPlaylistId(playlistId)
+    }
+
+
 }

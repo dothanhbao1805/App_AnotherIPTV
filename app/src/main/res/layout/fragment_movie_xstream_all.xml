@@ -29,7 +29,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:textAppearance="?attr/textAppearanceTitleLarge"
+                android:textAppearance="@style/TextAppearance.AnotherIPTV.ToolbarTitle"
                 android:textStyle="bold"
                 tools:text="Sports Fanatic's" />
 
@@ -161,7 +161,7 @@
                 android:paddingTop="@dimen/spacing_medium"
                 android:paddingBottom="@dimen/spacing_large"
                 tools:itemCount="9"
-                tools:listitem="@layout/item_movie_all_xstream" />
+                tools:listitem="@layout/item_series_all_xstream" />
 
         </LinearLayout>
 

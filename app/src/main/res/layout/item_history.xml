@@ -10,7 +10,7 @@
     android:clickable="true"
     android:focusable="true"
     android:foreground="?attr/selectableItemBackground"
-    app:cardBackgroundColor="?attr/colorSurfaceVariant"
+    app:cardBackgroundColor="@color/bg_main"
     app:cardCornerRadius="@dimen/radius_card"
     app:cardElevation="2dp">
 
@@ -37,6 +37,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
+            android:background="@drawable/bg_gradient_bottom"
             android:ellipsize="end"
             android:maxLines="2"
             android:padding="@dimen/spacing_small"

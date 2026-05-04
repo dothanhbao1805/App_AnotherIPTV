@@ -23,7 +23,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/title_my_playlists"
-                android:textAppearance="@style/TextAppearance.AnotherIPTV.ToolbarTitle" />
+                android:textAppearance="@style/TextAppearance.AnotherIPTV.ToolbarTitle"
+
+                />
 
         </androidx.appcompat.widget.Toolbar>
 
@@ -54,6 +56,7 @@
             android:layout_marginBottom="@dimen/spacing_medium"
             android:text="@string/empty_title_playlists"
             android:textAppearance="?attr/textAppearanceHeadlineSmall"
+            android:textColor="@color/text_primary"
             android:textStyle="bold" />
 
         <TextView

@@ -30,6 +30,7 @@ class LoadingFragment : Fragment() {
     private var targetProgress  = 0
     private var statusText      = ""
     private val handler = Handler(Looper.getMainLooper())
+    val isRefresh = arguments?.getBoolean("isRefresh", false) ?: false
 
     private val viewModel: PlaylistViewModel by activityViewModels {
         val container = (requireActivity().application as MyApp).container
@@ -37,7 +38,8 @@ class LoadingFragment : Fragment() {
             container.getPlaylistsUseCase,
             container.addPlaylistUseCase,
             container.deletePlaylistUseCase,
-            container.addXstreamUseCase
+            container.addXstreamUseCase,
+            container.playlistRepository
         )
     }
 
@@ -61,8 +63,19 @@ class LoadingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        updateUI(0, "Connecting")
-        handler.post(circleAnimRunnable)
+        val isRefresh = arguments?.getBoolean("isRefresh", false) ?: false
+        val refreshPlaylistId = arguments?.getLong("playlistId", -1L) ?: -1L
+
+        if (isRefresh && refreshPlaylistId != -1L) {
+            // Refresh XSTREAM
+            updateUI(0, "Connecting")
+            handler.post(circleAnimRunnable)
+            viewModel.refreshXstream(refreshPlaylistId)
+        } else {
+            // Flow cũ — add playlist mới
+            updateUI(0, "Connecting")
+            handler.post(circleAnimRunnable)
+        }
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -93,7 +106,6 @@ class LoadingFragment : Fragment() {
                 }
             }
         }
-
     }
 
     private fun updateProgress(progress: Int, status: String) {
@@ -172,6 +184,7 @@ class LoadingFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        (requireActivity() as? ContainerXstreamActivity)?.setBottomNavVisible(true)
         handler.removeCallbacksAndMessages(null)
         _binding = null
     }

@@ -10,6 +10,6 @@ interface WatchHistoryRepository {
     suspend fun upsertHistory(watchHistory: WatchHistory)
     suspend fun deleteHistoryById(id: Long)
     fun getHistoryWithCategory(playlistId: Long): Flow<List<HistoryWithUrl>>
-
+    suspend fun deleteAllHistory(playlistId: Long)
 
 }

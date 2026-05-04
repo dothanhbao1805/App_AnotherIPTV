@@ -12,7 +12,7 @@
     android:focusable="true"
     app:cardCornerRadius="@dimen/radius_card"
     app:cardElevation="1dp"
-    app:cardBackgroundColor="@android:color/white">
+    app:cardBackgroundColor="@color/bg_item_channel">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -42,6 +42,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/TextAppearance.AnotherIPTV.ChannelName"
                 tools:text="An Giang TV1 (1080p) [Geo-blocked]"
+                android:textColor="@color/title_clearAll"
                 android:maxLines="1"
                 android:ellipsize="end" />
 
@@ -51,7 +52,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:textAppearance="@style/TextAppearance.AnotherIPTV.ChannelCategory"
-                tools:text="General" />
+                tools:text="General"
+                android:textColor="@color/title_clearAll"
+                />
 
         </LinearLayout>
 

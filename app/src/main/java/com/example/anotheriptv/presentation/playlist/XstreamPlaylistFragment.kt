@@ -38,7 +38,8 @@ class XstreamPlaylistFragment : Fragment() {
             container.getPlaylistsUseCase,
             container.addPlaylistUseCase,
             container.deletePlaylistUseCase,
-            container.addXstreamUseCase
+            container.addXstreamUseCase,
+            container.playlistRepository
         )
     }
 
