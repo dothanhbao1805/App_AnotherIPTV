@@ -1,11 +1,14 @@
 package com.example.anotheriptv.presentation
 
+import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.anotheriptv.R
 import com.example.anotheriptv.presentation.channels.ChannelFragment
 import com.example.anotheriptv.presentation.history.HistoryFragment
+import com.example.anotheriptv.presentation.settings.SettingsFragment
+import com.example.anotheriptv.utils.LocaleHelper
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class ContainerPlaylistActivity : AppCompatActivity() {
@@ -53,9 +56,18 @@ class ContainerPlaylistActivity : AppCompatActivity() {
                     replaceFragment(channelFragment)
                     true
                 }
+
                 R.id.nav_settings -> {
-                    false
+                    val settingsFragment = SettingsFragment().apply {
+                        arguments = Bundle().apply {
+                            putLong("playlistId", currentPlaylistId)
+                            putString("playlistName", currentPlaylistName)
+                        }
+                    }
+                    replaceFragment(settingsFragment)
+                    true
                 }
+
                 else -> false
             }
         }
@@ -67,4 +79,10 @@ class ContainerPlaylistActivity : AppCompatActivity() {
             .replace(R.id.fragment_container, fragment)
             .commit()
     }
+
+    override fun attachBaseContext(newBase: Context) {
+        val lang = LocaleHelper.getSavedLanguage(newBase)
+        super.attachBaseContext(LocaleHelper.setLocale(newBase, lang))
+    }
+
 }

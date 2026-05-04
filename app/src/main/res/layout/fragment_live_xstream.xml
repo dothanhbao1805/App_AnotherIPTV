@@ -34,7 +34,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:src="@drawable/ic_search"
-                app:tint="@color/text_primary" />
+                app:tint="@color/text_primary"/>
 
         </androidx.appcompat.widget.Toolbar>
 

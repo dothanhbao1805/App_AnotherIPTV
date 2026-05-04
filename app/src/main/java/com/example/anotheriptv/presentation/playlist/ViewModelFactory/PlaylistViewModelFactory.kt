@@ -3,6 +3,7 @@ package com.example.anotheriptv.presentation.playlist.ViewModelFactory
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.example.anotheriptv.domain.repository.PlaylistRepository
 import com.example.anotheriptv.domain.usecase.playlist.AddPlaylistUseCase
 import com.example.anotheriptv.domain.usecase.playlist.AddXstreamUseCase
 import com.example.anotheriptv.domain.usecase.playlist.DeletePlaylistUseCase
@@ -13,7 +14,8 @@ class PlaylistViewModelFactory(
     private val getPlaylistsUseCase: GetPlaylistsUseCase,
     private val addPlaylistUseCase: AddPlaylistUseCase,
     private val deletePlaylistUseCase: DeletePlaylistUseCase,
-    private val addXstreamUseCase: AddXstreamUseCase
+    private val addXstreamUseCase: AddXstreamUseCase,
+    private val playlistRepository: PlaylistRepository
 ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -23,7 +25,8 @@ class PlaylistViewModelFactory(
                 getPlaylistsUseCase,
                 addPlaylistUseCase,
                 deletePlaylistUseCase,
-                addXstreamUseCase
+                addXstreamUseCase,
+                playlistRepository
             ) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")

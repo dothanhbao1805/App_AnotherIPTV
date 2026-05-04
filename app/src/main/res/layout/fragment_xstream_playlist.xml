@@ -59,6 +59,7 @@
                 android:layout_marginTop="@dimen/spacing_large"
                 android:text="@string/title_xstream_playlist"
                 android:textAppearance="?attr/textAppearanceHeadlineSmall"
+                android:textColor="@color/text_primary"
                 android:textStyle="bold" />
 
             <TextView
@@ -68,14 +69,18 @@
                 android:lineSpacingExtra="4dp"
                 android:text="@string/subtitle_load_xstream"
                 android:textAppearance="?attr/textAppearanceBodyMedium"
-                android:textColor="@color/text_secondary" />
+                android:textColor="@color/text_secondary"
+                />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="28dp"
                 android:text="@string/label_playlist_name"
-                android:textAppearance="?attr/textAppearanceTitleSmall" />
+                android:textAppearance="?attr/textAppearanceTitleSmall"
+                android:textColor="@color/text_primary"
+                android:textStyle="bold"
+                />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -110,7 +115,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:text="@string/label_xstream_url"
-                android:textAppearance="?attr/textAppearanceTitleSmall" />
+                android:textStyle="bold"
+                android:textAppearance="?attr/textAppearanceTitleSmall"
+                android:textColor="@color/text_primary"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -146,7 +153,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:text="@string/title_username_xstream"
-                android:textAppearance="?attr/textAppearanceTitleSmall" />
+                android:textAppearance="?attr/textAppearanceTitleSmall"
+                android:textColor="@color/text_primary"
+                android:textStyle="bold"
+                />
 
             <LinearLayout
                 android:id="@+id/layoutUsernameInput"
@@ -183,6 +193,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:text="@string/title_password_xstream"
+                android:textStyle="bold"
+                android:textColor="@color/text_primary"
                 android:textAppearance="?attr/textAppearanceTitleSmall" />
 
             <LinearLayout

@@ -22,7 +22,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/title_series_xstream"
-                android:textAppearance="@style/TextAppearance.AnotherIPTV.ToolbarTitle" />
+                android:textAppearance="@style/TextAppearance.AnotherIPTV.ToolbarTitle"
+                android:textColor="@color/text_primary"
+                />
 
             <ImageView
                 android:id="@+id/ivSearch"

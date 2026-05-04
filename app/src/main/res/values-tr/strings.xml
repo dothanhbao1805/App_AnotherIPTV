@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AnotherIPTV</string>
+
+    <!--    dialog_remove_history-->
+    <string name="dialog_title_remove_history">Geçmişten Kaldır</string>
+    <string name="dialog_msg_remove_history">Bu öğeyi izleme geçmişinden kaldırmak istediğinizden emin misiniz?</string>
+    <string name="action_cancel">İptal</string>
+    <string name="action_remove">Kaldır</string>
+    <string name="action_delete">Sil</string>
+
+    <!--    dialog clear all-->
+    <string name="title_clear_all">Tümünü temizle</string>
+    <string name="title_desc_clear">Tüm geçmişi silmek istediğinizden emin misiniz?</string>
+
+    <!--    dialog_remove_playlist-->
+    <string name="dialog_title_remove_playlist">Oynatma Listesini Sil</string>
+    <string name="dialog_msg_remove_playlist">Bu oynatma listesini silmek istediğinizden emin misiniz ...?</string>
+    <string name="dialog_msg_remove_playlist2">Bu işlem geri alınamaz</string>
+
+    <!--    bottom_nav_menu -->
+    <string name="title_nav_history">Geçmiş</string>
+    <string name="title_nav_all">Tümü</string>
+    <string name="title_nav_setting">Ayarlar</string>
+
+    <!--    bottom_nav_menu_xstream -->
+    <string name="title_nav_live">Canlı</string>
+    <string name="title_nav_movies">Filmler</string>
+    <string name="title_nav_series">Diziler</string>
+
+    <string name="placeholder_channel_name">Kanal Adı</string>
+    <string name="title_history">Geçmiş</string>
+    <string name="section_live_streams">Canlı Yayınlar</string>
+
+    <!--    fragment_XStream_playlist-->
+    <string name="title_xstream_playlist">XStream Kod Oynatma Listesi</string>
+    <string name="subtitle_load_xstream">IPTV sağlayıcınızın bilgileriyle kolayca bağlanın</string>
+    <string name="label_xstream_url">API URL</string>
+    <string name="hint_xstream_name">http://example.com:8080</string>
+    <string name="title_username_xstream">Kullanıcı Adı</string>
+    <string name="hint_xstream_username">Kullanıcı adınızı girin</string>
+    <string name="title_password_xstream">Şifre</string>
+    <string name="hint_xstream_password">Şifrenizi girin</string>
+    <string name="btn_save_playlist">Oynatma Listesini Kaydet</string>
+    <string name="info_desc_xstream">Tüm veriler cihazınızda güvenli şekilde saklanır</string>
+    <string name="info_desc2_xstream">URL formatı http://server:port şeklinde olmalıdır</string>
+    <string name="error_title_xstream">Bir hata oluştu</string>
+    <string name="error_desc_xstream">IPTV sağlayıcınızdan yanıt alınamadı, lütfen bilgilerinizi kontrol edin</string>
+
+    <!--    fragment_live_xstream-->
+    <string name="title_live_xstream">Canlı Yayınlar</string>
+    <string name="category_name">PPV | UFC</string>
+    <string name="viewAll_xstream">Tümünü Gör</string>
+
+    <!--    fragment_movie_xstream-->
+    <string name="title_movie_xstream">Filmler</string>
+    <string name="movie_category_name">2026 Filmleri</string>
+    <string name="movie_viewAll_xstream">Tümünü Gör</string>
+
+    <!--    fragment_series_xstream-->
+    <string name="title_series_xstream">Diziler</string>
+    <string name="series_category_name">2026 Dizileri</string>
+    <string name="series_viewAll_xstream">Tümünü Gör</string>
+
+    <!--    fragment_m3u_playlist-->
+    <string name="title_m3u_playlist">M3U Oynatma Listesi</string>
+    <string name="subtitle_load_m3u">M3U dosyası veya URL ile IPTV kanallarını yükleyin</string>
+    <string name="label_playlist_name">Oynatma Listesi Adı</string>
+    <string name="hint_playlist_name">M3U Oynatma Listesi-1</string>
+    <string name="label_source_type">Kaynak Türü</string>
+    <string name="tab_url">URL</string>
+    <string name="tab_file">Dosya</string>
+    <string name="label_m3u_url">M3U URL</string>
+    <string name="hint_url">http://example.com/playlist.m3u</string>
+    <string name="hint_file">M3U dosyası seçin (.m3u, .m3u8)</string>
+    <string name="btn_create_playlist">Oynatma Listesi Oluştur</string>
+    <string name="info_title">Bilgi</string>
+    <string name="error_title">Hata Oluştu</string>
+    <string name="error_desc_m3u">M3U Hatası</string>
+    <string name="info_desc_m3u">Tüm veriler cihazınızda güvenli şekilde saklanır.\nDesteklenen formatlar: .m3u, .m3u8\nURL formatı: http:// veya https:// ile başlamalıdır</string>
+    <string name="text_error_url">Geçerli bir URL formatı girin</string>
+
+    <!--    fragment_new_playlist-->
+    <string name="title_create_new_playlist">Yeni Oynatma Listesi Oluştur</string>
+    <string name="title_select_playlist_type">Oynatma Listesi Türünü Seçin</string>
+    <string name="subtitle_choose_playlist_type">Oluşturmak istediğiniz oynatma listesi türünü seçin</string>
+
+    <string name="card_title_xtream">Xtream Kodları</string>
+    <string name="card_subtitle_xtream">API URL, Kullanıcı Adı ve Şifre ile bağlanın</string>
+    <string name="card_desc_xtream">IPTV sağlayıcınızın bilgileriyle kolayca bağlanın</string>
+
+    <string name="card_title_m3u">M3U Oynatma Listesi</string>
+    <string name="card_subtitle_m3u">M3U dosyası veya URL ile oynatma listesi ekleyin</string>
+    <string name="card_desc_m3u">Geleneksel M3U format dosyalarını destekler</string>
+
+    <string name="info_secure_storage">Oynatma listesi bilgileriniz cihazınızda güvenle saklanır.</string>
+
+    <!--    fragment_playlist-->
+    <string name="title_my_playlists">Oynatma Listelerim</string>
+    <string name="empty_title_playlists">Henüz Oynatma Listesi Yok</string>
+    <string name="empty_desc_playlists">İlk oynatma listenizi oluşturarak başlayın.\nXtream Code veya M3U formatında oynatma listesi ekleyebilirsiniz.</string>
+    <string name="btn_create_first_playlist">+ İlk Oynatma Listemi Oluştur</string>
+    <string name="hello_blank_fragment">Merhaba boş fragment</string>
+
+    <!--    loading xstream-->
+    <string name="title_loading_xstream">Another IPTV\nPlayer</string>
+    <string name="desc_loading_xstream">Açık Kaynak IPTV Oynatıcı</string>
+    <string name="text_loading_live">Canlı kanallar yükleniyor</string>
+
+    <!--    fragment series detail-->
+    <string name="text_seasons">Sezonlar</string>
+    <string name="text_trailer">Fragman</string>
+    <string name="text_desc">Açıklama</string>
+    <string name="text_release_date">Yayın Tarihi</string>
+    <string name="text_genre">Tür</string>
+    <string name="text_cast">Oyuncular</string>
+    <string name="text_epi">Bölüm Süresi</string>
+    <string name="text_cat_id">Kategori ID</string>
+    <string name="text_series_id">Dizi ID</string>
+    <string name="text_pre">Dizi kütüphanesi hazırlanıyor</string>
+
+    <!-- fragment_setting -->
+    <string name="title_setting">Ayarlar</string>
+    <string name="title_playlist">Oynatma Listeleri</string>
+    <string name="title_gen">Genel Ayarlar</string>
+    <string name="refresh_content">İçeriği Yenile</string>
+    <string name="title_theme">Tema</string>
+    <string name="player_setting">Oynatıcı Ayarları</string>
+    <string name="title_continue">Arka Planda Oynatmaya Devam Et</string>
+    <string name="title_keep_playing">Uygulama arka plandayken bile oynatmaya devam et</string>
+    <string name="title_sub_title">Altyazı Ayarları</string>
+    <string name="title_custome">Altyazı görünümünü özelleştir</string>
+    <string name="title_brightness">Parlaklık Hareketi</string>
+    <string name="desc_brightness">Sol tarafta dikey kaydırarak parlaklığı kontrol edin</string>
+    <string name="title_volume">Ses Hareketi</string>
+    <string name="desc_volume">Sağ tarafta dikey kaydırarak sesi kontrol edin</string>
+    <string name="title_seek">Sarma Hareketi</string>
+    <string name="desc_seek">Yatay kaydırarak ileri/geri sarın</string>
+    <string name="title_speed">Uzun Basarak Hızlandır</string>
+    <string name="desc_speed">Uzun basıldığında oynatmayı hızlandırır</string>
+    <string name="title_double_tap">Çift Dokunuşla Sar</string>
+    <string name="desc_double_tap">Çift dokunarak ileri/geri sarın</string>
+    <string name="title_about">Hakkında</string>
+    <string name="title_app_version">Uygulama Sürümü</string>
+    <string name="default_app_version">1.3.0</string>
+    <string name="title_github">GitHub\'da Destekle</string>
+    <string name="desc_github">Projeye GitHub\'da katkıda bulunun</string>
+    <string name="title_playlist_info">Oynatma Listesi Bilgileri</string>
+    <string name="title_playlist_name">Oynatma Listesi Adı</string>
+    <string name="default_playlist_name">M3U Playlist-1</string>
+    <string name="title_server_url">Sunucu URL</string>
+    <string name="default_server_url">https://iptv-org.github.io/iptv/countries/vn.m3u</string>
+
+    <!--    item category-->
+    <string name="title_item_category">Kategori</string>
+    <string name="text_channels">0 kanal</string>
+
+    <!--    item delete-->
+    <string name="delete">Sil</string>
+
+    <!--    item playlist-->
+    <string name="date">Bugün</string>
+
+    <!--    layout_info_movies_panel-->
+    <string name="title_video_info">Video\nBilgisi</string>
+    <string name="label_name">Ad</string>
+    <string name="label_content_type">İçerik Türü</string>
+    <string name="label_format">Format</string>
+    <string name="label_rating">Puan</string>
+    <string name="label_added_date">Eklenme Tarihi</string>
+    <string name="label_stream_id">Yayın ID</string>
+    <string name="label_url">URL</string>
+    <string name="default_dash">—</string>
+
+    <!--    layout_info_panel  -->
+    <string name="title_video_info_panel">Video\nBilgisi</string>
+    <string name="label_epg_channel_id">EPG Kanal ID</string>
+
+    <!-- layout_list_panel -->
+    <string name="title_categories">Kategoriler</string>
+
+    <!-- layout dialog_loading -->
+    <string name="text_loading_m3u">M3U Yükleniyor</string>
+
+    <!-- layout_setting_panel -->
+    <string name="title_settings_panel">Ayarlar</string>
+    <string name="title_video_track">Video Parçası</string>
+    <string name="title_audio_track">Ses Parçası</string>
+    <string name="title_subtitle_track">Altyazı Parçası</string>
+    <string name="label_auto">Otomatik</string>
+    <string name="label_disabled">Devre Dışı</string>
+
+    <!--    detail movie-->
+    <string name="back">Geri</string>
+    <string name="rating">Puan</string>
+    <string name="info">Bilgi</string>
+    <string name="added_date">Eklenme Tarihi</string>
+    <string name="trailer">Fragman</string>
+    <string name="start_watching">İzlemeye Başla</string>
+
+    <!-- Settings -->
+    <string name="label_app_language">Uygulama Dili</string>
+</resources>

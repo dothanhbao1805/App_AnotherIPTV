@@ -28,7 +28,7 @@
             android:id="@+id/tvCategoryName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Category"
+            android:text="@string/title_item_category"
             android:textColor="#FFFFFF"
             android:textSize="14sp"
             android:textStyle="bold" />
@@ -37,10 +37,10 @@
             android:id="@+id/tvChannelCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="0 channels"
+            android:layout_marginTop="2dp"
+            android:text="@string/text_channels"
             android:textColor="#888888"
-            android:textSize="12sp"
-            android:layout_marginTop="2dp" />
+            android:textSize="12sp" />
     </LinearLayout>
 
     <ImageView

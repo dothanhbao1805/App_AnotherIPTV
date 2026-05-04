@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="bg_status_bar">#000000</color>
+
+    <!--    menu xstream-->
+    <color name="bg_screen">#121212</color>
+    <color name="bg_card">#1E1E1E</color>
+    <color name="text_primary">#FFFFFFFF</color>
+    <color name="text_secondary">#FFFFFFFF</color>
+    <color name="divider">#2C2C2C</color>
+    <color name="nav_selected_blue">#BAC6DE</color>
+    <color name="nav_unselected_gray">#BBBABF</color>
+
+    <!--    detail_movie-->
+    <color name="background_dark">#FF0D0D0D</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="bg_btn_start_watching">#A0C9FD</color>
+    <color name="text_color_Start">#002D53</color>
+
+    <!--bottom_sheet_episodes-->
+    <color name="bg_bottom_sheet_rounded">#101318</color>
+    <color name="bg_bottom_sheet_handle">#1E2126</color>
+
+    <!--dialog_clear_all-->
+    <color name="bg_dialog_rounded">#26292E</color>
+    <color name="title_clearAll">#DDE2E6</color>
+    <color name="desc_clearAll">#DDE2E6</color>
+
+    <!--fragment_channel-->
+    <color name="bg_main">#111419</color>
+    <color name="bg_item_channel">#1F2126</color>
+    <color name="bg_live_badge">#352529</color>
+    <color name="badge_live_text">#D54736</color>
+
+    <!--fragment_history-->
+    <color name="color_clock">#989899</color>
+
+    <!--fragment_live_xstream_all-->
+    <color name="bg_item_live_all">#313439</color>
+    <color name="bg_gradient_bottom">#101010</color>
+
+    <!--fragment_m3u_playlist-->
+    <color name="stroke">#FFFFFFFF</color>
+    <color name="bg_tab_selected">#A0C9FD</color>
+    <color name="color_text_source">#023258</color>
+    <color name="color_text_source_un">#FFFFFFFF</color>
+    <color name="bg_button_disable">#2A2D32</color>
+    <color name="bg_button_primary">#A0C9FD</color>
+    <color name="bg_info_m3u">#194876</color>
+    <color name="stroke_bg_info_m3u">#A7CDFA</color>
+
+    <!--fragment_new_playlist-->
+    <color name="bg_info_banner">#13212C</color>
+    <color name="color_info">#3C98EF</color>
+
+    <!--fragment_playlist-->
+    <color name="btn_blue_light">#194876</color>
+
+    <!--item_xstream-->
+    <color name="bg_item_xstream">#181B20</color>
+    <color name="bg_badge_xstream">#1B2837</color>
+    <color name="color_text_xstream">#2D98E5</color>
+
+    <!--fragment_setting-->
+    <color name="bg_setting_card">#181B20</color>
+    <color name="color_title">#E5E7EB</color>
+
+    <!--item_episode-->
+    <color name="bg_item_episodde">#1E2126</color>
+    <color name="text_desc_episode">#757474</color>
+    <color name="bg_rating">#333423</color>
+    <color name="text_rating">#FDC31F</color>
+    <color name="tint_ic_play">#FF000000</color>
+    <color name="bg_icon_blue_light">#1E2126</color>
+
+
+    <!--item_history-->
+    <color name="bg_remove_btn">#0C0C0C</color>
+
+    <!--item_playlist-->
+    <color name="bg_badge_m3u">#192D22</color>
+    <color name="text_m3u">#4BAD56</color>
+
+    <!--item_season-->
+    <color name="bg_item_season">#1B1E23</color>
+
+    <!--fragment_series_detail-->
+    <color name="bg_icon_red_light">#342526</color>
+    <color name="stroke_item">#373A3F</color>
+
+</resources>

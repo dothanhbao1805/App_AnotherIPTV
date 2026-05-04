@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AnotherIPTV</string>
+
+    <!--    dialog_remove_history-->
+    <string name="dialog_title_remove_history">Удалить из истории</string>
+    <string name="dialog_msg_remove_history">Вы уверены, что хотите удалить этот элемент из истории просмотров?</string>
+    <string name="action_cancel">Отмена</string>
+    <string name="action_remove">Убрать</string>
+    <string name="action_delete">Удалить</string>
+
+    <!--    dialog clear all-->
+    <string name="title_clear_all">Очистить всё</string>
+    <string name="title_desc_clear">Вы уверены, что хотите удалить всю историю?</string>
+
+    <!--    dialog_remove_playlist-->
+    <string name="dialog_title_remove_playlist">Удалить плейлист</string>
+    <string name="dialog_msg_remove_playlist">Вы уверены, что хотите удалить плейлист ...?</string>
+    <string name="dialog_msg_remove_playlist2">Это действие нельзя отменить</string>
+
+    <!--    bottom_nav_menu -->
+    <string name="title_nav_history">История</string>
+    <string name="title_nav_all">Все</string>
+    <string name="title_nav_setting">Настройки</string>
+
+    <!--    bottom_nav_menu_xstream -->
+    <string name="title_nav_live">ТВ</string>
+    <string name="title_nav_movies">Фильмы</string>
+    <string name="title_nav_series">Сериалы</string>
+
+    <string name="placeholder_channel_name">Имя канала</string>
+    <string name="title_history">История</string>
+    <string name="section_live_streams">Прямые трансляции</string>
+
+    <!--    fragment_XStream_playlist-->
+    <string name="title_xstream_playlist">Плейлист Xtream Code</string>
+    <string name="subtitle_load_xstream">Легко подключайтесь с помощью данных от вашего IPTV-провайдера</string>
+    <string name="label_xstream_url">API URL</string>
+    <string name="hint_xstream_name">http://example.com:8080</string>
+    <string name="title_username_xstream">Имя пользователя</string>
+    <string name="hint_xstream_username">Введите имя пользователя</string>
+    <string name="title_password_xstream">Пароль</string>
+    <string name="hint_xstream_password">Введите пароль</string>
+    <string name="btn_save_playlist">Сохранить плейлист</string>
+    <string name="info_desc_xstream">Все данные надежно хранятся на вашем устройстве</string>
+    <string name="info_desc2_xstream">Формат URL должен быть http://сервер:порт</string>
+    <string name="error_title_xstream">Произошла ошибка</string>
+    <string name="error_desc_xstream">Не удалось получить ответ от вашего IPTV-провайдера, пожалуйста, проверьте ваши данные</string>
+
+    <!--    fragment_live_xstream-->
+    <string name="title_live_xstream">Прямые трансляции</string>
+    <string name="category_name">PPV | UFC</string>
+    <string name="viewAll_xstream">Смотреть все</string>
+
+    <!--    fragment_movie_xstream-->
+    <string name="title_movie_xstream">Фильмы</string>
+    <string name="movie_category_name">Фильмы 2026</string>
+    <string name="movie_viewAll_xstream">Смотреть все</string>
+
+    <!--    fragment_series_xstream-->
+    <string name="title_series_xstream">Сериалы</string>
+    <string name="series_category_name">Сериалы 2026</string>
+    <string name="series_viewAll_xstream">Смотреть все</string>
+
+    <!--    fragment_m3u_playlist-->
+    <string name="title_m3u_playlist">Плейлист M3U</string>
+    <string name="subtitle_load_m3u">Загрузите IPTV-каналы с помощью файла или URL M3U</string>
+    <string name="label_playlist_name">Имя плейлиста</string>
+    <string name="hint_playlist_name">M3U Плейлист-1</string>
+    <string name="label_source_type">Тип источника</string>
+    <string name="tab_url">URL</string>
+    <string name="tab_file">Файл</string>
+    <string name="label_m3u_url">M3U URL</string>
+    <string name="hint_url">http://example.com/playlist.m3u</string>
+    <string name="hint_file">Выберите файл M3U (.m3u, .m3u8)</string>
+    <string name="btn_create_playlist">Создать плейлист</string>
+    <string name="info_title">Информация</string>
+    <string name="error_title">Произошла ошибка</string>
+    <string name="error_desc_m3u">Ошибка M3U</string>
+    <string name="info_desc_m3u">Все данные надежно хранятся на вашем устройстве.\nПоддерживаемые форматы: .m3u, .m3u8\nФормат URL: Должен начинаться с http:// или https://</string>
+    <string name="text_error_url">Введите действительный формат URL</string>
+
+    <!--    fragment_new_playlist-->
+    <string name="title_create_new_playlist">Создать новый плейлист</string>
+    <string name="title_select_playlist_type">Выберите тип плейлиста</string>
+    <string name="subtitle_choose_playlist_type">Выберите тип плейлиста, который хотите создать</string>
+
+    <string name="card_title_xtream">Xtream Codes</string>
+    <string name="card_subtitle_xtream">Подключение по API URL, имени пользователя и паролю</string>
+    <string name="card_desc_xtream">Легко подключайтесь с помощью данных от вашего IPTV-провайдера</string>
+
+    <string name="card_title_m3u">Плейлист M3U</string>
+    <string name="card_subtitle_m3u">Добавить плейлист с помощью файла или URL M3U</string>
+    <string name="card_desc_m3u">Поддерживает традиционные файлы формата M3U</string>
+
+    <string name="info_secure_storage">Данные вашего плейлиста надежно хранятся на вашем устройстве.</string>
+
+    <!--    fragment_playlist-->
+    <string name="title_my_playlists">Мои плейлисты</string>
+    <string name="empty_title_playlists">Пока нет плейлистов</string>
+    <string name="empty_desc_playlists">Начните с создания вашего первого плейлиста.\nВы можете добавить плейлисты в формате Xtream Code или M3U.</string>
+    <string name="btn_create_first_playlist">+ Создать мой первый плейлист</string>
+    <string name="hello_blank_fragment">Привет пустой фрагмент</string>
+
+    <!--    loading xstream-->
+    <string name="title_loading_xstream">Another IPTV\nPlayer</string>
+    <string name="desc_loading_xstream">IPTV-плеер с открытым исходным кодом</string>
+    <string name="text_loading_live">Загрузка прямых каналов</string>
+
+    <!--    fragment series detail-->
+    <string name="text_seasons">Сезоны</string>
+    <string name="text_trailer">Трейлер</string>
+    <string name="text_desc">Описание</string>
+    <string name="text_release_date">Дата выхода</string>
+    <string name="text_genre">Жанр</string>
+    <string name="text_cast">В ролях</string>
+    <string name="text_epi">Длительность эпизода</string>
+    <string name="text_cat_id">ID категории</string>
+    <string name="text_series_id">ID сериала</string>
+    <string name="text_pre">Подготовка библиотеки сериалов</string>
+
+    <!-- fragment_setting -->
+    <string name="title_setting">Настройки</string>
+    <string name="title_playlist">Плейлисты</string>
+    <string name="title_gen">Общие настройки</string>
+    <string name="refresh_content">Обновить контент</string>
+    <string name="title_theme">Тема</string>
+    <string name="player_setting">Настройки плеера</string>
+    <string name="title_continue">Продолжать в фоновом режиме</string>
+    <string name="title_keep_playing">Продолжать воспроизведение, даже если приложение свернуто</string>
+    <string name="title_sub_title">Настройки субтитров</string>
+    <string name="title_custome">Настроить внешний вид субтитров</string>
+    <string name="title_brightness">Жест яркости</string>
+    <string name="desc_brightness">Управляйте яркостью, проводя пальцем вертикально с левой стороны</string>
+    <string name="title_volume">Жест громкости</string>
+    <string name="desc_volume">Управляйте громкостью, проводя пальцем вертикально с правой стороны</string>
+    <string name="title_seek">Жест перемотки</string>
+    <string name="desc_seek">Перемотка горизонтальным смахиванием</string>
+    <string name="title_speed">Ускорение при долгом нажатии</string>
+    <string name="desc_speed">Ускорение воспроизведения при долгом нажатии на экран</string>
+    <string name="title_double_tap">Перемотка двойным касанием</string>
+    <string name="desc_double_tap">Перемотка вперед/назад двойным касанием</string>
+    <string name="title_about">О приложении</string>
+    <string name="title_app_version">Версия приложения</string>
+    <string name="default_app_version">1.3.0</string>
+    <string name="title_github">Поддержка на GitHub</string>
+    <string name="desc_github">Внесите свой вклад в проект на GitHub</string>
+    <string name="title_playlist_info">Информация о плейлисте</string>
+    <string name="title_playlist_name">Имя плейлиста</string>
+    <string name="default_playlist_name">M3U Плейлист-1</string>
+    <string name="title_server_url">URL сервера</string>
+    <string name="default_server_url">https://iptv-org.github.io/iptv/countries/vn.m3u</string>
+
+    <!--    item category-->
+    <string name="title_item_category">Категория</string>
+    <string name="text_channels">0 каналов</string>
+
+    <!--    item delete-->
+    <string name="delete">Удалить</string>
+
+    <!--    item playlist-->
+    <string name="date">Сегодня</string>
+
+    <!--    layout_info_movies_panel-->
+    <string name="title_video_info">Информация\nо видео</string>
+    <string name="label_name">Имя</string>
+    <string name="label_content_type">Тип контента</string>
+    <string name="label_format">Формат</string>
+    <string name="label_rating">Рейтинг</string>
+    <string name="label_added_date">Дата добавления</string>
+    <string name="label_stream_id">ID трансляции</string>
+    <string name="label_url">URL</string>
+    <string name="default_dash">—</string>
+
+    <!--    layout_info_panel  -->
+    <string name="title_video_info_panel">Информация\nо видео</string>
+    <string name="label_epg_channel_id">EPG ID канала</string>
+
+    <!-- layout_list_panel -->
+    <string name="title_categories">Категории</string>
+
+    <!-- layout dialog_loading -->
+    <string name="text_loading_m3u">Загрузка M3U</string>
+
+    <!-- layout_setting_panel -->
+    <string name="title_settings_panel">Настройки</string>
+    <string name="title_video_track">Видеодорожка</string>
+    <string name="title_audio_track">Аудиодорожка</string>
+    <string name="title_subtitle_track">Дорожка субтитров</string>
+    <string name="label_auto">Авто</string>
+    <string name="label_disabled">Отключено</string>
+
+    <!--    detail movie-->
+    <string name="back">Назад</string>
+    <string name="rating">Рейтинг</string>
+    <string name="info">Инфо</string>
+    <string name="added_date">Дата добавления</string>
+    <string name="trailer">Трейлер</string>
+    <string name="start_watching">Начать просмотр</string>
+
+    <!-- Settings -->
+    <string name="label_app_language">Язык приложения</string>
+</resources>

@@ -8,10 +8,27 @@
     <string name="action_remove">Remove</string>
     <string name="action_delete">Delete</string>
 
+    <!--    dialog clear all-->
+    <string name="title_clear_all">Clear All</string>
+    <string name="title_desc_clear">Are you sure want to delete all history?</string>
+
+
     <!--    dialog_remove_playlist-->
     <string name="dialog_title_remove_playlist">Delete Playlist</string>
     <string name="dialog_msg_remove_playlist">Are you sure you want to delete the playlist ...?</string>
     <string name="dialog_msg_remove_playlist2">This action cannot be undone</string>
+
+
+    <!--    bottom_nav_menu -->
+    <string name="title_nav_history">History</string>
+    <string name="title_nav_all">All</string>
+    <string name="title_nav_setting">Settings</string>
+
+    <!--    bottom_nav_menu_xstream -->
+    <string name="title_nav_live">Live</string>
+    <string name="title_nav_movies">Movies</string>
+    <string name="title_nav_series">Series</string>
+
 
 
     <string name="placeholder_channel_name">Channel Name</string>
@@ -95,6 +112,89 @@
     <string name="desc_loading_xstream">Open Source IPTV Player</string>
     <string name="text_loading_live">Loading live channels</string>
 
+    <!--    fragment series detail-->
+    <string name="text_seasons">Seasons</string>
+    <string name="text_trailer">Trailer</string>
+    <string name="text_desc">Description</string>
+    <string name="text_release_date">Release Date</string>
+    <string name="text_genre">Genre</string>
+    <string name="text_cast">Cast</string>
+    <string name="text_epi">Episode Duration</string>
+    <string name="text_cat_id">Category ID</string>
+    <string name="text_series_id">Series ID</string>
+    <string name="text_pre">Preparing series library</string>
+
+    <!-- fragment_setting -->
+    <string name="title_setting">Settings</string>
+    <string name="title_playlist">Playlist List</string>
+    <string name="title_gen">General Settings</string>
+    <string name="refresh_content">Refresh Content</string>
+    <string name="title_theme">Theme</string>
+    <string name="player_setting">Player Settings</string>
+    <string name="title_continue">Continue Playing in Background</string>
+    <string name="title_keep_playing">Keep playing even when app is in background</string>
+    <string name="title_sub_title">Subtitle Settings</string>
+    <string name="title_custome">Customize subtitle appearance</string>
+    <string name="title_brightness">Brightness Gesture</string>
+    <string name="desc_brightness">Control brightness by swiping vertically on left side</string>
+    <string name="title_volume">Volume Gesture</string>
+    <string name="desc_volume">Control volume by swiping vertically on the right side</string>
+    <string name="title_seek">Seek Gesture</string>
+    <string name="desc_seek">Seek by swiping horizontally</string>
+    <string name="title_speed">Speed Up on Long Press</string>
+    <string name="desc_speed">Speed up playback when long pressing</string>
+    <string name="title_double_tap">Seek on Double Tap</string>
+    <string name="desc_double_tap">Seek forward/backward by double tapping</string>
+    <string name="title_about">About</string>
+    <string name="title_app_version">App Version</string>
+    <string name="default_app_version">1.3.0</string>
+    <string name="title_github">Support on GitHub</string>
+    <string name="desc_github">Contribute to the project on GitHub</string>
+    <string name="title_playlist_info">Playlist Information</string>
+    <string name="title_playlist_name">Playlist Name</string>
+    <string name="default_playlist_name">M3U Playlist-1</string>
+    <string name="title_server_url">Server URL</string>
+    <string name="default_server_url">https://iptv-org.github.io/iptv/countries/vn.m3u</string>
+
+    <!--    item category-->
+    <string name="title_item_category">Category</string>
+    <string name="text_channels">0 channels</string>
+
+    <!--    item delete-->
+    <string name="delete">Delete</string>
+
+    <!--    item playlist-->
+    <string name="date">Today</string>
+
+    <!--    layout_info_movies_panel-->
+    <string name="title_video_info">Video\nInformation</string>
+    <string name="label_name">Name</string>
+    <string name="label_content_type">Content Type</string>
+    <string name="label_format">Format</string>
+    <string name="label_rating">Rating</string>
+    <string name="label_added_date">Added Date</string>
+    <string name="label_stream_id">Stream ID</string>
+    <string name="label_url">URL</string>
+    <string name="default_dash">—</string>
+
+    <!--    layout_info_panel  -->
+    <string name="title_video_info_panel">Video\nInformation</string>
+    <string name="label_epg_channel_id">EPG Channel ID</string>
+
+    <!-- layout_list_panel -->
+    <string name="title_categories">Categories</string>
+
+    <!-- layout dialog_loading -->
+    <string name="text_loading_m3u">Loading M3U</string>
+
+    <!-- layout_setting_panel -->
+    <string name="title_settings_panel">Settings</string>
+    <string name="title_video_track">Video Track</string>
+    <string name="title_audio_track">Audio Track</string>
+    <string name="title_subtitle_track">Subtitle Track</string>
+    <string name="label_auto">Auto</string>
+    <string name="label_disabled">Disabled</string>
+
     <!--    detail movie-->
     <string name="back">Back</string>
     <string name="rating">Rating</string>
@@ -104,4 +204,6 @@
     <string name="start_watching">Start Watching</string>
 
 
+    <!-- Settings -->
+    <string name="label_app_language">App Language</string>
 </resources>

@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AnotherIPTV</string>
+
+    <!--    dialog_remove_history-->
+    <string name="dialog_title_remove_history">إزالة من السجل</string>
+    <string name="dialog_msg_remove_history">هل أنت متأكد أنك تريد إزالة هذا العنصر من سجل المشاهدة؟</string>
+    <string name="action_cancel">إلغاء</string>
+    <string name="action_remove">إزالة</string>
+    <string name="action_delete">حذف</string>
+
+    <!--    dialog clear all-->
+    <string name="title_clear_all">مسح الكل</string>
+    <string name="title_desc_clear">هل أنت متأكد أنك تريد حذف كل السجل؟</string>
+
+    <!--    dialog_remove_playlist-->
+    <string name="dialog_title_remove_playlist">حذف قائمة التشغيل</string>
+    <string name="dialog_msg_remove_playlist">هل أنت متأكد أنك تريد حذف قائمة التشغيل ...؟</string>
+    <string name="dialog_msg_remove_playlist2">لا يمكن التراجع عن هذا الإجراء</string>
+
+    <!--    bottom_nav_menu -->
+    <string name="title_nav_history">السجل</string>
+    <string name="title_nav_all">الكل</string>
+    <string name="title_nav_setting">الإعدادات</string>
+
+    <!--    bottom_nav_menu_xstream -->
+    <string name="title_nav_live">مباشر</string>
+    <string name="title_nav_movies">أفلام</string>
+    <string name="title_nav_series">مسلسلات</string>
+
+    <string name="placeholder_channel_name">اسم القناة</string>
+    <string name="title_history">السجل</string>
+    <string name="section_live_streams">البث المباشر</string>
+
+    <!--    fragment_XStream_playlist-->
+    <string name="title_xstream_playlist">قائمة تشغيل Xtream Code</string>
+    <string name="subtitle_load_xstream">تواصل بسهولة باستخدام معلومات مزود IPTV الخاص بك</string>
+    <string name="label_xstream_url">رابط API</string>
+    <string name="hint_xstream_name">http://example.com:8080</string>
+    <string name="title_username_xstream">اسم المستخدم</string>
+    <string name="hint_xstream_username">أدخل اسم المستخدم</string>
+    <string name="title_password_xstream">كلمة المرور</string>
+    <string name="hint_xstream_password">أدخل كلمة المرور</string>
+    <string name="btn_save_playlist">حفظ القائمة</string>
+    <string name="info_desc_xstream">يتم تخزين جميع البيانات بأمان على جهازك</string>
+    <string name="info_desc2_xstream">يجب أن يكون تنسيق الرابط مثل http://server:port</string>
+    <string name="error_title_xstream">حدث خطأ</string>
+    <string name="error_desc_xstream">لم نتمكن من الحصول على رد من مزود IPTV الخاص بك، يرجى التحقق من بياناتك</string>
+
+    <!--    fragment_live_xstream-->
+    <string name="title_live_xstream">البث المباشر</string>
+    <string name="category_name">PPV | UFC</string>
+    <string name="viewAll_xstream">عرض الكل</string>
+
+    <!--    fragment_movie_xstream-->
+    <string name="title_movie_xstream">أفلام</string>
+    <string name="movie_category_name">أفلام 2026</string>
+    <string name="movie_viewAll_xstream">عرض الكل</string>
+
+    <!--    fragment_series_xstream-->
+    <string name="title_series_xstream">مسلسلات</string>
+    <string name="series_category_name">مسلسلات 2026</string>
+    <string name="series_viewAll_xstream">عرض الكل</string>
+
+    <!--    fragment_m3u_playlist-->
+    <string name="title_m3u_playlist">قائمة تشغيل M3U</string>
+    <string name="subtitle_load_m3u">قم بتحميل قنوات IPTV باستخدام ملف M3U أو الرابط</string>
+    <string name="label_playlist_name">اسم القائمة</string>
+    <string name="hint_playlist_name">قائمة M3U-1</string>
+    <string name="label_source_type">نوع المصدر</string>
+    <string name="tab_url">رابط (URL)</string>
+    <string name="tab_file">ملف</string>
+    <string name="label_m3u_url">رابط M3U</string>
+    <string name="hint_url">http://example.com/playlist.m3u</string>
+    <string name="hint_file">اختر ملف M3U (.m3u, .m3u8)</string>
+    <string name="btn_create_playlist">إنشاء قائمة تشغيل</string>
+    <string name="info_title">معلومات</string>
+    <string name="error_title">حدث خطأ</string>
+    <string name="error_desc_m3u">خطأ M3U</string>
+    <string name="info_desc_m3u">يتم تخزين جميع البيانات بأمان على جهازك.\nالصيغ المدعومة: .m3u, .m3u8\nتنسيق الرابط: يجب أن يبدأ بـ http:// أو https://</string>
+    <string name="text_error_url">أدخل تنسيق رابط صالح</string>
+
+    <!--    fragment_new_playlist-->
+    <string name="title_create_new_playlist">إنشاء قائمة تشغيل جديدة</string>
+    <string name="title_select_playlist_type">حدد نوع قائمة التشغيل</string>
+    <string name="subtitle_choose_playlist_type">اختر نوع قائمة التشغيل التي ترغب في إنشائها</string>
+
+    <string name="card_title_xtream">Xtream Codes</string>
+    <string name="card_subtitle_xtream">اتصل عبر رابط API، اسم المستخدم وكلمة المرور</string>
+    <string name="card_desc_xtream">تواصل بسهولة باستخدام معلومات مزود IPTV الخاص بك</string>
+
+    <string name="card_title_m3u">قائمة تشغيل M3U</string>
+    <string name="card_subtitle_m3u">إضافة قائمة عبر ملف أو رابط M3U</string>
+    <string name="card_desc_m3u">يدعم ملفات صيغة M3U التقليدية</string>
+
+    <string name="info_secure_storage">يتم تخزين معلومات قوائم التشغيل الخاصة بك بأمان على جهازك.</string>
+
+    <!--    fragment_playlist-->
+    <string name="title_my_playlists">قوائم التشغيل الخاصة بي</string>
+    <string name="empty_title_playlists">لا توجد قوائم تشغيل بعد</string>
+    <string name="empty_desc_playlists">ابدأ بإنشاء قائمة التشغيل الأولى لك.\nيمكنك إضافة قوائم بتنسيق Xtream Code أو M3U.</string>
+    <string name="btn_create_first_playlist">+ إنشاء قائمتي الأولى</string>
+    <string name="hello_blank_fragment">مرحبا جزء فارغ</string>
+
+    <!--    loading xstream-->
+    <string name="title_loading_xstream">Another IPTV\nPlayer</string>
+    <string name="desc_loading_xstream">مشغل IPTV مفتوح المصدر</string>
+    <string name="text_loading_live">جاري تحميل القنوات المباشرة</string>
+
+    <!--    fragment series detail-->
+    <string name="text_seasons">المواسم</string>
+    <string name="text_trailer">المقطع الدعائي</string>
+    <string name="text_desc">الوصف</string>
+    <string name="text_release_date">تاريخ الإصدار</string>
+    <string name="text_genre">النوع</string>
+    <string name="text_cast">طاقم العمل</string>
+    <string name="text_epi">مدة الحلقة</string>
+    <string name="text_cat_id">معرف الفئة</string>
+    <string name="text_series_id">معرف المسلسل</string>
+    <string name="text_pre">جاري تحضير مكتبة المسلسلات</string>
+
+    <!-- fragment_setting -->
+    <string name="title_setting">الإعدادات</string>
+    <string name="title_playlist">قوائم التشغيل</string>
+    <string name="title_gen">الإعدادات العامة</string>
+    <string name="refresh_content">تحديث المحتوى</string>
+    <string name="title_theme">المظهر</string>
+    <string name="player_setting">إعدادات المشغل</string>
+    <string name="title_continue">استمرار التشغيل في الخلفية</string>
+    <string name="title_keep_playing">متابعة التشغيل حتى عندما يكون التطبيق في الخلفية</string>
+    <string name="title_sub_title">إعدادات الترجمة</string>
+    <string name="title_custome">تخصيص مظهر الترجمة</string>
+    <string name="title_brightness">إيماءة السطوع</string>
+    <string name="desc_brightness">تحكم في السطوع عن طريق التمرير عمودياً على الجانب الأيسر</string>
+    <string name="title_volume">إيماءة الصوت</string>
+    <string name="desc_volume">تحكم في مستوى الصوت عن طريق التمرير عمودياً على الجانب الأيمن</string>
+    <string name="title_seek">إيماءة التقديم والتأخير</string>
+    <string name="desc_seek">اسحب أفقيًا للتقديم أو التأخير</string>
+    <string name="title_speed">تسريع عند الضغط المطول</string>
+    <string name="desc_speed">تسريع التشغيل عند الضغط المطول على الشاشة</string>
+    <string name="title_double_tap">التقديم بالنقر المزدوج</string>
+    <string name="desc_double_tap">تقديم أو تأخير عبر النقر المزدوج</string>
+    <string name="title_about">حول</string>
+    <string name="title_app_version">إصدار التطبيق</string>
+    <string name="default_app_version">1.3.0</string>
+    <string name="title_github">دعم على GitHub</string>
+    <string name="desc_github">ساهم في المشروع على GitHub</string>
+    <string name="title_playlist_info">معلومات القائمة</string>
+    <string name="title_playlist_name">اسم القائمة</string>
+    <string name="default_playlist_name">قائمة M3U-1</string>
+    <string name="title_server_url">رابط الخادم</string>
+    <string name="default_server_url">https://iptv-org.github.io/iptv/countries/vn.m3u</string>
+
+    <!--    item category-->
+    <string name="title_item_category">الفئة</string>
+    <string name="text_channels">0 قنوات</string>
+
+    <!--    item delete-->
+    <string name="delete">حذف</string>
+
+    <!--    item playlist-->
+    <string name="date">اليوم</string>
+
+    <!--    layout_info_movies_panel-->
+    <string name="title_video_info">معلومات\nالفيديو</string>
+    <string name="label_name">الاسم</string>
+    <string name="label_content_type">نوع المحتوى</string>
+    <string name="label_format">الصيغة</string>
+    <string name="label_rating">التقييم</string>
+    <string name="label_added_date">تاريخ الإضافة</string>
+    <string name="label_stream_id">معرف البث</string>
+    <string name="label_url">الرابط</string>
+    <string name="default_dash">—</string>
+
+    <!--    layout_info_panel  -->
+    <string name="title_video_info_panel">معلومات\nالفيديو</string>
+    <string name="label_epg_channel_id">معرف قناة EPG</string>
+
+    <!-- layout_list_panel -->
+    <string name="title_categories">الفئات</string>
+
+    <!-- layout dialog_loading -->
+    <string name="text_loading_m3u">جاري تحميل M3U</string>
+
+    <!-- layout_setting_panel -->
+    <string name="title_settings_panel">الإعدادات</string>
+    <string name="title_video_track">مسار الفيديو</string>
+    <string name="title_audio_track">مسار الصوت</string>
+    <string name="title_subtitle_track">مسار الترجمة</string>
+    <string name="label_auto">تلقائي</string>
+    <string name="label_disabled">معطل</string>
+
+    <!--    detail movie-->
+    <string name="back">رجوع</string>
+    <string name="rating">التقييم</string>
+    <string name="info">معلومات</string>
+    <string name="added_date">تاريخ الإضافة</string>
+    <string name="trailer">المقطع الدعائي</string>
+    <string name="start_watching">بدء المشاهدة</string>
+
+    <!-- Settings -->
+    <string name="label_app_language">لغة التطبيق</string>
+</resources>

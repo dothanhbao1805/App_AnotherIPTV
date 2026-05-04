@@ -1,5 +1,7 @@
 package com.example.anotheriptv.presentation.player.xstream
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.SeekBar
@@ -21,6 +23,7 @@ import com.example.anotheriptv.databinding.ActivityPlayerLiveXstreamBinding
 import com.example.anotheriptv.domain.model.CategoryWithChannels
 import com.example.anotheriptv.presentation.player.xstream.Adapter.CategoryAdapter
 import com.example.anotheriptv.presentation.player.xstream.Adapter.ChannelListAdapter
+import com.example.anotheriptv.service.MediaPlaybackService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -75,6 +78,7 @@ class PlayerLiveXstreamActivity : AppCompatActivity() {
         checkFavoriteStatus(streamUrl)
         setupControls(streamUrl)
         setupSettingPanel()
+        setupSpeedGesture()
         setupListPanel()
     }
 
@@ -396,8 +400,15 @@ class PlayerLiveXstreamActivity : AppCompatActivity() {
     }
 
     private fun updateFavoriteIcon() {
-        val icon = if (isFavorite) R.drawable.ic_favorite_filled else R.drawable.ic_favorite_border
-        binding.btnFavorite.setImageResource(icon)
+        if (isFavorite) {
+            binding.btnFavorite.setImageResource(R.drawable.ic_favorite_filled)
+            binding.btnFavorite.imageTintList = null
+        } else {
+            binding.btnFavorite.setImageResource(R.drawable.ic_favorite_border)
+            binding.btnFavorite.imageTintList = android.content.res.ColorStateList.valueOf(
+                android.graphics.Color.WHITE
+            )
+        }
     }
 
     // ── Visibility helpers ────────────────────────────────────────────────────
@@ -605,13 +616,63 @@ class PlayerLiveXstreamActivity : AppCompatActivity() {
         binding.layoutSettingPanel.root.visibility = View.GONE
     }
 
+    private fun isContinuePlayingEnabled(): Boolean {
+        return getSharedPreferences("app_settings", Context.MODE_PRIVATE)
+            .getBoolean("continue_playing_bg", false)
+    }
+
     override fun onPause() {
         super.onPause()
-        player?.pause()
+        if (isContinuePlayingEnabled()) {
+            val serviceIntent = Intent(this, MediaPlaybackService::class.java).apply {
+                putExtra("channelName", channelName)
+            }
+            androidx.core.content.ContextCompat.startForegroundService(this, serviceIntent)
+        } else {
+            player?.pause()
+        }
+    }
+
+    private fun setupSpeedGesture() {
+        val prefs = getSharedPreferences("app_settings", Context.MODE_PRIVATE)
+        val layoutSpeedIndicator = binding.layoutSpeedIndicator
+
+        binding.playerView.setOnLongClickListener {
+            if (prefs.getBoolean("speed_up_long_press", true)) {
+                // Tăng tốc độ lên 2.0x
+                player?.setPlaybackSpeed(2.0f)
+                layoutSpeedIndicator.visibility = View.VISIBLE
+                // Ẩn controls khi đang speed up
+                hideControls()
+            }
+            true
+        }
+
+        binding.playerView.setOnTouchListener { _, event ->
+            when (event.action) {
+                android.view.MotionEvent.ACTION_UP,
+                android.view.MotionEvent.ACTION_CANCEL -> {
+                    if (layoutSpeedIndicator.visibility == View.VISIBLE) {
+                        // Thả tay → về tốc độ bình thường
+                        player?.setPlaybackSpeed(1.0f)
+                        layoutSpeedIndicator.visibility = View.GONE
+                    }
+                }
+            }
+            // Trả về false để không block các gesture khác (click, seek...)
+            false
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Quay lại app → stop service
+        stopService(Intent(this, MediaPlaybackService::class.java))
     }
 
     override fun onDestroy() {
         super.onDestroy()
+        stopService(Intent(this, MediaPlaybackService::class.java))
         player?.release()
         player = null
     }

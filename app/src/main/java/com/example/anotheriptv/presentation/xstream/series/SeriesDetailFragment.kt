@@ -255,8 +255,15 @@ class SeriesDetailFragment : Fragment() {
     }
 
     private fun updateFavoriteIcon(isFavorite: Boolean) {
-        val icon = if (isFavorite) R.drawable.ic_favorite_filled else R.drawable.ic_favorite_border
-        binding.btnFavorite.setImageResource(icon)
+        if (isFavorite) {
+            binding.btnFavorite.setImageResource(R.drawable.ic_favorite_filled)
+            binding.btnFavorite.imageTintList = null
+        } else {
+            binding.btnFavorite.setImageResource(R.drawable.ic_favorite_border)
+            binding.btnFavorite.imageTintList = android.content.res.ColorStateList.valueOf(
+                android.graphics.Color.WHITE
+            )
+        }
     }
 
     private fun Int.dpToPx(): Int = (this * resources.displayMetrics.density).toInt()

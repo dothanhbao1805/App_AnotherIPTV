@@ -28,7 +28,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Video\nInformation"
+            android:text="@string/title_video_info"
             android:textColor="#FFFFFF"
             android:textSize="16sp"
             android:textStyle="bold"
@@ -86,7 +86,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Name"
+                        android:text="@string/label_name"
                         android:textColor="#888888"
                         android:textSize="11sp" />
 
@@ -94,7 +94,7 @@
                         android:id="@+id/tvInfoName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="—"
+                        android:text="@string/default_dash"
                         android:textColor="#FFFFFF"
                         android:textSize="13sp"
                         android:textStyle="bold"
@@ -127,7 +127,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Content Type"
+                        android:text="@string/label_content_type"
                         android:textColor="#888888"
                         android:textSize="11sp" />
 
@@ -135,7 +135,7 @@
                         android:id="@+id/tvInfoContentType"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="—"
+                        android:text="@string/default_dash"
                         android:textColor="#FFFFFF"
                         android:textSize="13sp"
                         android:textStyle="bold"
@@ -168,7 +168,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Format"
+                        android:text="@string/label_format"
                         android:textColor="#888888"
                         android:textSize="11sp" />
 
@@ -176,7 +176,7 @@
                         android:id="@+id/tvInfoFormat"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="—"
+                        android:text="@string/default_dash"
                         android:textColor="#FFFFFF"
                         android:textSize="13sp"
                         android:textStyle="bold"
@@ -209,7 +209,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Rating"
+                        android:text="@string/label_rating"
                         android:textColor="#888888"
                         android:textSize="11sp" />
 
@@ -217,7 +217,7 @@
                         android:id="@+id/tvInfoRating"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="—"
+                        android:text="@string/default_dash"
                         android:textColor="#FFFFFF"
                         android:textSize="13sp"
                         android:textStyle="bold"
@@ -250,7 +250,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Added Date"
+                        android:text="@string/label_added_date"
                         android:textColor="#888888"
                         android:textSize="11sp" />
 
@@ -258,7 +258,7 @@
                         android:id="@+id/tvInfoAddedDate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="—"
+                        android:text="@string/default_dash"
                         android:textColor="#FFFFFF"
                         android:textSize="13sp"
                         android:textStyle="bold"
@@ -266,7 +266,7 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <!-- Card: Stream ID (có icon copy) -->
+            <!-- Card: Stream ID -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -292,7 +292,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Stream ID"
+                        android:text="@string/label_stream_id"
                         android:textColor="#888888"
                         android:textSize="11sp" />
 
@@ -300,7 +300,7 @@
                         android:id="@+id/tvInfoStreamId"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="—"
+                        android:text="@string/default_dash"
                         android:textColor="#FFFFFF"
                         android:textSize="13sp"
                         android:textStyle="bold"
@@ -316,7 +316,7 @@
                     android:background="?attr/selectableItemBackgroundBorderless" />
             </LinearLayout>
 
-            <!-- Card: URL (có icon copy) -->
+            <!-- Card: URL -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -342,7 +342,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="URL"
+                        android:text="@string/label_url"
                         android:textColor="#888888"
                         android:textSize="11sp" />
 
@@ -350,7 +350,7 @@
                         android:id="@+id/tvInfoUrl"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="—"
+                        android:text="@string/default_dash"
                         android:textColor="#FFFFFF"
                         android:textSize="13sp"
                         android:textStyle="bold"

@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_main">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/bg_screen"
+        app:elevation="0dp">
+        <androidx.appcompat.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/title_setting"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/text_primary"
+                android:layout_gravity="center"/>
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Playlist List Card -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_setting_card"
+                android:gravity="center_vertical"
+                android:padding="16dp"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_home"
+                    app:tint="@color/color_title" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="16dp"
+                    android:text="@string/title_playlist"
+                    android:textSize="16sp"
+                    android:textColor="@color/color_title" />
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_chevron_right"
+                    app:tint="@color/color_title" />
+            </LinearLayout>
+
+            <!-- General Settings Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/title_gen"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="8dp"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="@color/color_title" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_setting_card"
+                android:orientation="vertical">
+
+                <!-- Refresh Content -->
+                <LinearLayout
+                    android:id="@+id/layout_refresh_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="16dp"
+                    android:background="?attr/selectableItemBackground">
+                    <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_refresh" app:tint="@color/color_title"/>
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="16dp"
+                        android:text="@string/refresh_content"
+                        android:textColor="@color/color_title"
+                        android:textSize="16sp" />
+                    <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_cloud_download" app:tint="@color/color_title"/>
+                </LinearLayout>
+
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/divider" />
+
+                <!-- App Language -->
+                <LinearLayout
+                    android:id="@+id/layout_language"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="16dp"
+                    android:background="?attr/selectableItemBackground">
+                    <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_language" app:tint="@color/color_title" />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="16dp"
+                        android:text="@string/label_app_language"
+                        android:textSize="16sp"
+                        android:textColor="@color/color_title"/>
+                    <Spinner android:id="@+id/spinner_language" android:layout_width="wrap_content" android:layout_height="wrap_content" android:visibility="invisible" />
+                    <TextView
+                        android:id="@+id/tv_selected_language"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="English"
+                        android:textSize="14sp"
+                        android:textColor="@color/color_title"/>
+                    <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_chevron_right" app:tint="@color/color_title" android:layout_marginStart="4dp"/>
+                </LinearLayout>
+
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/divider" />
+
+                <!-- Theme -->
+                <LinearLayout
+                    android:id="@+id/layout_theme"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="16dp"
+                    android:background="?attr/selectableItemBackground">
+                    <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_palette" app:tint="@color/color_title" />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="16dp"
+                        android:text="@string/title_theme"
+                        android:textSize="16sp"
+                        android:textColor="@color/color_title" />
+                    <TextView
+                        android:id="@+id/tv_selected_theme"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Default"
+                        android:textSize="14sp"
+                        android:textColor="@color/color_title" />
+                    <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_chevron_right" app:tint="@color/color_title" android:layout_marginStart="4dp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Player Settings Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/player_setting"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="8dp"
+                android:textStyle="bold"
+                android:textColor="@color/color_title" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_setting_card"
+                android:orientation="vertical">
+
+                <!-- Continue Playing Switch -->
+                <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="16dp">
+                    <ImageView android:id="@+id/icon_play" android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_play_circle" app:tint="@color/color_title" android:layout_centerVertical="true"/>
+                    <LinearLayout
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:layout_toEndOf="@id/icon_play" android:layout_toStartOf="@id/switch_bg"
+                        android:layout_marginStart="16dp" android:orientation="vertical">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/title_continue" android:textSize="16sp" android:textColor="@color/color_title" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/title_keep_playing" android:textSize="13sp" android:textColor="@color/color_title" />
+                    </LinearLayout>
+                    <com.google.android.material.switchmaterial.SwitchMaterial android:id="@+id/switch_bg" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:layout_centerVertical="true"/>
+                </RelativeLayout>
+
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/divider" />
+
+                <!-- Subtitle Settings -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="16dp" android:gravity="center_vertical" android:background="?attr/selectableItemBackground">
+                    <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_subtitles" app:tint="@color/color_title" />
+                    <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="16dp" android:orientation="vertical">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/title_sub_title" android:textSize="16sp" android:textColor="@color/color_title" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/title_custome" android:textSize="13sp" android:textColor="@color/color_title" />
+                    </LinearLayout>
+                    <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_chevron_right" app:tint="@color/color_title" />
+                </LinearLayout>
+
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/divider" />
+
+                <!-- Brightness Gesture -->
+                <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="16dp">
+                    <ImageView android:id="@+id/icon_br" android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_brightness" app:tint="@color/color_title" android:layout_centerVertical="true"/>
+                    <LinearLayout
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:layout_toEndOf="@id/icon_br" android:layout_toStartOf="@id/switch_br"
+                        android:layout_marginStart="16dp" android:orientation="vertical">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/title_brightness" android:textSize="16sp" android:textColor="@color/color_title" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/desc_brightness" android:textSize="13sp" android:textColor="@color/color_title"/>
+                    </LinearLayout>
+                    <com.google.android.material.switchmaterial.SwitchMaterial android:id="@+id/switch_br" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:layout_centerVertical="true"/>
+                </RelativeLayout>
+
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/divider" />
+
+                <!-- Volume Gesture -->
+                <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="16dp">
+                    <ImageView android:id="@+id/icon_vol" android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_volume" app:tint="@color/color_title" android:layout_centerVertical="true"/>
+                    <LinearLayout
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:layout_toEndOf="@id/icon_vol" android:layout_toStartOf="@id/switch_vol"
+                        android:layout_marginStart="16dp" android:orientation="vertical">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/title_volume" android:textSize="16sp" android:textColor="@color/color_title"/>
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/desc_volume" android:textSize="13sp" android:textColor="@color/color_title" />
+                    </LinearLayout>
+                    <com.google.android.material.switchmaterial.SwitchMaterial android:id="@+id/switch_vol" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:layout_centerVertical="true"/>
+                </RelativeLayout>
+
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/divider" />
+
+                <!-- Seek Gesture -->
+                <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="16dp">
+                    <ImageView android:id="@+id/icon_seek" android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_touch_app" app:tint="@color/color_title" android:layout_centerVertical="true"/>
+                    <LinearLayout
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:layout_toEndOf="@id/icon_seek" android:layout_toStartOf="@id/switch_seek"
+                        android:layout_marginStart="16dp" android:orientation="vertical">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/title_seek" android:textSize="16sp" android:textColor="@color/color_title" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/desc_seek" android:textSize="13sp" android:textColor="@color/color_title"/>
+                    </LinearLayout>
+                    <com.google.android.material.switchmaterial.SwitchMaterial android:id="@+id/switch_seek" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:layout_centerVertical="true"/>
+                </RelativeLayout>
+
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/divider" />
+
+                <!-- Speed Up -->
+                <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="16dp">
+                    <ImageView android:id="@+id/icon_speed" android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_fast_forward" app:tint="@color/color_title" android:layout_centerVertical="true"/>
+                    <LinearLayout
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:layout_toEndOf="@id/icon_speed" android:layout_toStartOf="@id/switch_speed"
+                        android:layout_marginStart="16dp" android:orientation="vertical">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/title_speed" android:textSize="16sp" android:textColor="@color/color_title" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/desc_speed" android:textSize="13sp" android:textColor="@color/color_title"/>
+                    </LinearLayout>
+                    <com.google.android.material.switchmaterial.SwitchMaterial android:id="@+id/switch_speed" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:layout_centerVertical="true" android:checked="true"/>
+                </RelativeLayout>
+
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/divider" />
+
+                <!-- Double Tap -->
+                <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="16dp">
+                    <ImageView android:id="@+id/icon_double" android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_touch_app" app:tint="@color/color_title" android:layout_centerVertical="true"/>
+                    <LinearLayout
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:layout_toEndOf="@id/icon_double" android:layout_toStartOf="@id/switch_double"
+                        android:layout_marginStart="16dp" android:orientation="vertical">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/title_double_tap" android:textSize="16sp" android:textColor="@color/color_title" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/desc_double_tap" android:textSize="13sp" android:textColor="@color/color_title"/>
+                    </LinearLayout>
+                    <com.google.android.material.switchmaterial.SwitchMaterial android:id="@+id/switch_double" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:layout_centerVertical="true" android:checked="true"/>
+                </RelativeLayout>
+            </LinearLayout>
+
+            <!-- About Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/title_about"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="8dp"
+                android:textStyle="bold"
+                android:textColor="@color/color_title"
+                android:textSize="14sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_setting_card"
+                android:orientation="vertical">
+
+                <!-- Version -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="16dp" android:gravity="center_vertical">
+                    <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_info" app:tint="@color/color_title" />
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="16dp" android:orientation="vertical">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/title_app_version" android:textSize="16sp" android:textColor="@color/color_title" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/default_app_version" android:textSize="13sp" android:textColor="@color/color_title" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/divider" />
+
+                <!-- GitHub -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="16dp" android:gravity="center_vertical" android:background="?attr/selectableItemBackground">
+                    <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_code" app:tint="@color/color_title" />
+                    <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="16dp" android:orientation="vertical">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/title_github" android:textSize="16sp" android:textColor="@color/color_title" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/desc_github" android:textSize="13sp" android:textColor="@color/color_title"/>
+                    </LinearLayout>
+                    <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_open_in_new" app:tint="@color/color_title" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Playlist Information -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/title_playlist_info"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="8dp"
+                android:textStyle="bold"
+                android:textColor="@color/color_title"
+                android:textSize="14sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_setting_card"
+                android:orientation="vertical">
+
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="16dp" android:gravity="center_vertical">
+                    <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_label" app:tint="@color/color_title" />
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="16dp" android:orientation="vertical">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/title_playlist_name" android:textSize="16sp" android:textColor="@color/color_title"/>
+                        <TextView android:id="@+id/tv_playlist_name" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/default_playlist_name" android:textSize="13sp" android:textColor="@color/color_title"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/divider" />
+
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="16dp" android:gravity="center_vertical">
+                    <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_link" app:tint="@color/color_title" />
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="16dp" android:orientation="vertical">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/title_server_url" android:textSize="16sp" android:textColor="@color/color_title" />
+                        <TextView android:id="@+id/tv_server_url" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/default_server_url" android:textSize="13sp" android:textColor="@color/color_title" android:maxLines="2" android:ellipsize="end"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <View android:layout_width="match_parent" android:layout_height="80dp" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

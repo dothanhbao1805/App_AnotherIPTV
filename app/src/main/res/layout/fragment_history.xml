@@ -53,14 +53,14 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:src="@drawable/ic_history"
-            app:tint="#BDBDBD" />
+            app:tint="@color/color_clock" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="History"
-            android:textColor="#9E9E9E"
+            android:textColor="@color/text_secondary"
             android:textSize="22sp"
             android:textStyle="bold" />
 
@@ -69,7 +69,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="Your watched videos will appear here"
-            android:textColor="#BDBDBD"
+            android:textColor="@color/text_secondary"
             android:textSize="16sp"
             android:textAlignment="center" />
     </LinearLayout>

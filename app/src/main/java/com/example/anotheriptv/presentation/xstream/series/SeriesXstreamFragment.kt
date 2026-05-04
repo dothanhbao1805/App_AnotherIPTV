@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.anotheriptv.MyApp
 import com.example.anotheriptv.R
 import com.example.anotheriptv.databinding.FragmentSeriesXstreamBinding
+import com.example.anotheriptv.presentation.xstream.movie.MovieXstreamAllFragment
 import com.example.anotheriptv.presentation.xstream.series.Adapter.CategoryAdapter
 import com.example.anotheriptv.presentation.xstream.series.ViewModelFactory.SeriesXstreamViewModelFactory
 import com.example.anotheriptv.presentation.xstream.series.ViewModel.SeriesXstreamViewModel
@@ -88,6 +89,16 @@ class SeriesXstreamFragment : Fragment() {
             },
 
             onViewAllClick = { category ->
+                val bundle = Bundle().apply {
+                    putLong("playlistId", playlistId)
+                    putString("contentType", "SERIES")
+                    putString("categoryId", category.categoryId)
+                    putString("categoryName", category.categoryName)
+                }
+                parentFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, SeriesXstreamAllFragment().apply { arguments = bundle })
+                    .addToBackStack(null)
+                    .commit()
             }
         )
 

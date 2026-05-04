@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center_vertical|end"
     android:layout_marginEnd="16dp"
-    app:cardBackgroundColor="@android:color/white"
+    app:cardBackgroundColor="@color/bg_main"
     app:cardCornerRadius="8dp"
     app:cardElevation="6dp">
     <LinearLayout
@@ -29,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="Delete"
+            android:text="@string/delete"
             android:textColor="#EF4444"
             android:textSize="16sp"
             android:textStyle="bold" />

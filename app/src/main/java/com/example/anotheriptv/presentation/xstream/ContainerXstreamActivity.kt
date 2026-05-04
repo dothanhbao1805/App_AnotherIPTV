@@ -1,14 +1,17 @@
 package com.example.anotheriptv.presentation.xstream
 
+import android.content.Context
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.anotheriptv.R
-import com.example.anotheriptv.presentation.channels.ChannelFragment
 import com.example.anotheriptv.presentation.history.HistoryFragment
+import com.example.anotheriptv.presentation.settings.SettingsFragment
 import com.example.anotheriptv.presentation.xstream.live.LiveXstreamFragment
 import com.example.anotheriptv.presentation.xstream.movie.MovieXstreamFragment
 import com.example.anotheriptv.presentation.xstream.series.SeriesXstreamFragment
+import com.example.anotheriptv.utils.LocaleHelper
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class ContainerXstreamActivity : AppCompatActivity() {
@@ -74,10 +77,18 @@ class ContainerXstreamActivity : AppCompatActivity() {
                     replaceFragment(seriesXstreamFragment)
                     true
                 }
+
                 R.id.nav_settings -> {
-                    // TODO: mở SettingsFragment
+                    val settingsFragment = SettingsFragment().apply {
+                        arguments = Bundle().apply {
+                            putLong("playlistId", currentPlaylistId)
+                            putString("playlistName", currentPlaylistName)
+                        }
+                    }
+                    replaceFragment(settingsFragment)
                     true
                 }
+
                 else -> false
             }
         }
@@ -88,6 +99,16 @@ class ContainerXstreamActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, fragment)
             .commit()
+    }
+
+    override fun attachBaseContext(newBase: Context) {
+        val lang = LocaleHelper.getSavedLanguage(newBase)
+        super.attachBaseContext(LocaleHelper.setLocale(newBase, lang))
+    }
+
+    fun setBottomNavVisible(visible: Boolean) {
+        findViewById<BottomNavigationView>(R.id.bottom_navigation).visibility =
+            if (visible) View.VISIBLE else View.GONE
     }
 
 }

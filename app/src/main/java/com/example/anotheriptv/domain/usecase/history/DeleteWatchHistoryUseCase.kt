@@ -6,4 +6,7 @@ class DeleteWatchHistoryUseCase(private val repository: WatchHistoryRepository) 
     suspend operator fun invoke(id: Long) {
         repository.deleteHistoryById(id)
     }
+    suspend fun deleteAll(playlistId: Long) {
+        repository.deleteAllHistory(playlistId)
+    }
 }
