@@ -128,6 +128,7 @@ class XstreamPlaylistFragment : Fragment() {
                                     Intent(requireContext(), ContainerPlaylistActivity::class.java).apply {
                                         putExtra("playlistId", newPlaylist.id)
                                         putExtra("playlistName", newPlaylist.name)
+                                        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                                     }
                                 )
                                 viewModel.resetState()

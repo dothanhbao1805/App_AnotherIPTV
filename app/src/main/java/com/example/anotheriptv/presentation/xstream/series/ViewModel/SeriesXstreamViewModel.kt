@@ -54,7 +54,7 @@ class SeriesXstreamViewModel(
 
     fun loadLiveChannels(playlistId: Long) {
         viewModelScope.launch(Dispatchers.IO) {
-            val categories = categoryDao.getCategoriesByPlaylistAndType(playlistId, "SERIES")
+            val categories = categoryDao.getVisibleCategoriesByPlaylistAndType(playlistId, "SERIES")
             val result = categories.map { cat ->
                 val channels = channelRepository.getChannelsByCategoryLimit10(
                     playlistId  = playlistId,

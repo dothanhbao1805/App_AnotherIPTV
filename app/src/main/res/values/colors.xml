@@ -64,6 +64,9 @@
     <!--fragment_setting-->
     <color name="bg_setting_card">#F5F4F9</color>
     <color name="color_title">#1A1C1E</color>
+    <color name="bg_ic_checked">#4CAF50</color>
+    <color name="tick_ic_checked">#FFFFFF</color>
+    <color name="text_connected">#4CAF50</color>
 
     <!--item_episode-->
     <color name="bg_item_episodde">#F0EFF4</color>
@@ -87,7 +90,13 @@
     <color name="bg_icon_red_light">#F1DDDE</color>
     <color name="stroke_item">#373A3F</color>
 
+    <!--switch track-->
+    <color name="switch_checked">#36618A</color>
+    <color name="switch_un_checked">#E3E2E7</color>
 
+    <!--snackbar-->
+    <color name="snackbar_bg">#2D3035</color>
+    <color name="snackbar_text">#E3E2E7</color>
 
     <color name="black">#FF000000</color>
     <color name="tab_unselected">#666666</color>
@@ -119,5 +128,10 @@
     <!-- Chip colors -->
     <color name="primary">#2196F3</color>
     <color name="surface_variant">#1E1E1E</color>
+
+    <!--fragment_hide_category-->
+    <color name="text_select_all">#38618D</color>
+    <color name="bg_section_header">#DBDADF</color>
+
 
 </resources>

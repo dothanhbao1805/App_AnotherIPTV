@@ -126,6 +126,18 @@
     <string name="refresh_content">सामग्री ताज़ा करें</string>
     <string name="title_theme">थीम</string>
     <string name="player_setting">प्लेयर सेटिंग्स</string>
+    <string name="title_hide_categories">श्रेणियां छिपाएं</string>
+    <string name="text_connected">कनेक्टेड</string>
+    <string name="desc_connected">सदस्यता: 343 दिन</string>
+    <string name="text_user_name">उपयोगकर्ता नाम</string>
+    <string name="title_sub">सदस्यता विवरण</string>
+    <string name="desc_sub">343 दिन</string>
+    <string name="text_active_connect">सक्रिय कनेक्शन</string>
+    <string name="title_maximum">अधिकतम कनेक्शन</string>
+    <string name="title_time">शेष समय</string>
+    <string name="title_server">सर्वर जानकारी</string>
+    <string name="time_zone">समय क्षेत्र</string>
+    <string name="server_message">सर्वर संदेश</string>
     <string name="title_continue">बैकग्राउंड में खेलना जारी रखें</string>
     <string name="title_keep_playing">ऐप बैकग्राउंड में होने पर भी खेलना जारी रखें</string>
     <string name="title_sub_title">सबटाइटल सेटिंग्स</string>
@@ -200,4 +212,10 @@
 
     <!-- Settings -->
     <string name="label_app_language">ऐप की भाषा</string>
+
+    <!--    fragment_hide_category-->
+    <string name="text_select_all">सभी चुनें</string>
+    <string name="text_deselect_all">सभी का चयन रद्द करें</string>
+    <string name="bg_section_header">...</string>
+
 </resources>

@@ -16,6 +16,9 @@
 
         <item name="android:statusBarColor">@color/bg_status_bar</item>
         <item name="android:windowLightStatusBar">@bool/is_light_mode</item>
+        <item name="colorControlActivated">#1A3D6D</item>
+
+        <item name="switchStyle">@style/CustomSwitch</item>
     </style>
 
     <style name="TextAppearance.AnotherIPTV.ToolbarTitle" parent="TextAppearance.Material3.TitleLarge">
@@ -51,6 +54,13 @@
     <style name="CustomBottomSheet" parent="Widget.Material3.BottomSheet">
         <item name="android:background">@android:color/transparent</item>
         <item name="backgroundTint">@android:color/transparent</item>
+    </style>
+
+    <style name="CustomSwitch" parent="Widget.Material3.CompoundButton.Switch">
+        <item name="thumbTint">@color/switch_thumb_color</item>
+        <item name="android:track">@drawable/switch_track</item>
+        <item name="android:scaleX">1.15</item>
+        <item name="android:scaleY">1.15</item>
     </style>
 
 </resources>

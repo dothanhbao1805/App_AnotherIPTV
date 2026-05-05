@@ -64,6 +64,10 @@
     <!--fragment_setting-->
     <color name="bg_setting_card">#181B20</color>
     <color name="color_title">#E5E7EB</color>
+    <color name="bg_ic_checked">#5CA45F</color>
+    <color name="tick_ic_checked">#111419</color>
+    <color name="text_connected">#5CA45F</color>
+
 
     <!--item_episode-->
     <color name="bg_item_episodde">#1E2126</color>
@@ -87,5 +91,18 @@
     <!--fragment_series_detail-->
     <color name="bg_icon_red_light">#342526</color>
     <color name="stroke_item">#373A3F</color>
+
+    <!--switch track-->
+    <color name="switch_checked">#A0C9FD</color>
+    <color name="switch_un_checked">#313439</color>
+
+    <!--snackbar-->
+    <color name="snackbar_bg">#E3E2E7</color>
+    <color name="snackbar_text">#2D3035</color>
+
+    <!--fragment_hide_category-->
+    <color name="text_select_all">#9DC5F8</color>
+    <color name="bg_section_header">#121116</color>
+
 
 </resources>

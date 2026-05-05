@@ -433,4 +433,25 @@ class PlaylistRepositoryImpl(
         }
     }
 
+    override suspend fun getCategoriesByType(playlistId: Long, contentType: String): List<CategoryEntity> {
+        return withContext(Dispatchers.IO) {
+            categoryDao.getByPlaylistIdAndType(playlistId, contentType)
+        }
+    }
+
+    override suspend fun updateCategoryVisibility(
+        playlistId: Long,
+        categoryId: String,
+        contentType: String,
+        isHidden: Boolean
+    ) {
+        withContext(Dispatchers.IO) {
+            // Chuyển Boolean sang Int: true = 1, false = 0
+            val hiddenValue = if (isHidden) 1 else 0
+
+            // Gọi xuống DAO
+            categoryDao.updateVisibility(playlistId, categoryId, contentType, hiddenValue)
+        }
+    }
+
 }

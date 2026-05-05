@@ -127,8 +127,20 @@
     <string name="title_theme">Tema</string>
     <string name="player_setting">Ajustes del reproductor</string>
     <string name="title_continue">Reproducción en segundo plano</string>
+    <string name="text_user_name">Kullanıcı adı</string>
+    <string name="title_sub">Detalles de la suscripción</string>
+    <string name="desc_sub">343 Gün</string>
+    <string name="title_time">Tiempo restante</string>
+    <string name="title_server">Información del servidor</string>
+    <string name="time_zone">Zona horaria</string>
+    <string name="server_message">Mensaje del servidor</string>
+    <string name="text_active_connect">Aktif Bağlantı</string>
+    <string name="title_maximum">Maksimum Bağlantı</string>
     <string name="title_keep_playing">Seguir reproduciendo aunque la app esté en segundo plano</string>
     <string name="title_sub_title">Ajustes de subtítulos</string>
+    <string name="title_hide_categories">Ocultar categorías</string>
+    <string name="text_connected">Conectado</string>
+    <string name="desc_connected">Suscripción: 343 días</string>
     <string name="title_custome">Personalizar apariencia de subtítulos</string>
     <string name="title_brightness">Gesto de brillo</string>
     <string name="desc_brightness">Controla el brillo deslizando verticalmente en el lado izquierdo</string>
@@ -200,4 +212,11 @@
 
     <!-- Settings -->
     <string name="label_app_language">Idioma de la aplicación</string>
+
+    <!--    fragment_hide_category-->
+    <string name="text_select_all">Seleccionar todo</string>
+    <string name="text_deselect_all">Deseleccionar todo</string>
+    <string name="bg_section_header">...</string>
+
+
 </resources>

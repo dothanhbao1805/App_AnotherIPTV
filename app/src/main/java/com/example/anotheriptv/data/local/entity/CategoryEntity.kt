@@ -11,5 +11,6 @@ data class CategoryEntity(
     val playlistId: Long,
     val categoryId: String,
     val contentType: String,
-    val name: String
+    val name: String,
+    val isHidden: Boolean = false
 )
