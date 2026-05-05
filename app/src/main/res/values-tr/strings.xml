@@ -126,6 +126,18 @@
     <string name="refresh_content">İçeriği Yenile</string>
     <string name="title_theme">Tema</string>
     <string name="player_setting">Oynatıcı Ayarları</string>
+    <string name="title_hide_categories">Kategorileri gizle</string>
+    <string name="text_connected">Bağlandı</string>
+    <string name="desc_connected">Abonelik: 343 Gün</string>
+    <string name="text_user_name">Kullanıcı adı</string>
+    <string name="title_sub">Abonelik Ayrıntıları</string>
+    <string name="title_time">Kalan Süre</string>
+    <string name="title_server">Sunucu Bilgileri</string>
+    <string name="time_zone">Saat Dilimi</string>
+    <string name="server_message">Sunucu Mesajı</string>
+    <string name="desc_sub">343 Gün</string>
+    <string name="text_active_connect">Aktif Bağlantı</string>
+    <string name="title_maximum">Maksimum Bağlantı</string>
     <string name="title_continue">Arka Planda Oynatmaya Devam Et</string>
     <string name="title_keep_playing">Uygulama arka plandayken bile oynatmaya devam et</string>
     <string name="title_sub_title">Altyazı Ayarları</string>
@@ -171,6 +183,11 @@
     <string name="label_stream_id">Yayın ID</string>
     <string name="label_url">URL</string>
     <string name="default_dash">—</string>
+
+    <!--    fragment_hide_category-->
+    <string name="text_select_all">Tümünü Seç</string>
+    <string name="text_deselect_all">Tümünün Seçimini Kaldır</string>
+    <string name="bg_section_header">...</string>
 
     <!--    layout_info_panel  -->
     <string name="title_video_info_panel">Video\nBilgisi</string>

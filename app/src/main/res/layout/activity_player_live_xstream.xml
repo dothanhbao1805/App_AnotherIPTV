@@ -51,6 +51,72 @@
 
     </LinearLayout>
 
+    <!-- Double tap seek backward (trái) -->
+    <LinearLayout
+        android:id="@+id/layoutSeekBackward"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:background="#40FFFFFF"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintWidth_percent="0.5">
+
+        <ImageView
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@drawable/ic_fast_rewind"
+            app:tint="#FFFFFF" />
+
+        <TextView
+            android:id="@+id/tvSeekBackwardSeconds"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10 seconds"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            android:layout_marginTop="4dp"/>
+
+    </LinearLayout>
+
+    <!-- Double tap seek forward (phải) -->
+    <LinearLayout
+        android:id="@+id/layoutSeekForward"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:background="#40FFFFFF"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="1"
+        app:layout_constraintWidth_percent="0.5">
+
+        <ImageView
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@drawable/ic_fast_forward"
+            app:tint="#FFFFFF" />
+
+        <TextView
+            android:id="@+id/tvSeekForwardSeconds"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10 seconds"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            android:layout_marginTop="4dp"/>
+
+    </LinearLayout>
+
     <!-- Loading indicator — hiện khi đang buffer -->
     <ProgressBar
         android:id="@+id/progressBuffering"

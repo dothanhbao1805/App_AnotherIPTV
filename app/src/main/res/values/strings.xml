@@ -30,7 +30,6 @@
     <string name="title_nav_series">Series</string>
 
 
-
     <string name="placeholder_channel_name">Channel Name</string>
     <string name="title_history">History</string>
     <string name="section_live_streams">Live Streams</string>
@@ -134,6 +133,10 @@
     <string name="title_continue">Continue Playing in Background</string>
     <string name="title_keep_playing">Keep playing even when app is in background</string>
     <string name="title_sub_title">Subtitle Settings</string>
+    <string name="title_hide_categories">Hide categories</string>
+    <string name="text_connected">Connected</string>
+    <string name="text_user_name">Username</string>
+    <string name="desc_connected">Subscription: 343 Days</string>
     <string name="title_custome">Customize subtitle appearance</string>
     <string name="title_brightness">Brightness Gesture</string>
     <string name="desc_brightness">Control brightness by swiping vertically on left side</string>
@@ -142,6 +145,17 @@
     <string name="title_seek">Seek Gesture</string>
     <string name="desc_seek">Seek by swiping horizontally</string>
     <string name="title_speed">Speed Up on Long Press</string>
+    <string name="title_sub">Subscription Details</string>
+    <string name="title_time">Time Remaining</string>
+
+    <string name="title_server">Server Information</string>
+    <string name="time_zone">Time Zone</string>
+    <string name="server_message">Server Message</string>
+
+
+    <string name="desc_sub">343 Days</string>
+    <string name="text_active_connect">Active Connection</string>
+    <string name="title_maximum">Maximum Connection</string>
     <string name="desc_speed">Speed up playback when long pressing</string>
     <string name="title_double_tap">Seek on Double Tap</string>
     <string name="desc_double_tap">Seek forward/backward by double tapping</string>
@@ -165,6 +179,11 @@
 
     <!--    item playlist-->
     <string name="date">Today</string>
+
+    <!--    fragment_hide_category-->
+    <string name="text_select_all">Select All</string>
+    <string name="text_deselect_all">Deselect All</string>
+    <string name="bg_section_header">...</string>
 
     <!--    layout_info_movies_panel-->
     <string name="title_video_info">Video\nInformation</string>

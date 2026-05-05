@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Checked: filled blue -->
+    <item android:state_checked="true">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/switch_checked" />
+            <corners android:radius="100dp" />
+        </shape>
+    </item>
+    <!-- Unchecked: transparent + stroke -->
+    <item android:state_checked="false">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/switch_un_checked" />
+            <stroke android:width="2dp" android:color="#909297" />
+            <corners android:radius="100dp" />
+        </shape>
+    </item>
+</selector>

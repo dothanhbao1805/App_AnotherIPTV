@@ -129,12 +129,24 @@
     <string name="title_continue">Продолжать в фоновом режиме</string>
     <string name="title_keep_playing">Продолжать воспроизведение, даже если приложение свернуто</string>
     <string name="title_sub_title">Настройки субтитров</string>
+    <string name="title_hide_categories">Скрыть категории</string>
+    <string name="text_connected">Подключено</string>
+    <string name="desc_connected">Подписка: 343 дня</string>
     <string name="title_custome">Настроить внешний вид субтитров</string>
     <string name="title_brightness">Жест яркости</string>
     <string name="desc_brightness">Управляйте яркостью, проводя пальцем вертикально с левой стороны</string>
     <string name="title_volume">Жест громкости</string>
     <string name="desc_volume">Управляйте громкостью, проводя пальцем вертикально с правой стороны</string>
     <string name="title_seek">Жест перемотки</string>
+    <string name="text_user_name">Имя пользователя</string>
+    <string name="title_sub">Сведения о подписке</string>
+    <string name="desc_sub">343 дня</string>
+    <string name="text_active_connect">Активное соединение</string>
+    <string name="title_maximum">Максимальное количество подключений</string>
+    <string name="title_time">Оставшееся время</string>
+    <string name="title_server">Информация о сервере</string>
+    <string name="time_zone">Часовой пояс</string>
+    <string name="server_message">Сообщение сервера</string>
     <string name="desc_seek">Перемотка горизонтальным смахиванием</string>
     <string name="title_speed">Ускорение при долгом нажатии</string>
     <string name="desc_speed">Ускорение воспроизведения при долгом нажатии на экран</string>
@@ -200,4 +212,11 @@
 
     <!-- Settings -->
     <string name="label_app_language">Язык приложения</string>
+
+    <!--    fragment_hide_category-->
+    <string name="text_select_all">Выбрать все</string>
+    <string name="text_deselect_all">Снять все отметки</string>
+    <string name="bg_section_header">...</string>
+
+
 </resources>

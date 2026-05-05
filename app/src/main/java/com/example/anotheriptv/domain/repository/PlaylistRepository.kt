@@ -1,5 +1,6 @@
 package com.example.anotheriptv.domain.repository
 
+import com.example.anotheriptv.data.local.entity.CategoryEntity
 import com.example.anotheriptv.domain.model.Playlist
 import kotlinx.coroutines.flow.Flow
 
@@ -19,4 +20,6 @@ interface PlaylistRepository {
         id: Long,
         onProgress: (progress: Int, status: String) -> Unit = { _, _ -> }
     )
-}
+
+    suspend fun getCategoriesByType(playlistId: Long, contentType: String): List<CategoryEntity>
+    suspend fun updateCategoryVisibility(playlistId: Long, categoryId: String, contentType: String, isHidden: Boolean)}

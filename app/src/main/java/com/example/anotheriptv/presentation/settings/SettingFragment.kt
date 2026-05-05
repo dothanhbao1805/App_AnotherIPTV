@@ -15,12 +15,24 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.anotheriptv.MyApp
 import com.example.anotheriptv.R
+import com.example.anotheriptv.presentation.MainActivity
 import com.example.anotheriptv.presentation.playlist.LoadingFragment
 import com.example.anotheriptv.presentation.settings.ViewModel.RefreshState
 import com.example.anotheriptv.presentation.settings.ViewModel.SettingsViewModel
 import com.example.anotheriptv.presentation.settings.ViewModelFactory.SettingsViewModelFactory
 import com.example.anotheriptv.presentation.xstream.ContainerXstreamActivity
 import kotlinx.coroutines.launch
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.res.Configuration
+import android.os.Build
+import android.content.res.ColorStateList
+import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
+import android.widget.ImageView
+import androidx.core.content.ContextCompat
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.snackbar.Snackbar
 
 class SettingsFragment : Fragment() {
 
@@ -30,6 +42,10 @@ class SettingsFragment : Fragment() {
         const val KEY_LANGUAGE = "language_code"
         const val KEY_THEME    = "theme_mode"
     }
+
+    private var isPasswordVisible = false
+    private var currentPassword = ""
+
 
     private val viewModel: SettingsViewModel by viewModels {
         val container = (requireActivity().application as MyApp).container
@@ -53,6 +69,15 @@ class SettingsFragment : Fragment() {
 
         val playlistId = arguments?.getLong("playlistId", -1L) ?: -1L
         val playlistName = arguments?.getString("playlistName") ?: ""
+        val playlistType = arguments?.getString("playlistType") ?: "M3U"
+
+        val tvUserName = view.findViewById<TextView>(R.id.tv_user_name)
+        val tvPassword = view.findViewById<TextView>(R.id.tv_password)
+        val ivEyePassword = view.findViewById<ImageView>(R.id.iv_eye_password)
+        val layoutPassword = view.findViewById<LinearLayout>(R.id.layout_password)
+        val tvServerUrl = view.findViewById<TextView>(R.id.tv_server_url)
+
+        setupVisibilityForType(playlistType, view)
 
         val layoutTheme     = view.findViewById<LinearLayout>(R.id.layout_theme)
         val tvSelectedTheme = view.findViewById<TextView>(R.id.tv_selected_theme)
@@ -67,6 +92,13 @@ class SettingsFragment : Fragment() {
 
         switchSpeed.setOnCheckedChangeListener { _, isChecked ->
             prefs.edit().putBoolean("speed_up_long_press", isChecked).apply()
+        }
+
+        val switchDouble = view.findViewById<com.google.android.material.switchmaterial.SwitchMaterial>(R.id.switch_double)
+        switchDouble.isChecked = prefs.getBoolean("seek_double_tap", true)
+
+        switchDouble.setOnCheckedChangeListener { _, isChecked ->
+            prefs.edit().putBoolean("seek_double_tap", isChecked).apply()
         }
 
         layoutTheme.setOnClickListener {
@@ -86,6 +118,24 @@ class SettingsFragment : Fragment() {
         view.findViewById<LinearLayout>(R.id.layout_refresh_content).setOnClickListener {
             if (playlistId != -1L) viewModel.refreshPlaylist(playlistId)
         }
+
+        val tvServerUrlInfo = view.findViewById<TextView>(R.id.tv_server_info_url)
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.playlist.collect { playlist ->
+                if (playlist != null && playlist.type == "XSTREAM") {
+                    // Đổ dữ liệu thật vào giao diện
+                    tvUserName.text = playlist.userName ?: "N/A"
+                    tvServerUrlInfo.text = playlist.url ?: "N/A"
+                    currentPassword = playlist.password ?: ""
+                    tvServerUrl.text = playlist.url ?: "N/A"
+
+                    // Cập nhật giao diện Password lúc mới vào (thành dấu chấm)
+                    updatePasswordUI(tvPassword, ivEyePassword)
+                }
+            }
+        }
+
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.refreshState.collect { state ->
@@ -124,6 +174,58 @@ class SettingsFragment : Fragment() {
 
         switchBg.setOnCheckedChangeListener { _, isChecked ->
             prefs.edit().putBoolean("continue_playing_bg", isChecked).apply()
+        }
+
+        view.findViewById<LinearLayout>(R.id.layout_playlist_list).setOnClickListener {
+            val intent = Intent(requireContext(), MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+        }
+
+        // Copy Playlist Name
+        view.findViewById<LinearLayout>(R.id.layout_playlist_name).setOnClickListener {
+            val text = view.findViewById<TextView>(R.id.tv_playlist_name).text.toString()
+            copyToClipboard(text)
+        }
+
+        // Copy Server URL
+        view.findViewById<LinearLayout>(R.id.layout_server_url).setOnClickListener {
+            val text = view.findViewById<TextView>(R.id.tv_server_url).text.toString()
+            copyToClipboard(text)
+        }
+
+        // Copy User Name
+        view.findViewById<LinearLayout>(R.id.layout_user_name).setOnClickListener {
+            val text = view.findViewById<TextView>(R.id.tv_user_name).text.toString()
+            if (text.isNotEmpty() && text != "N/A") {
+                copyToClipboard(text)
+            }
+        }
+
+        ivEyePassword.setOnClickListener {
+            if (currentPassword.isNotEmpty()) {
+                isPasswordVisible = !isPasswordVisible // Đảo ngược trạng thái
+                updatePasswordUI(tvPassword, ivEyePassword)
+            }
+        }
+
+        layoutPassword.setOnClickListener {
+            if (currentPassword.isNotEmpty()) {
+                // Sử dụng biến currentPassword để copy được chữ thật, thay vì copy ra các dấu chấm
+                copyToClipboard(currentPassword)
+            }
+        }
+
+        view.findViewById<LinearLayout>(R.id.hide_categories).setOnClickListener {
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, HideCategoryFragment().apply {
+                    arguments = Bundle().apply {
+                        putLong("playlistId", playlistId)
+                        putString("playlistName", playlistName)
+                    }
+                })
+                .addToBackStack("hide_category")
+                .commit()
         }
 
     }
@@ -228,6 +330,44 @@ class SettingsFragment : Fragment() {
         loadingDialog = null
     }
 
+    private fun copyToClipboard(text: String) {
+        val clipboard = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clip = ClipData.newPlainText("copied", text)
+        clipboard.setPrimaryClip(clip)
+
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2) {
+            showCopiedSnackbar()
+        }
+    }
+
+    private fun showCopiedSnackbar() {
+        val snackbar = Snackbar.make(requireView(), "Copied to clipboard", Snackbar.LENGTH_SHORT)
+
+        // Đặt phía trên bottom navigation
+        val bottomNav = requireActivity().findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        snackbar.anchorView = bottomNav
+
+        // Custom màu theo light/dark
+        val isDark = when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
+            Configuration.UI_MODE_NIGHT_YES -> true
+            else -> false
+        }
+
+        val bgColor = ContextCompat.getColor(requireContext(), R.color.snackbar_bg)
+        val textColor = ContextCompat.getColor(requireContext(), R.color.snackbar_text)
+
+        snackbar.view.backgroundTintList = ColorStateList.valueOf(bgColor)
+        snackbar.setTextColor(textColor)
+
+        // Bo góc
+        snackbar.view.background = GradientDrawable().apply {
+            setColor(bgColor)
+            cornerRadius = 12f * resources.displayMetrics.density
+        }
+
+        snackbar.show()
+    }
+
     private fun navigateAfterRefresh(type: String, playlistId: Long, playlistName: String) {
         if (type == "M3U") {
             // Quay về History tab thay vì restart activity
@@ -255,6 +395,47 @@ class SettingsFragment : Fragment() {
             flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
         }
         startActivity(intent)
+    }
+
+    private fun setupVisibilityForType(type: String, view: View) {
+        val isXstream = (type == "XSTREAM")
+
+        // Nếu là XSTREAM thì VISIBLE (Hiện), ngược lại thì GONE (Ẩn hoàn toàn, không chiếm diện tích)
+        val visibility = if (isXstream) View.VISIBLE else View.GONE
+
+        // 1. Mục Connected
+        view.findViewById<View>(R.id.layout_connected).visibility = visibility
+
+        // 2. Mục Hide Categories & Đường gạch ngang
+        view.findViewById<View>(R.id.hide_categories).visibility = visibility
+        view.findViewById<View>(R.id.divider_hide_categories)?.visibility = visibility
+
+        // 3. Mục Username & Password & Đường gạch ngang
+        view.findViewById<View>(R.id.layout_user_name).visibility = visibility
+        view.findViewById<View>(R.id.divider_user_name)?.visibility = visibility
+        view.findViewById<View>(R.id.layout_password).visibility = visibility
+        view.findViewById<View>(R.id.divider_password)?.visibility = visibility
+
+        // 4. Mục Subscription Details
+        view.findViewById<View>(R.id.tv_title_sub).visibility = visibility
+        view.findViewById<View>(R.id.layout_sub_details).visibility = visibility
+
+        // 5. Mục Server Information
+        view.findViewById<View>(R.id.tv_title_server).visibility = visibility
+        view.findViewById<View>(R.id.layout_server_info).visibility = visibility
+    }
+
+    private fun updatePasswordUI(tvPassword: TextView, ivEye: ImageView) {
+        if (isPasswordVisible) {
+            // Hiện mật khẩu thật, đổi icon thành mắt bị gạch (ic_eye_off)
+            tvPassword.text = currentPassword
+            ivEye.setImageResource(R.drawable.ic_eye_off)
+        } else {
+            // Ẩn mật khẩu, đổi thành dấu chấm tương ứng với độ dài mật khẩu thật
+            val passLength = if (currentPassword.isNotEmpty()) currentPassword.length else 6
+            tvPassword.text = "•".repeat(passLength)
+            ivEye.setImageResource(R.drawable.ic_eye) // Icon mắt bình thường
+        }
     }
 
     override fun onDestroyView() {

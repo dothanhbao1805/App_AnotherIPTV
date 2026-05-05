@@ -131,6 +131,18 @@
     <string name="title_sub_title">Configurações de Legenda</string>
     <string name="title_custome">Personalizar aparência da legenda</string>
     <string name="title_brightness">Gesto de Brilho</string>
+    <string name="title_hide_categories">Ocultar categorias</string>
+    <string name="text_connected">Conectado</string>
+    <string name="desc_connected">Assinatura: 343 dias</string>
+    <string name="text_user_name">Nome de usuário</string>
+    <string name="title_sub">Detalhes da assinatura</string>
+    <string name="desc_sub">343 dias</string>
+    <string name="text_active_connect">Conexão ativa</string>
+    <string name="title_maximum">Conexão máxima</string>
+    <string name="title_time">Tempo restante</string>
+    <string name="title_server">Informações do servidor</string>
+    <string name="time_zone">Fuso horário</string>
+    <string name="server_message">Mensagem do servidor</string>
     <string name="desc_brightness">Controle o brilho deslizando verticalmente no lado esquerdo</string>
     <string name="title_volume">Gesto de Volume</string>
     <string name="desc_volume">Controle o volume deslizando verticalmente no lado direito</string>
@@ -200,4 +212,11 @@
 
     <!-- Settings -->
     <string name="label_app_language">Idioma do Aplicativo</string>
+
+    <!--    fragment_hide_category-->
+    <string name="text_select_all">Selecionar tudo</string>
+    <string name="text_deselect_all">Desmarcar tudo</string>
+    <string name="bg_section_header">...</string>
+
+
 </resources>

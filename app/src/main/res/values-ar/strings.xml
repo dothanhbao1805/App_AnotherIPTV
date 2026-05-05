@@ -125,6 +125,18 @@
     <string name="title_gen">الإعدادات العامة</string>
     <string name="refresh_content">تحديث المحتوى</string>
     <string name="title_theme">المظهر</string>
+    <string name="title_hide_categories">إخفاء الفئات</string>
+    <string name="text_connected">متصل</string>
+    <string name="desc_connected">الاشتراك: 343 يوم</string>
+    <string name="text_user_name">اسم المستخدم</string>
+    <string name="title_sub">تفاصيل الاشتراك</string>
+    <string name="desc_sub">343 يوم</string>
+    <string name="text_active_connect">الاتصال النشط</string>
+    <string name="title_maximum">الحد الأقصى للاتصالات</string>
+    <string name="title_time">الوقت المتبقي</string>
+    <string name="title_server">معلومات الخادم</string>
+    <string name="time_zone">المنطقة الزمنية</string>
+    <string name="server_message">رسالة الخادم</string>
     <string name="player_setting">إعدادات المشغل</string>
     <string name="title_continue">استمرار التشغيل في الخلفية</string>
     <string name="title_keep_playing">متابعة التشغيل حتى عندما يكون التطبيق في الخلفية</string>
@@ -200,4 +212,10 @@
 
     <!-- Settings -->
     <string name="label_app_language">لغة التطبيق</string>
+
+    <!--    fragment_hide_category-->
+    <string name="text_select_all">تحديد الكل</string>
+    <string name="text_deselect_all">إلغاء تحديد الكل</string>
+    <string name="bg_section_header">...</string>
+
 </resources>

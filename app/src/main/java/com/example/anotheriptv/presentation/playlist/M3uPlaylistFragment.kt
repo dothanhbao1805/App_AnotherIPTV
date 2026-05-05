@@ -1,5 +1,6 @@
 package com.example.anotheriptv.presentation.playlist
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.OpenableColumns
@@ -185,6 +186,7 @@ class M3uPlaylistFragment : Fragment() {
                                 val intent = android.content.Intent(requireContext(), ContainerPlaylistActivity::class.java).apply {
                                     putExtra("playlistId", newPlaylist.id)
                                     putExtra("playlistName", newPlaylist.name)
+                                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                                 }
                                 startActivity(intent)
 

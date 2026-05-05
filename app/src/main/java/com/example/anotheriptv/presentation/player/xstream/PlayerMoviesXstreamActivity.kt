@@ -58,6 +58,18 @@ class PlayerMoviesXstreamActivity : AppCompatActivity() {
     private var subtitleTrackAuto  = true
     private var isSettingVisible = false
 
+    private var seekBackwardAmount = 0
+    private var seekForwardAmount = 0
+    private val seekHideHandler = android.os.Handler(android.os.Looper.getMainLooper())
+    private val hideSeekBackwardRunnable = Runnable {
+        binding.layoutSeekBackward.visibility = View.GONE
+        seekBackwardAmount = 0
+    }
+    private val hideSeekForwardRunnable = Runnable {
+        binding.layoutSeekForward.visibility = View.GONE
+        seekForwardAmount = 0
+    }
+
     private val hideControlsRunnable = Runnable { hideControls() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -77,6 +89,7 @@ class PlayerMoviesXstreamActivity : AppCompatActivity() {
         setupControls(streamUrl)
         setupSettingPanel()
         setupSpeedGesture()
+        setupDoubleTapSeek()
         setupListPanel()
     }
 
@@ -649,6 +662,55 @@ class PlayerMoviesXstreamActivity : AppCompatActivity() {
                 }
             }
             // Trả về false để không block các gesture khác (click, seek...)
+            false
+        }
+    }
+
+    private fun setupDoubleTapSeek() {
+        val prefs = getSharedPreferences("app_settings", Context.MODE_PRIVATE)
+
+        // Tạo GestureDetector MỘT LẦN duy nhất
+        val gestureDetector = android.view.GestureDetector(
+            this,
+            object : android.view.GestureDetector.SimpleOnGestureListener() {
+                override fun onDoubleTap(e: android.view.MotionEvent): Boolean {
+                    if (!prefs.getBoolean("seek_double_tap", true)) return false
+
+                    val screenWidth = binding.playerView.width
+                    val tapX = e.x
+
+                    if (tapX < screenWidth / 2) {
+                        // Bên trái → tua lùi
+                        seekBackwardAmount += 10
+                        val newPos = (player?.currentPosition ?: 0) - 10_000
+                        player?.seekTo(newPos.coerceAtLeast(0))
+
+                        seekHideHandler.removeCallbacks(hideSeekBackwardRunnable)
+                        binding.layoutSeekBackward.visibility = View.VISIBLE
+                        binding.tvSeekBackwardSeconds.text = "$seekBackwardAmount seconds"
+                        seekHideHandler.postDelayed(hideSeekBackwardRunnable, 800)
+                    } else {
+                        // Bên phải → tua tới
+                        seekForwardAmount += 10
+                        val newPos = (player?.currentPosition ?: 0) + 10_000
+                        val duration = player?.duration ?: 0
+                        player?.seekTo(newPos.coerceAtMost(duration))
+
+                        seekHideHandler.removeCallbacks(hideSeekForwardRunnable)
+                        binding.layoutSeekForward.visibility = View.VISIBLE
+                        binding.tvSeekForwardSeconds.text = "$seekForwardAmount seconds"
+                        seekHideHandler.postDelayed(hideSeekForwardRunnable, 800)
+                    }
+                    return true
+                }
+
+                // Quan trọng: phải override onDown trả về true
+                override fun onDown(e: android.view.MotionEvent): Boolean = true
+            }
+        )
+
+        binding.playerView.setOnTouchListener { _, event ->
+            gestureDetector.onTouchEvent(event)
             false
         }
     }

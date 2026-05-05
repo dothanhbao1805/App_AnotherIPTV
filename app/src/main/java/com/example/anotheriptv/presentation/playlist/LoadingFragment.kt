@@ -1,5 +1,6 @@
 package com.example.anotheriptv.presentation.playlist
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -64,15 +65,23 @@ class LoadingFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val isRefresh = arguments?.getBoolean("isRefresh", false) ?: false
+        val isApplyHide = arguments?.getBoolean("isApplyHide", false) ?: false
         val refreshPlaylistId = arguments?.getLong("playlistId", -1L) ?: -1L
 
-        if (isRefresh && refreshPlaylistId != -1L) {
-            // Refresh XSTREAM
+        if (isApplyHide && refreshPlaylistId != -1L) {
+            // NẾU LÀ APPLY HIDE: Chạy hiệu ứng nội bộ, không gọi viewModel.refreshXstream()
+            updateUI(0, "Applying changes...")
+            handler.post(circleAnimRunnable)
+            simulateApplyingChanges(refreshPlaylistId)
+
+        } else if (isRefresh && refreshPlaylistId != -1L) {
+            // Refresh XSTREAM (luồng cũ giữ nguyên)
             updateUI(0, "Connecting")
             handler.post(circleAnimRunnable)
             viewModel.refreshXstream(refreshPlaylistId)
+
         } else {
-            // Flow cũ — add playlist mới
+            // Flow cũ — add playlist mới (giữ nguyên)
             updateUI(0, "Connecting")
             handler.post(circleAnimRunnable)
         }
@@ -92,6 +101,8 @@ class LoadingFragment : Fragment() {
                                 ).apply {
                                     putExtra("playlistId",   playlist.id)
                                     putExtra("playlistName", playlist.name)
+                                    putExtra("playlistType", "XSTREAM")
+                                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                                 }
                                 startActivity(intent)
                                 viewModel.resetState()
@@ -180,6 +191,29 @@ class LoadingFragment : Fragment() {
             binding.viewInnerCircle.startAnimation(fadeOut)
         }
         outerVisible = !outerVisible
+    }
+
+    private fun simulateApplyingChanges(playlistId: Long) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            // Các cột mốc để updateStep kích hoạt thay đổi Text, Icon và Dots
+            val milestones = listOf(20, 40, 60, 80, 100)
+
+            for (target in milestones) {
+                updateProgress(target, "")
+
+                kotlinx.coroutines.delay(600)
+            }
+
+            kotlinx.coroutines.delay(500)
+
+            val intent = Intent(requireContext(), ContainerXstreamActivity::class.java).apply {
+                putExtra("playlistId", playlistId)
+                putExtra("playlistName", arguments?.getString("playlistName") ?: "")
+                putExtra("playlistType", "XSTREAM")
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            }
+            startActivity(intent)
+        }
     }
 
     override fun onDestroyView() {

@@ -131,6 +131,18 @@
     <string name="title_sub_title">Untertitel-Einstellungen</string>
     <string name="title_custome">Untertitel-Erscheinungsbild anpassen</string>
     <string name="title_brightness">Helligkeitsgeste</string>
+    <string name="title_hide_categories">Kategorien ausblenden</string>
+    <string name="text_connected">Verbunden</string>
+    <string name="text_user_name">Benutzername</string>
+    <string name="title_sub">Abonnement-Details</string>
+    <string name="desc_sub">343 Tage</string>
+    <string name="text_active_connect">Aktive Verbindung</string>
+    <string name="title_maximum">Maximale Verbindung</string>
+    <string name="title_time">Verbleibende Zeit</string>
+    <string name="title_server">Server-Informationen</string>
+    <string name="time_zone">Zeitzone</string>
+    <string name="server_message">Server-Nachricht</string>
+    <string name="desc_connected">Abonnement: 343 Tage</string>
     <string name="desc_brightness">Helligkeit durch vertikales Wischen auf der linken Seite steuern</string>
     <string name="title_volume">Lautstärkegeste</string>
     <string name="desc_volume">Lautstärke durch vertikales Wischen auf der rechten Seite steuern</string>
@@ -200,4 +212,10 @@
 
     <!-- Settings -->
     <string name="label_app_language">App-Sprache</string>
+
+    <!--    fragment_hide_category-->
+    <string name="text_select_all">Alle auswählen</string>
+    <string name="text_deselect_all">Alle abwählen</string>
+    <string name="bg_section_header">...</string>
+
 </resources>

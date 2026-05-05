@@ -15,6 +15,7 @@ class ContainerPlaylistActivity : AppCompatActivity() {
 
     private var currentPlaylistId: Long = -1L
     private var currentPlaylistName: String = "All Channels"
+    private var currentPlaylistType: String = "M3U"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,6 +23,7 @@ class ContainerPlaylistActivity : AppCompatActivity() {
 
         currentPlaylistId = intent.getLongExtra("playlistId", -1L)
         currentPlaylistName = intent.getStringExtra("playlistName") ?: "All Channels"
+        currentPlaylistType = intent.getStringExtra("playlistType") ?: "M3U"
 
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
 
@@ -40,7 +42,7 @@ class ContainerPlaylistActivity : AppCompatActivity() {
                 R.id.nav_history -> {
                     val historyFragment = HistoryFragment().apply {
                         arguments = Bundle().apply {
-                            putLong("playlistId", currentPlaylistId)  // ← thêm
+                            putLong("playlistId", currentPlaylistId)
                         }
                     }
                     replaceFragment(historyFragment)
@@ -62,6 +64,7 @@ class ContainerPlaylistActivity : AppCompatActivity() {
                         arguments = Bundle().apply {
                             putLong("playlistId", currentPlaylistId)
                             putString("playlistName", currentPlaylistName)
+                            putString("playlistType", currentPlaylistType)
                         }
                     }
                     replaceFragment(settingsFragment)

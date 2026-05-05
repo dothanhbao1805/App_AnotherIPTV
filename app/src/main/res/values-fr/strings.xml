@@ -127,6 +127,18 @@
     <string name="title_theme">Thème</string>
     <string name="player_setting">Paramètres du lecteur</string>
     <string name="title_continue">Lecture en arrière-plan</string>
+    <string name="title_hide_categories">Masquer les catégories</string>
+    <string name="text_connected">Connecté</string>
+    <string name="desc_connected">Abonnement : 343 jours</string>
+    <string name="text_user_name">Nom d\'utilisateur</string>
+    <string name="title_sub">Détails de l\'abonnement</string>
+    <string name="desc_sub">343 jours</string>
+    <string name="text_active_connect">Connexion active</string>
+    <string name="title_maximum">Connexion maximale</string>
+    <string name="title_time">Temps restant</string>
+    <string name="title_server">Informations sur le serveur</string>
+    <string name="time_zone">Fuseau horaire</string>
+    <string name="server_message">Message du serveur</string>
     <string name="title_keep_playing">Continuer la lecture même lorsque l\'application est en arrière-plan</string>
     <string name="title_sub_title">Paramètres des sous-titres</string>
     <string name="title_custome">Personnaliser l\'apparence des sous-titres</string>
@@ -200,4 +212,10 @@
 
     <!-- Settings -->
     <string name="label_app_language">Langue de l\'application</string>
+
+    <!--    fragment_hide_category-->
+    <string name="text_select_all">Tout sélectionner</string>
+    <string name="text_deselect_all">Tout désélectionner</string>
+    <string name="bg_section_header">...</string>
+
 </resources>

@@ -126,6 +126,18 @@
     <string name="refresh_content">刷新内容</string>
     <string name="title_theme">主题</string>
     <string name="player_setting">播放器设置</string>
+    <string name="title_hide_categories">隐藏分类</string>
+    <string name="text_connected">已连接</string>
+    <string name="text_user_name">用户名</string>
+    <string name="title_sub">订阅详情</string>
+    <string name="desc_sub">343 天</string>
+    <string name="text_active_connect">活动连接</string>
+    <string name="title_maximum">最大连接数</string>
+    <string name="title_time">剩余时间</string>
+    <string name="title_server">服务器信息</string>
+    <string name="time_zone">时区</string>
+    <string name="server_message">服务器消息</string>
+    <string name="desc_connected">订阅：343 天</string>
     <string name="title_continue">后台继续播放</string>
     <string name="title_keep_playing">即使应用在后台也保持播放</string>
     <string name="title_sub_title">字幕设置</string>
@@ -200,4 +212,10 @@
 
     <!-- Settings -->
     <string name="label_app_language">应用语言</string>
+
+    <!--    fragment_hide_category-->
+    <string name="text_select_all">全选</string>
+    <string name="text_deselect_all">取消全选</string>
+    <string name="bg_section_header">...</string>
+
 </resources>
