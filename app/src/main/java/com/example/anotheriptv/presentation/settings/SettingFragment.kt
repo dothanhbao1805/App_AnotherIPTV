@@ -27,9 +27,9 @@ import android.content.ClipboardManager
 import android.content.res.Configuration
 import android.os.Build
 import android.content.res.ColorStateList
-import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.widget.ImageView
+import androidx.appcompat.widget.SwitchCompat
 import androidx.core.content.ContextCompat
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
@@ -87,14 +87,14 @@ class SettingsFragment : Fragment() {
         val currentTheme = prefs.getInt(KEY_THEME, androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
         tvSelectedTheme.text = getThemeDisplayName(currentTheme)
 
-        val switchSpeed = view.findViewById<com.google.android.material.switchmaterial.SwitchMaterial>(R.id.switch_speed)
+        val switchSpeed = view.findViewById<SwitchCompat>(R.id.switch_speed)
         switchSpeed.isChecked = prefs.getBoolean("speed_up_long_press", true)
 
         switchSpeed.setOnCheckedChangeListener { _, isChecked ->
             prefs.edit().putBoolean("speed_up_long_press", isChecked).apply()
         }
 
-        val switchDouble = view.findViewById<com.google.android.material.switchmaterial.SwitchMaterial>(R.id.switch_double)
+        val switchDouble = view.findViewById<SwitchCompat>(R.id.switch_double)
         switchDouble.isChecked = prefs.getBoolean("seek_double_tap", true)
 
         switchDouble.setOnCheckedChangeListener { _, isChecked ->
@@ -169,7 +169,7 @@ class SettingsFragment : Fragment() {
             }
         }
 
-        val switchBg = view.findViewById<com.google.android.material.switchmaterial.SwitchMaterial>(R.id.switch_bg)
+        val switchBg = view.findViewById<SwitchCompat>(R.id.switch_bg)
         switchBg.isChecked = prefs.getBoolean("continue_playing_bg", false)
 
         switchBg.setOnCheckedChangeListener { _, isChecked ->

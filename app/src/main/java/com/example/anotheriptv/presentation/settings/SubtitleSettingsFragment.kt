@@ -87,30 +87,8 @@ class SubtitleSettingsFragment : Fragment() {
         binding.tvSubtitlePreview.setTextColor(textColor)
         binding.tvSubtitlePreview.setBackgroundColor(bgColor)
 
-        val maxPreviewHeight = (resources.displayMetrics.heightPixels * 0.55f).toInt()
-        var isAdjustingHeight = false
-
-
-        binding.framePreviewBox.addOnLayoutChangeListener { v, _, top, _, bottom, _, oldTop, _, oldBottom ->
-            if (isAdjustingHeight) return@addOnLayoutChangeListener
-
-            val newHeight = bottom - top
-            val oldHeight = oldBottom - oldTop
-            if (newHeight == oldHeight) return@addOnLayoutChangeListener  // không thay đổi → bỏ qua
-
-            val params = v.layoutParams
-            if (newHeight > maxPreviewHeight && params.height != maxPreviewHeight) {
-                isAdjustingHeight = true
-                params.height = maxPreviewHeight
-                v.layoutParams = params
-                v.post { isAdjustingHeight = false }
-            } else if (newHeight <= maxPreviewHeight && params.height != ViewGroup.LayoutParams.WRAP_CONTENT) {
-                isAdjustingHeight = true
-                params.height = ViewGroup.LayoutParams.WRAP_CONTENT
-                v.layoutParams = params
-                v.post { isAdjustingHeight = false }
-            }
-        }
+        val maxPreviewHeight = (resources.displayMetrics.heightPixels * 0.65f).toInt()
+        binding.framePreviewBox.maxHeightPx = maxPreviewHeight
 
     }
 
@@ -302,12 +280,23 @@ class SubtitleSettingsFragment : Fragment() {
 
     private fun updatePreview() {
         binding.tvSubtitlePreview.apply {
-            textSize      = this@SubtitleSettingsFragment.fontSize / 2f  // scale down 50% để preview gọn
-            letterSpacing = this@SubtitleSettingsFragment.letterSpacing / 10f
-            val p  = (this@SubtitleSettingsFragment.padding / 2f).toInt().dpToPx()
-            val pV = (this@SubtitleSettingsFragment.padding / 4f).toInt().dpToPx()
+            textSize      = fontSize / 3f
+            letterSpacing = this@SubtitleSettingsFragment.letterSpacing / 12f
+            val p  = (padding / 3f).toInt().dpToPx()
+            val pV = (padding / 6f).toInt().dpToPx()
             setPadding(p, pV, p, pV)
             setLineSpacing(0f, this@SubtitleSettingsFragment.lineHeight)
+        }
+
+        // Sau khi layout đo xong, scale text nếu bị clip
+        binding.tvSubtitlePreview.post {
+            val boxHeight  = binding.framePreviewBox.height.takeIf { it > 0 } ?: return@post
+            val textHeight = binding.tvSubtitlePreview.height
+            if (textHeight > boxHeight) {
+                val ratio = boxHeight.toFloat() / textHeight.toFloat()
+                binding.tvSubtitlePreview.textSize =
+                    (binding.tvSubtitlePreview.textSize * ratio).coerceAtLeast(8f)
+            }
         }
     }
 
@@ -346,10 +335,6 @@ class SubtitleSettingsFragment : Fragment() {
         binding.spinnerTextAlignment.setSelection(1)
         applyFontWeight()
         applyTextAlignment()
-
-        // Force reset height về WRAP_CONTENT trước khi updatePreview
-        binding.framePreviewBox.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
-        binding.framePreviewBox.requestLayout()
 
         updatePreview()
         saveSettings() // ← lưu lại giá trị default

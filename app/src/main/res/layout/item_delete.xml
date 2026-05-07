@@ -1,38 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_gravity="center_vertical|end"
-    android:layout_marginEnd="16dp"
-    app:cardBackgroundColor="@color/bg_main"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="6dp">
-    <LinearLayout
+    android:background="@android:color/transparent">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/btnDelete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:paddingHorizontal="20dp"
-        android:paddingVertical="14dp">
-        <ImageView
-            android:id="@+id/ivDeleteIcon"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/ic_delete"
-            app:tint="#EF4444"
-            />
-
-        <TextView
-            android:id="@+id/tvDeleteText"
+        android:layout_margin="8dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardBackgroundColor="@color/bg_main"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="8dp">
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="@string/delete"
-            android:textColor="#EF4444"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-    </LinearLayout>
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="12dp">
 
-</androidx.cardview.widget.CardView>
+            <ImageView
+                android:id="@+id/ivDeleteIcon"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@drawable/ic_delete"
+                app:tint="#EF4444" />
+
+            <TextView
+                android:id="@+id/tvDeleteText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@string/delete"
+                android:textColor="#EF4444"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+</FrameLayout>

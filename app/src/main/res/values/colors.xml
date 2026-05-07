@@ -141,5 +141,14 @@
     <color name="text_select_all">#38618D</color>
     <color name="bg_section_header">#DBDADF</color>
 
+    <!--    switch-->
+    <color name="bg_switch_checked">#38618D</color>
+    <color name="bg_switch_un_checked">#E3E2E7</color>
+    <color name="bg_thumb_un_checked">#737782</color>
+    <color name="bg_thumb_checked">#FFFFFF</color>
+
+    <!--bg_seekbar-->
+    <color name="bg_seekbar">#E0E0E0</color>
+
 
 </resources>

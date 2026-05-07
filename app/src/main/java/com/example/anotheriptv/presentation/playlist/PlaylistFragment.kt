@@ -2,12 +2,14 @@ package com.example.anotheriptv.presentation.playlist
 
 import android.app.AlertDialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.PopupWindow
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -78,13 +80,10 @@ class PlaylistFragment : Fragment() {
                 .addToBackStack(null)
                 .commit()
         }
-
-
     }
 
     private fun setupRecyclerView() {
         playlistAdapter = PlaylistAdapter(
-
             onPlaylistClick = { playlist ->
                 val targetActivity = if (playlist.type == "XSTREAM") {
                     ContainerXstreamActivity::class.java
@@ -92,7 +91,7 @@ class PlaylistFragment : Fragment() {
                     ContainerPlaylistActivity::class.java
                 }
 
-                val intent = android.content.Intent(requireContext(), targetActivity).apply {
+                val intent = Intent(requireContext(), targetActivity).apply {
                     putExtra("playlistId", playlist.id)
                     putExtra("playlistName", playlist.name)
                     putExtra("playlistType", playlist.type)
@@ -100,7 +99,6 @@ class PlaylistFragment : Fragment() {
                 }
                 startActivity(intent)
             },
-
             onMoreClick = { playlist, anchorView ->
                 showPopupDelete(anchorView, playlist)
             }
@@ -112,7 +110,6 @@ class PlaylistFragment : Fragment() {
     }
 
     private fun showPopupDelete(anchorView: View, playlist: Playlist) {
-
         val popupView = layoutInflater.inflate(R.layout.item_delete, null)
 
         val popupWindow = PopupWindow(
@@ -121,6 +118,9 @@ class PlaylistFragment : Fragment() {
             ViewGroup.LayoutParams.WRAP_CONTENT,
             true
         )
+
+        // BẮT BUỘC: Giúp PopupWindow trong suốt để hiển thị được bóng đổ (shadow) của CardView
+        popupWindow.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
         popupView.setOnClickListener {
             popupWindow.dismiss()
@@ -133,16 +133,26 @@ class PlaylistFragment : Fragment() {
 
         anchorView.visibility = View.INVISIBLE
 
-        val xOffset = -20
-        val yOffset = -(anchorView.height + 10)
+        // Đo đạc kích thước của nút Delete trước khi vẽ lên màn hình
+        popupView.measure(
+            View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+            View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+        )
 
-        popupWindow.showAsDropDown(anchorView, xOffset, yOffset)
+        val popupWidth = popupView.measuredWidth
+        val popupHeight = popupView.measuredHeight
+
+        // Tính toán để căn phải và căn giữa theo chiều dọc so với anchorView (nút 3 chấm)
+        val xOffset = anchorView.width - popupWidth
+        val yOffset = -(anchorView.height + popupHeight) / 2
+
+        // Hiển thị đè lên vị trí của anchorView
+        popupWindow.showAsDropDown(anchorView, xOffset, yOffset, Gravity.START)
     }
 
     private fun showDeleteDialog(playlist: Playlist) {
         // Nạp layout dialog_remove_playlist.xml
         val dialogView = layoutInflater.inflate(R.layout.dialog_remove_playlist, null)
-
 
         val dialog = AlertDialog.Builder(requireContext())
             .setView(dialogView)
@@ -159,8 +169,7 @@ class PlaylistFragment : Fragment() {
 
         btnRemove.setOnClickListener {
             dialog.dismiss()
-
-             viewModel.deletePlaylist(playlist.id)
+            viewModel.deletePlaylist(playlist.id)
         }
 
         dialog.show()
@@ -203,14 +212,8 @@ class PlaylistFragment : Fragment() {
         }
     }
 
-    private fun showEmptyState() {
-        binding.layoutEmptyState.visibility = View.VISIBLE
-        binding.recyclerPlaylists.visibility = View.GONE
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
-
 }

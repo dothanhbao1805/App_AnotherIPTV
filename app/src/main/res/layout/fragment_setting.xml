@@ -159,15 +159,21 @@
                         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/title_continue" android:textSize="16sp" android:textColor="@color/color_title" />
                         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/title_keep_playing" android:textSize="13sp" android:textColor="@color/color_title" />
                     </LinearLayout>
-                    <com.google.android.material.switchmaterial.SwitchMaterial
+
+                    <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/switch_bg"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:track="@drawable/switch_track"
-                        app:thumbTint="@color/switch_thumb_color"
-                        app:trackTint="@null" />
+                        android:thumb="@drawable/bg_switch_thumb"
+                        app:track="@drawable/bg_switch_track"
+                        app:thumbTint="@null"
+                        android:layout_marginEnd="8dp"
+                        app:trackTint="@null"
+                        android:background="@null"
+                        app:switchMinWidth="40dp" />
+
                 </RelativeLayout>
 
                 <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/divider" />
@@ -191,15 +197,20 @@
                         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/title_brightness" android:textSize="16sp" android:textColor="@color/color_title" />
                         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/desc_brightness" android:textSize="13sp" android:textColor="@color/color_title"/>
                     </LinearLayout>
-                    <com.google.android.material.switchmaterial.SwitchMaterial
+
+                    <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/switch_br"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:track="@drawable/switch_track"
-                        app:thumbTint="@color/switch_thumb_color"
-                        app:trackTint="@null" />
+                        android:thumb="@drawable/bg_switch_thumb"
+                        app:track="@drawable/bg_switch_track"
+                        app:thumbTint="@null"
+                        android:layout_marginEnd="8dp"
+                        app:trackTint="@null"
+                        android:background="@null"
+                        app:switchMinWidth="40dp" />
                 </RelativeLayout>
 
                 <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/divider" />
@@ -211,15 +222,19 @@
                         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/title_volume" android:textSize="16sp" android:textColor="@color/color_title"/>
                         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/desc_volume" android:textSize="13sp" android:textColor="@color/color_title" />
                     </LinearLayout>
-                    <com.google.android.material.switchmaterial.SwitchMaterial
+                    <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/switch_vol"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:track="@drawable/switch_track"
-                        app:thumbTint="@color/switch_thumb_color"
-                        app:trackTint="@null" />
+                        android:thumb="@drawable/bg_switch_thumb"
+                        app:track="@drawable/bg_switch_track"
+                        app:thumbTint="@null"
+                        android:layout_marginEnd="8dp"
+                        app:trackTint="@null"
+                        android:background="@null"
+                        app:switchMinWidth="40dp" />
                 </RelativeLayout>
 
                 <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/divider" />
@@ -231,15 +246,19 @@
                         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/title_seek" android:textSize="16sp" android:textColor="@color/color_title" />
                         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/desc_seek" android:textSize="13sp" android:textColor="@color/color_title"/>
                     </LinearLayout>
-                    <com.google.android.material.switchmaterial.SwitchMaterial
+                    <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/switch_seek"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:track="@drawable/switch_track"
-                        app:thumbTint="@color/switch_thumb_color"
-                        app:trackTint="@null" />
+                        android:thumb="@drawable/bg_switch_thumb"
+                        app:track="@drawable/bg_switch_track"
+                        app:thumbTint="@null"
+                        android:layout_marginEnd="8dp"
+                        app:trackTint="@null"
+                        android:background="@null"
+                        app:switchMinWidth="40dp" />
                 </RelativeLayout>
 
                 <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/divider" />
@@ -251,16 +270,19 @@
                         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/title_speed" android:textSize="16sp" android:textColor="@color/color_title" />
                         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/desc_speed" android:textSize="13sp" android:textColor="@color/color_title"/>
                     </LinearLayout>
-                    <com.google.android.material.switchmaterial.SwitchMaterial
+                    <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/switch_speed"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:checked="true"
-                        android:track="@drawable/switch_track"
-                        app:thumbTint="@color/switch_thumb_color"
-                        app:trackTint="@null" />
+                        android:thumb="@drawable/bg_switch_thumb"
+                        app:track="@drawable/bg_switch_track"
+                        app:thumbTint="@null"
+                        android:layout_marginEnd="8dp"
+                        app:trackTint="@null"
+                        android:background="@null"
+                        app:switchMinWidth="40dp" />
                 </RelativeLayout>
 
                 <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/divider" />
@@ -272,16 +294,19 @@
                         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/title_double_tap" android:textSize="16sp" android:textColor="@color/color_title" />
                         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/desc_double_tap" android:textSize="13sp" android:textColor="@color/color_title"/>
                     </LinearLayout>
-                    <com.google.android.material.switchmaterial.SwitchMaterial
+                    <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/switch_double"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:checked="true"
-                        android:track="@drawable/switch_track"
-                        app:thumbTint="@color/switch_thumb_color"
-                        app:trackTint="@null" />
+                        android:thumb="@drawable/bg_switch_thumb"
+                        app:track="@drawable/bg_switch_track"
+                        app:thumbTint="@null"
+                        android:layout_marginEnd="8dp"
+                        app:trackTint="@null"
+                        android:background="@null"
+                        app:switchMinWidth="40dp" />
                 </RelativeLayout>
 
             </LinearLayout>
