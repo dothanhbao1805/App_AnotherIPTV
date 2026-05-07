@@ -1,5 +1,6 @@
 package com.example.anotheriptv.presentation.xstream.series
 
+import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -17,6 +18,7 @@ import com.example.anotheriptv.MyApp
 import com.example.anotheriptv.R
 import com.example.anotheriptv.databinding.FragmentSeriesDetailBinding
 import com.example.anotheriptv.domain.model.Channel
+import com.example.anotheriptv.presentation.player.xstream.PlayerSeriesXstreamActivity
 import com.example.anotheriptv.presentation.xstream.series.Adapter.SeasonAdapter
 import com.example.anotheriptv.presentation.xstream.series.ViewModel.SeriesXstreamViewModel
 import com.example.anotheriptv.presentation.xstream.series.ViewModelFactory.SeriesXstreamViewModelFactory
@@ -31,6 +33,28 @@ class SeriesDetailFragment : Fragment() {
     private var isFavorite: Boolean = false
 
     private lateinit var seasonAdapter: SeasonAdapter
+
+    private var continueSeasonNumber: Int = -1
+    private var continueEpisodeNumber: Int = -1
+    private var continueEpisodeName: String = ""
+    private var continueStreamUrl: String = ""
+
+    private val playerLauncher = registerForActivityResult(
+        androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val data = result.data ?: return@registerForActivityResult
+            continueSeasonNumber  = data.getIntExtra("result_season", -1)
+            continueEpisodeNumber = data.getIntExtra("result_episode_number", -1)
+            continueEpisodeName   = data.getStringExtra("result_episode_name") ?: ""
+            continueStreamUrl     = data.getStringExtra("result_stream_url") ?: ""
+
+            if (continueSeasonNumber != -1 && continueEpisodeNumber != -1) {
+                binding.btnContinue.text = "▶  Continue: S$continueSeasonNumber Episode $continueEpisodeNumber"
+                binding.btnContinue.visibility = View.VISIBLE
+            }
+        }
+    }
 
     private val viewModel: SeriesXstreamViewModel by activityViewModels {
         val container = (requireActivity().application as MyApp).container
@@ -88,10 +112,11 @@ class SeriesDetailFragment : Fragment() {
 
     private fun bindHeader() {
         Glide.with(this)
-            .load(channel.logo)
+            .load(channel.backdropPath ?: channel.logo)
             .placeholder(R.drawable.ic_tv_placeholder)
             .error(R.drawable.ic_tv_placeholder)
             .into(binding.ivPoster)
+
 
         binding.tvTitle.text       = channel.name
         binding.tvGenre.text       = channel.genre.orEmpty()
@@ -132,6 +157,18 @@ class SeriesDetailFragment : Fragment() {
                 // Update isFavorite trong channels table
                 container.channelDao.updateFavorite(channel.id, isFavorite)
             }
+        }
+
+        binding.btnContinue.setOnClickListener {
+            if (continueStreamUrl.isBlank()) return@setOnClickListener
+            val intent = Intent(requireContext(), PlayerSeriesXstreamActivity::class.java).apply {
+                putExtra("channelName",  continueEpisodeName)
+                putExtra("streamUrl",    continueStreamUrl)
+                putExtra("playlistId",   playlistId)
+                putExtra("seriesId",     channel.seriesId ?: return@setOnClickListener)
+                putExtra("seasonNumber", continueSeasonNumber)
+            }
+            playerLauncher.launch(intent)
         }
 
     }
@@ -204,8 +241,15 @@ class SeriesDetailFragment : Fragment() {
                 playlistId   = playlistId,
                 seriesId     = channel.seriesId ?: return@SeasonAdapter,
                 seasonNumber = season.seasonNumber,
-                seasonName   = season.name
+                seasonName   = season.name,
+                channelId    = channel.id,
+                logo         = channel.logo ?: "",
+                rating       = channel.rating ?: 0f
             )
+            // Truyền launcher xuống BottomSheet
+            bottomSheet.setOnEpisodeSelectedListener { intent ->
+                playerLauncher.launch(intent)
+            }
             bottomSheet.show(childFragmentManager, "EpisodesBottomSheet")
         }
 
@@ -281,6 +325,8 @@ class SeriesDetailFragment : Fragment() {
     companion object {
         const val ARG_CHANNEL     = "arg_channel"
         const val ARG_PLAYLIST_ID = "arg_playlist_id"
+
+        const val REQUEST_PLAYER  = 1001
 
         fun newInstance(channel: Channel, playlistId: Long) =
             SeriesDetailFragment().apply {

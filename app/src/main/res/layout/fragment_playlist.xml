@@ -72,8 +72,9 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnCreateFirst"
             android:layout_width="wrap_content"
-            android:layout_height="52dp"
+            android:layout_height="wrap_content"
             android:paddingHorizontal="32dp"
+            android:paddingVertical="13dp"
             android:text="@string/btn_create_first_playlist"
             android:textAppearance="?attr/textAppearanceTitleMedium"
             android:textColor="@android:color/white"

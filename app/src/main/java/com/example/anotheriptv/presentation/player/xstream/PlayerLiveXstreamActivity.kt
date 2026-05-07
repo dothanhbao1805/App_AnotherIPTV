@@ -90,8 +90,7 @@ class PlayerLiveXstreamActivity : AppCompatActivity() {
         checkFavoriteStatus(streamUrl)
         setupControls(streamUrl)
         setupSettingPanel()
-        setupSpeedGesture()
-        setupDoubleTapSeek()
+        setupTouchAndGestures()
         setupListPanel()
     }
 
@@ -646,41 +645,21 @@ class PlayerLiveXstreamActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupSpeedGesture() {
+    private fun setupTouchAndGestures() {
         val prefs = getSharedPreferences("app_settings", Context.MODE_PRIVATE)
         val layoutSpeedIndicator = binding.layoutSpeedIndicator
 
+        // 1. Xử lý chạm giữ (Long Press) để tua 2.0x
         binding.playerView.setOnLongClickListener {
             if (prefs.getBoolean("speed_up_long_press", true)) {
-                // Tăng tốc độ lên 2.0x
                 player?.setPlaybackSpeed(2.0f)
                 layoutSpeedIndicator.visibility = View.VISIBLE
-                // Ẩn controls khi đang speed up
                 hideControls()
             }
             true
         }
 
-        binding.playerView.setOnTouchListener { _, event ->
-            when (event.action) {
-                android.view.MotionEvent.ACTION_UP,
-                android.view.MotionEvent.ACTION_CANCEL -> {
-                    if (layoutSpeedIndicator.visibility == View.VISIBLE) {
-                        // Thả tay → về tốc độ bình thường
-                        player?.setPlaybackSpeed(1.0f)
-                        layoutSpeedIndicator.visibility = View.GONE
-                    }
-                }
-            }
-            // Trả về false để không block các gesture khác (click, seek...)
-            false
-        }
-    }
-
-    private fun setupDoubleTapSeek() {
-        val prefs = getSharedPreferences("app_settings", Context.MODE_PRIVATE)
-
-        // Tạo GestureDetector MỘT LẦN duy nhất
+        // 2. Khởi tạo GestureDetector để bắt Double Tap
         val gestureDetector = android.view.GestureDetector(
             this,
             object : android.view.GestureDetector.SimpleOnGestureListener() {
@@ -715,14 +694,26 @@ class PlayerLiveXstreamActivity : AppCompatActivity() {
                     return true
                 }
 
-                // Quan trọng: phải override onDown trả về true
                 override fun onDown(e: android.view.MotionEvent): Boolean = true
             }
         )
 
+        // 3. GỘP CHUNG BẮT SỰ KIỆN CHẠM VÀO ĐÂY (Giải quyết xung đột)
         binding.playerView.setOnTouchListener { _, event ->
+            // Đẩy sự kiện cho GestureDetector xử lý Double Tap
             gestureDetector.onTouchEvent(event)
-            false
+
+            // Tự xử lý sự kiện nhả tay ra (ACTION_UP/CANCEL) để tắt tua 2.0x
+            when (event.action) {
+                android.view.MotionEvent.ACTION_UP,
+                android.view.MotionEvent.ACTION_CANCEL -> {
+                    if (layoutSpeedIndicator.visibility == View.VISIBLE) {
+                        player?.setPlaybackSpeed(1.0f)
+                        layoutSpeedIndicator.visibility = View.GONE
+                    }
+                }
+            }
+            false // Trả về false để không chặn click mặc định
         }
     }
 

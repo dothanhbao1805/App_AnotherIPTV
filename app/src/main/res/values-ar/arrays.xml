@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="font_weight_options">
+        <item>رفيع</item> <!-- Thin -->
+        <item>عادي</item> <!-- Normal -->
+        <item>متوسط</item> <!-- Medium -->
+        <item>عريض</item> <!-- Bold -->
+        <item>عريض جداً</item> <!-- Extra Bold -->
+    </string-array>
+
+    <string-array name="text_alignment_options">
+        <item>يسار</item> <!-- Left -->
+        <item>وسط</item> <!-- Center -->
+        <item>يمين</item> <!-- Right -->
+        <item>ضبط</item> <!-- Justify -->
+    </string-array>
+</resources>

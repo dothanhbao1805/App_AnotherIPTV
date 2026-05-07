@@ -20,10 +20,10 @@ class ChannelRepositoryImpl(
             .map { entities -> entities.map { channelMapper.toDomain(it) } }
     }
 
-    override fun getFavoriteChannels(): Flow<List<Channel>> {
-        return channelDao.getFavorites()
-            .map { entities -> entities.map { channelMapper.toDomain(it) } }
-    }
+    override fun getFavoriteChannels(playlistId: Long): Flow<List<Channel>> =
+        channelDao.getFavoriteChannels(playlistId).map { entities ->
+            entities.map { channelMapper.toDomain(it) }
+        }
 
     override suspend fun insertChannels(channels: List<Channel>) {
         channelDao.insertAll(channels.map { channelMapper.toEntity(it) })

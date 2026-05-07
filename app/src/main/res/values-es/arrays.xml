@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="font_weight_options">
+        <item>Fina</item>
+        <item>Normal</item>
+        <item>Media</item>
+        <item>Negrita</item>
+        <item>Extra Negrita</item>
+    </string-array>
+
+    <string-array name="text_alignment_options">
+        <item>Izquierda</item>
+        <item>Centro</item>
+        <item>Derecha</item>
+        <item>Justificado</item>
+    </string-array>
+</resources>

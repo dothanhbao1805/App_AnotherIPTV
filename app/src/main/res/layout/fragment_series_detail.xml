@@ -163,6 +163,22 @@
 
                 </LinearLayout>
 
+                <!-- Continue Button -->
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnContinue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="52dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/bg_btn_continue"
+                    android:drawablePadding="8dp"
+                    android:paddingHorizontal="24dp"
+                    android:text="Continue: S 1 Episode 1"
+                    android:textColor="@color/text_btn_continue"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:visibility="gone"
+                    />
+
                 <!-- Seasons title -->
                 <TextView
                     android:layout_width="wrap_content"

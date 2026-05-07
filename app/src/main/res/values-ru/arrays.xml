@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="font_weight_options">
+        <item>Тонкий</item>
+        <item>Обычный</item>
+        <item>Средний</item>
+        <item>Жирный</item>
+        <item>Очень Жирный</item>
+    </string-array>
+
+    <string-array name="text_alignment_options">
+        <item>По левому краю</item>
+        <item>По центру</item>
+        <item>По правому краю</item>
+        <item>По ширине</item>
+    </string-array>
+</resources>

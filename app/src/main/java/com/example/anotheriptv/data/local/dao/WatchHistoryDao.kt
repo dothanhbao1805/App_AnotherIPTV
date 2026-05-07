@@ -19,8 +19,8 @@ interface WatchHistoryDao {
             h.channelLogo,
             c.url as streamUrl,
             h.watchedAt,
-            c.contentType,
-            c.isFavorite,
+            COALESCE(c.contentType, h.contentType, '') as contentType,
+            COALESCE(c.isFavorite, 0) as isFavorite,
             COALESCE(c.rating, 0) as rating,
             CAST(h.channelId AS TEXT) as streamId,
             COALESCE(c.releaseDate, '') as releaseDate
@@ -39,8 +39,8 @@ interface WatchHistoryDao {
             h.channelLogo,
             c.url as streamUrl,
             h.watchedAt,
-            c.contentType,
-            c.isFavorite,
+            COALESCE(c.contentType, h.contentType, '') as contentType,
+            COALESCE(c.isFavorite, 0) as isFavorite,
             COALESCE(c.rating, 0) as rating,
             CAST(h.channelId AS TEXT) as streamId,
             COALESCE(c.releaseDate, '') as releaseDate
@@ -60,8 +60,8 @@ interface WatchHistoryDao {
             h.channelLogo,
             c.url as streamUrl,
             h.watchedAt,
-            c.contentType,
-            c.isFavorite,
+            COALESCE(c.contentType, h.contentType, '') as contentType,
+            COALESCE(c.isFavorite, 0) as isFavorite,
             COALESCE(c.rating, 0) as rating,
             CAST(h.channelId AS TEXT) as streamId,
             COALESCE(c.releaseDate, '') as releaseDate
@@ -81,8 +81,8 @@ interface WatchHistoryDao {
             h.channelLogo,
             c.url as streamUrl,
             h.watchedAt,
-            c.contentType,
-            c.isFavorite,
+            COALESCE(c.contentType, h.contentType, '') as contentType,
+            COALESCE(c.isFavorite, 0) as isFavorite,
             COALESCE(c.rating, 0) as rating,
             CAST(h.channelId AS TEXT) as streamId,
             COALESCE(c.releaseDate, '') as releaseDate

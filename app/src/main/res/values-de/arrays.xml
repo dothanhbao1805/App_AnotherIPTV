@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="font_weight_options">
+        <item>Dünn</item>
+        <item>Normal</item>
+        <item>Mittel</item>
+        <item>Fett</item>
+        <item>Extra Fett</item>
+    </string-array>
+
+    <string-array name="text_alignment_options">
+        <item>Links</item>
+        <item>Zentriert</item>
+        <item>Rechts</item>
+        <item>Blocksatz</item>
+    </string-array>
+</resources>

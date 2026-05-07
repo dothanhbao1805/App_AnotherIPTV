@@ -213,6 +213,27 @@
     <!-- Settings -->
     <string name="label_app_language">Язык приложения</string>
 
+    <!--fragment_subtitle_settings-->
+    <string name="sub_title">Настройки субтитров</string>
+    <string name="text_reset">Сбросить</string>
+    <string name="text_preview">Предпросмотр</string>
+    <string name="sample_subtitle_text">Пример текста субтитров\nЭто будет выглядеть так</string>
+    <string name="title_font_settings">Настройки шрифта</string>
+    <string name="label_font_size">Размер шрифта</string>
+    <string name="label_line_height">Высота строки</string>
+    <string name="label_letter_spacing">Межбуквенный интервал</string>
+    <string name="label_word_spacing">Интервал между словами</string>
+    <string name="label_padding">Отступы</string>
+    <string name="title_color_settings">Настройки цвета</string>
+    <string name="label_text_color">Цвет текста</string>
+    <string name="label_background_color">Цвет фона</string>
+    <string name="title_style_settings">Настройки стиля</string>
+    <string name="label_font_weight">Толщина шрифта</string>
+    <string name="label_text_alignment">Выравнивание текста</string>
+    <string name="theme_default">По умолчанию</string>
+    <string name="theme_light">Светлая</string>
+    <string name="theme_dark">Темная</string>
+
     <!--    fragment_hide_category-->
     <string name="text_select_all">Выбрать все</string>
     <string name="text_deselect_all">Снять все отметки</string>

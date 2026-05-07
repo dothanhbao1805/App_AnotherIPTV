@@ -89,6 +89,11 @@
     <!--fragment_series_detail-->
     <color name="bg_icon_red_light">#F1DDDE</color>
     <color name="stroke_item">#373A3F</color>
+    <color name="bg_item_new">#E6F1EB</color>
+    <color name="stroke_item_new">#343839</color>
+    <color name="bg_new_badge">#4CAF50</color>
+    <color name="bg_btn_continue">#1A1A1A</color>
+    <color name="text_btn_continue">#FFFFFFFF</color>
 
     <!--switch track-->
     <color name="switch_checked">#36618A</color>
@@ -97,6 +102,9 @@
     <!--snackbar-->
     <color name="snackbar_bg">#2D3035</color>
     <color name="snackbar_text">#E3E2E7</color>
+
+    <!--fragment_subtitle_settings-->
+    <color name="sub_primary">#36648B</color>
 
     <color name="black">#FF000000</color>
     <color name="tab_unselected">#666666</color>

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -38,7 +39,8 @@ class HistoryFragment : Fragment() {
     private lateinit var seriesAdapter: HistoryAdapter
     private lateinit var favoriteAdapter: HistoryAdapter
 
-    private val viewModel: HistoryViewModel by activityViewModels {
+
+    private val viewModel: HistoryViewModel by viewModels {
         val container = (requireActivity().application as MyApp).container
         HistoryViewModelFactory(
             container.getWatchHistoryUseCase,
@@ -213,10 +215,11 @@ class HistoryFragment : Fragment() {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 kotlinx.coroutines.flow.combine(
                     viewModel.historyChannels,
-                    viewModel.favoriteChannels
-                ) { historyList, favoriteChannels ->
-                    Pair(historyList, favoriteChannels)
-                }.collect { (historyList, favoriteChannels) ->
+                    viewModel.favoriteChannels,
+                    viewModel.isLoading
+                ) { historyList, favoriteChannels, isLoading  ->
+                    Triple(historyList, favoriteChannels, isLoading)
+                }.collect { (historyList, favoriteChannels, isLoading)->
 
                     // Update history sections
                     updateSection(binding.layoutLive,   liveAdapter,   historyList.filter { it.contentType == "LIVE" })
@@ -249,8 +252,8 @@ class HistoryFragment : Fragment() {
 
                     // Update empty state — cả 2 đã có giá trị mới nhất
                     val isEmpty = historyList.isEmpty() && favoriteChannels.isEmpty()
-                    binding.layoutEmpty.visibility      = if (isEmpty) View.VISIBLE else View.GONE
-                    binding.scrollViewContent.visibility = if (isEmpty) View.GONE else View.VISIBLE
+                    binding.layoutEmpty.visibility       = if (!isLoading && isEmpty) View.VISIBLE else View.GONE
+                    binding.scrollViewContent.visibility = if (!isLoading && !isEmpty) View.VISIBLE else View.GONE
                 }
             }
         }

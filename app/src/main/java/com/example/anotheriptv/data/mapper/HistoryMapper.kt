@@ -14,7 +14,8 @@ class HistoryMapper {
             channelName = entity.channelName,
             channelLogo = entity.channelLogo,
             streamUrl = entity.streamUrl ?: "",
-            watchedAt   = entity.watchedAt
+            watchedAt   = entity.watchedAt,
+            contentType = entity.contentType ?: ""
         )
     }
 
@@ -25,7 +26,8 @@ class HistoryMapper {
             playlistId  = domain.playlistId,
             channelName = domain.channelName,
             channelLogo = domain.channelLogo,
-            watchedAt = domain.watchedAt
+            watchedAt = domain.watchedAt,
+            contentType = domain.contentType
         )
     }
 

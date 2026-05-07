@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="font_weight_options">
+        <item>Fine</item>
+        <item>Normal</item>
+        <item>Moyen</item>
+        <item>Gras</item>
+        <item>Extra Gras</item>
+    </string-array>
+
+    <string-array name="text_alignment_options">
+        <item>Gauche</item>
+        <item>Centré</item>
+        <item>Droite</item>
+        <item>Justifié</item>
+    </string-array>
+</resources>

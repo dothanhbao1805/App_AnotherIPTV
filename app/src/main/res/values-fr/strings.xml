@@ -210,6 +210,27 @@
     <string name="trailer">Bande-annonce</string>
     <string name="start_watching">Commencer à regarder</string>
 
+    <!--fragment_subtitle_settings-->
+    <string name="sub_title">Paramètres des sous-titres</string>
+    <string name="text_reset">Réinitialiser</string>
+    <string name="text_preview">Aperçu</string>
+    <string name="sample_subtitle_text">Exemple de sous-titre\nCela ressemblera à ceci</string>
+    <string name="title_font_settings">Paramètres de police</string>
+    <string name="label_font_size">Taille de police</string>
+    <string name="label_line_height">Hauteur de ligne</string>
+    <string name="label_letter_spacing">Espacement des lettres</string>
+    <string name="label_word_spacing">Espacement des mots</string>
+    <string name="label_padding">Marge interne</string>
+    <string name="title_color_settings">Paramètres de couleur</string>
+    <string name="label_text_color">Couleur du texte</string>
+    <string name="label_background_color">Couleur de fond</string>
+    <string name="title_style_settings">Paramètres de style</string>
+    <string name="label_font_weight">Graisse de la police</string>
+    <string name="label_text_alignment">Alignement du texte</string>
+    <string name="theme_default">Par défaut</string>
+    <string name="theme_light">Clair</string>
+    <string name="theme_dark">Sombre</string>
+
     <!-- Settings -->
     <string name="label_app_language">Langue de l\'application</string>
 

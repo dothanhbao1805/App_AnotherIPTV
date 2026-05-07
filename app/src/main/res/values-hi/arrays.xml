@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="font_weight_options">
+        <item>पतला</item>
+        <item>सामान्य</item>
+        <item>मध्यम</item>
+        <item>बोल्ड</item>
+        <item>अतिरिक्त बोल्ड</item>
+    </string-array>
+
+    <string-array name="text_alignment_options">
+        <item>बाएँ</item>
+        <item>केंद्र</item>
+        <item>दाएँ</item>
+        <item>जस्टिफ़ाई</item>
+    </string-array>
+</resources>

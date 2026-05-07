@@ -77,7 +77,8 @@ class LiveXstreamFragment : Fragment() {
                     channelId   = channel.id,
                     playlistId  = playlistId,
                     channelName = channel.name,
-                    channelLogo = channel.logo
+                    channelLogo = channel.logo,
+                    contentType = "LIVE"
                 )
                 val intent = android.content.Intent(requireContext(), PlayerLiveXstreamActivity::class.java).apply {
                     putExtra("channelName", channel.name)

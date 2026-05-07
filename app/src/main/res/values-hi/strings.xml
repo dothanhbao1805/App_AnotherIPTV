@@ -213,6 +213,27 @@
     <!-- Settings -->
     <string name="label_app_language">ऐप की भाषा</string>
 
+    <!--fragment_subtitle_settings-->
+    <string name="sub_title">सबटाइटल सेटिंग्स</string>
+    <string name="text_reset">रीसेट करें</string>
+    <string name="text_preview">पूर्वावलोकन</string>
+    <string name="sample_subtitle_text">नमूना सबटाइटल टेक्स्ट\nयह ऐसा दिखेगा</string>
+    <string name="title_font_settings">फ़ॉन्ट सेटिंग्स</string>
+    <string name="label_font_size">फ़ॉन्ट आकार</string>
+    <string name="label_line_height">पंक्ति की ऊंचाई</string>
+    <string name="label_letter_spacing">अक्षर रिक्ति</string>
+    <string name="label_word_spacing">शब्द रिक्ति</string>
+    <string name="label_padding">पैडिंग</string>
+    <string name="title_color_settings">रंग सेटिंग्स</string>
+    <string name="label_text_color">टेक्स्ट का रंग</string>
+    <string name="label_background_color">पृष्ठभूमि का रंग</string>
+    <string name="title_style_settings">शैली सेटिंग्स</string>
+    <string name="label_font_weight">फ़ॉन्ट मोटाई</string>
+    <string name="label_text_alignment">टेक्स्ट संरेखण</string>
+    <string name="theme_default">डिफ़ॉल्ट</string>
+    <string name="theme_light">लाइट</string>
+    <string name="theme_dark">डार्क</string>
+
     <!--    fragment_hide_category-->
     <string name="text_select_all">सभी चुनें</string>
     <string name="text_deselect_all">सभी का चयन रद्द करें</string>

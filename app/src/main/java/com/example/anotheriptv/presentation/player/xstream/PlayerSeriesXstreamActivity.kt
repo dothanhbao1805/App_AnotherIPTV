@@ -23,6 +23,7 @@ import com.example.anotheriptv.domain.model.Channel
 import com.example.anotheriptv.domain.model.Season
 import com.example.anotheriptv.presentation.player.xstream.Adapter.ChannelListAdapter
 import com.example.anotheriptv.presentation.player.xstream.Adapter.SeriesAdapter
+import com.example.anotheriptv.presentation.settings.SubtitleSettingsFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -64,6 +65,21 @@ class PlayerSeriesXstreamActivity : AppCompatActivity() {
 
     private val hideControlsRunnable = Runnable { hideControls() }
 
+    private var seekBackwardAmount = 0
+    private var seekForwardAmount = 0
+    private val seekHideHandler = android.os.Handler(android.os.Looper.getMainLooper())
+    private val hideSeekBackwardRunnable = Runnable {
+        binding.layoutSeekBackward.visibility = View.GONE
+        seekBackwardAmount = 0
+    }
+    private val hideSeekForwardRunnable = Runnable {
+        binding.layoutSeekForward.visibility = View.GONE
+        seekForwardAmount = 0
+    }
+
+    private var isInitializing = true
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPlayerSeriesXstreamBinding.inflate(layoutInflater)
@@ -81,9 +97,10 @@ class PlayerSeriesXstreamActivity : AppCompatActivity() {
         currentSeasonNumber = playingSeasonNumber
 
         setupPlayer(streamUrl)
+        applySubtitleSettings()
         setupControls()
         setupSettingPanel()
-        setupSpeedGesture()
+        setupTouchAndGestures()
         setupListPanel()
         loadSeriesData()
     }
@@ -166,10 +183,13 @@ class PlayerSeriesXstreamActivity : AppCompatActivity() {
             .setMediaSourceFactory(DefaultMediaSourceFactory(dataSourceFactory))
             .build().also { exo ->
                 binding.playerView.player = exo
+                binding.playerView.subtitleView?.visibility = View.GONE
                 exo.setMediaItem(MediaItem.fromUri(url))
                 exo.prepare()
                 exo.play()
                 binding.progressBuffering.visibility = View.VISIBLE
+                // Ẩn subtitle view mặc định của ExoPlayer
+                binding.playerView.subtitleView?.visibility = View.GONE
 
                 exo.addListener(object : Player.Listener {
                     override fun onIsPlayingChanged(isPlaying: Boolean) {
@@ -541,35 +561,135 @@ class PlayerSeriesXstreamActivity : AppCompatActivity() {
         binding.layoutSettingPanel.root.visibility = View.GONE
     }
 
-    private fun setupSpeedGesture() {
+    private fun setupTouchAndGestures() {
         val prefs = getSharedPreferences("app_settings", Context.MODE_PRIVATE)
         val layoutSpeedIndicator = binding.layoutSpeedIndicator
 
+        // 1. Xử lý chạm giữ (Long Press) để tua 2.0x
         binding.playerView.setOnLongClickListener {
             if (prefs.getBoolean("speed_up_long_press", true)) {
-                // Tăng tốc độ lên 2.0x
                 player?.setPlaybackSpeed(2.0f)
                 layoutSpeedIndicator.visibility = View.VISIBLE
-                // Ẩn controls khi đang speed up
                 hideControls()
             }
             true
         }
 
+        // 2. Khởi tạo GestureDetector để bắt Double Tap
+        val gestureDetector = android.view.GestureDetector(
+            this,
+            object : android.view.GestureDetector.SimpleOnGestureListener() {
+                override fun onDoubleTap(e: android.view.MotionEvent): Boolean {
+                    if (!prefs.getBoolean("seek_double_tap", true)) return false
+
+                    val screenWidth = binding.playerView.width
+                    val tapX = e.x
+
+                    if (tapX < screenWidth / 2) {
+                        // Bên trái → tua lùi
+                        seekBackwardAmount += 10
+                        val newPos = (player?.currentPosition ?: 0) - 10_000
+                        player?.seekTo(newPos.coerceAtLeast(0))
+
+                        seekHideHandler.removeCallbacks(hideSeekBackwardRunnable)
+                        binding.layoutSeekBackward.visibility = View.VISIBLE
+                        binding.tvSeekBackwardSeconds.text = "$seekBackwardAmount seconds"
+                        seekHideHandler.postDelayed(hideSeekBackwardRunnable, 800)
+                    } else {
+                        // Bên phải → tua tới
+                        seekForwardAmount += 10
+                        val newPos = (player?.currentPosition ?: 0) + 10_000
+                        val duration = player?.duration ?: 0
+                        player?.seekTo(newPos.coerceAtMost(duration))
+
+                        seekHideHandler.removeCallbacks(hideSeekForwardRunnable)
+                        binding.layoutSeekForward.visibility = View.VISIBLE
+                        binding.tvSeekForwardSeconds.text = "$seekForwardAmount seconds"
+                        seekHideHandler.postDelayed(hideSeekForwardRunnable, 800)
+                    }
+                    return true
+                }
+
+                override fun onDown(e: android.view.MotionEvent): Boolean = true
+            }
+        )
+
+        // 3. GỘP CHUNG BẮT SỰ KIỆN CHẠM VÀO ĐÂY (Giải quyết xung đột)
         binding.playerView.setOnTouchListener { _, event ->
+            // Đẩy sự kiện cho GestureDetector xử lý Double Tap
+            gestureDetector.onTouchEvent(event)
+
+            // Tự xử lý sự kiện nhả tay ra (ACTION_UP/CANCEL) để tắt tua 2.0x
             when (event.action) {
                 android.view.MotionEvent.ACTION_UP,
                 android.view.MotionEvent.ACTION_CANCEL -> {
                     if (layoutSpeedIndicator.visibility == View.VISIBLE) {
-                        // Thả tay → về tốc độ bình thường
                         player?.setPlaybackSpeed(1.0f)
                         layoutSpeedIndicator.visibility = View.GONE
                     }
                 }
             }
-            // Trả về false để không block các gesture khác (click, seek...)
-            false
+            false // Trả về false để không chặn click mặc định
         }
+    }
+
+    private fun applySubtitleSettings() {
+        val prefs = getSharedPreferences(SubtitleSettingsFragment.PREFS_NAME, Context.MODE_PRIVATE)
+        val fontSize      = prefs.getFloat(SubtitleSettingsFragment.KEY_FONT_SIZE, 32f)
+        val lineHeight    = prefs.getFloat(SubtitleSettingsFragment.KEY_LINE_HEIGHT, 1.4f)
+        val letterSpacing = prefs.getFloat(SubtitleSettingsFragment.KEY_LETTER_SPACING, 0.0f)
+        val padding       = prefs.getFloat(SubtitleSettingsFragment.KEY_PADDING, 24f)
+        val textColor     = prefs.getInt(SubtitleSettingsFragment.KEY_TEXT_COLOR, android.graphics.Color.WHITE)
+        val bgColor       = prefs.getInt(SubtitleSettingsFragment.KEY_BG_COLOR, android.graphics.Color.parseColor("#80000000"))
+        val fontWeightIndex    = prefs.getInt(SubtitleSettingsFragment.KEY_FONT_WEIGHT, 1)
+        val textAlignmentIndex = prefs.getInt(SubtitleSettingsFragment.KEY_TEXT_ALIGNMENT, 1)
+
+        val density = resources.displayMetrics.density
+
+        binding.tvSubtitle.apply {
+            textSize = fontSize / 3f  // ← chia 3 để nhỏ lại
+            this.letterSpacing = letterSpacing / 10f
+            setTextColor(textColor)
+            setBackgroundColor(bgColor)
+            setLineSpacing(0f, lineHeight)
+
+            val p  = (padding / 3f * density).toInt()  // ← padding cũng scale theo
+            val pV = (padding / 6f * density).toInt()
+            setPadding(p, pV, p, pV)
+
+            typeface = when (fontWeightIndex) {
+                0 -> android.graphics.Typeface.create("sans-serif-thin",   android.graphics.Typeface.NORMAL)
+                1 -> android.graphics.Typeface.create("sans-serif",        android.graphics.Typeface.NORMAL)
+                2 -> android.graphics.Typeface.create("sans-serif-medium", android.graphics.Typeface.NORMAL)
+                3 -> android.graphics.Typeface.create("sans-serif",        android.graphics.Typeface.BOLD)
+                else -> android.graphics.Typeface.DEFAULT
+            }
+
+            gravity = when (textAlignmentIndex) {
+                0 -> android.view.Gravity.START or android.view.Gravity.CENTER_VERTICAL
+                2 -> android.view.Gravity.END   or android.view.Gravity.CENTER_VERTICAL
+                else -> android.view.Gravity.CENTER
+            }
+        }
+
+        // Bật subtitle track để ExoPlayer parse cue
+        player?.trackSelectionParameters = player!!.trackSelectionParameters
+            .buildUpon()
+            .setTrackTypeDisabled(androidx.media3.common.C.TRACK_TYPE_TEXT, false)
+            .build()
+
+        // Lắng nghe cue
+        player?.addListener(object : Player.Listener {
+            override fun onCues(cues: androidx.media3.common.text.CueGroup) {
+                val text = cues.cues.firstOrNull()?.text
+                if (text.isNullOrEmpty()) {
+                    binding.tvSubtitle.visibility = View.GONE
+                } else {
+                    binding.tvSubtitle.visibility = View.VISIBLE
+                    binding.tvSubtitle.text = text
+                }
+            }
+        })
     }
 
     // ── Utils ─────────────────────────────────────────────────────────────────
@@ -579,6 +699,7 @@ class PlayerSeriesXstreamActivity : AppCompatActivity() {
         val seconds = TimeUnit.MILLISECONDS.toSeconds(ms) % 60
         return String.format("%02d:%02d", minutes, seconds)
     }
+
 
     override fun onPause() {
         super.onPause()

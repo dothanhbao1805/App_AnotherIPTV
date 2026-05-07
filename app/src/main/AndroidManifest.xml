@@ -21,20 +21,27 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AnotherIPTV"
         android:usesCleartextTraffic="true">
+
         <service
             android:name=".service.MediaPlaybackService"
             android:foregroundServiceType="mediaPlayback"
             android:exported="false" />
+
         <activity
             android:name=".presentation.player.xstream.PlayerSeriesXstreamActivity"
-            android:exported="false" />
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+            android:screenOrientation="fullSensor" />
+
         <activity
             android:name=".presentation.player.xstream.PlayerMoviesXstreamActivity"
-            android:exported="false" />
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+            android:screenOrientation="fullSensor" />
+
         <activity
             android:name=".presentation.player.xstream.PlayerLiveXstreamActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden"
-            android:exported="false" />
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+            android:screenOrientation="fullSensor" />
+
         <activity
             android:name=".presentation.xstream.movie.DetailMovieActivity"
             android:exported="false" />

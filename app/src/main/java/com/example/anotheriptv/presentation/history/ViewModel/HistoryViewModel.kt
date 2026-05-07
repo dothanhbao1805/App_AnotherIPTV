@@ -13,6 +13,8 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.onEach
+
 
 class HistoryViewModel(
     private val getWatchHistoryUseCase: GetWatchHistoryUseCase,
@@ -21,11 +23,14 @@ class HistoryViewModel(
 ) : ViewModel() {
 
     private val _playlistId = MutableStateFlow(-1L)
+    private val _isLoading = MutableStateFlow(true)
+    val isLoading: StateFlow<Boolean> = _isLoading
 
     val historyChannels: StateFlow<List<HistoryWithUrl>> = _playlistId
         .flatMapLatest { id ->
             getWatchHistoryUseCase(id)
         }
+        .onEach { _isLoading.value = false }
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
@@ -33,10 +38,11 @@ class HistoryViewModel(
         )
 
     val favoriteChannels: StateFlow<List<Channel>> = _playlistId
-        .flatMapLatest { id -> channelRepository.getFavoriteChannels() }
+        .flatMapLatest { id -> channelRepository.getFavoriteChannels(id) }  // ← truyền id
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
     fun loadHistory(playlistId: Long) {
+        _isLoading.value = true
         _playlistId.value = playlistId
     }
 
@@ -51,4 +57,5 @@ class HistoryViewModel(
             deleteWatchHistoryUseCase.deleteAll(playlistId)
         }
     }
+
 }

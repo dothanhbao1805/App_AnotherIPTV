@@ -47,7 +47,7 @@ class LiveXstreamViewModel(
         }
     }
 
-    fun addToHistory(channelId: Long, playlistId: Long, channelName: String, channelLogo: String) {
+    fun addToHistory(channelId: Long, playlistId: Long, channelName: String, channelLogo: String,contentType: String = "",) {
         viewModelScope.launch(Dispatchers.IO) {
             val historyItem = WatchHistory(
                 id = 0,
@@ -55,6 +55,7 @@ class LiveXstreamViewModel(
                 playlistId = playlistId,
                 channelName = channelName,
                 channelLogo = channelLogo,
+                contentType = contentType,
                 streamUrl = "",
                 watchedAt = System.currentTimeMillis()
             )
