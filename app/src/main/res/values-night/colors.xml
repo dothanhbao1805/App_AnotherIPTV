@@ -112,5 +112,13 @@
     <color name="text_select_all">#9DC5F8</color>
     <color name="bg_section_header">#121116</color>
 
+    <!--    switch-->
+    <color name="bg_switch_checked">#A0C9FD</color>
+    <color name="bg_switch_un_checked">#313439</color>
+    <color name="bg_thumb_un_checked">#8E9196</color>
+    <color name="bg_thumb_checked">#003459</color>
+
+    <!--bg_seekbar-->
+    <color name="bg_seekbar">#34373C</color>
 
 </resources>

@@ -19,12 +19,19 @@
         android:textColor="@color/color_title"
         android:paddingVertical="12dp" />
 
-    <com.google.android.material.switchmaterial.SwitchMaterial
+    <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/switchCategory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:track="@drawable/switch_track"
-        app:thumbTint="@color/switch_thumb_color"
-        app:trackTint="@null" />
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:checked="true"
+        android:thumb="@drawable/bg_switch_thumb"
+        app:track="@drawable/bg_switch_track"
+        app:thumbTint="@null"
+        android:layout_marginEnd="8dp"
+        app:trackTint="@null"
+        android:background="@null"
+        app:switchMinWidth="40dp" />
 
 </LinearLayout>

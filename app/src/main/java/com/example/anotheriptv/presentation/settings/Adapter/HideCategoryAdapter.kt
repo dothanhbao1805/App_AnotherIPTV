@@ -4,10 +4,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.appcompat.widget.SwitchCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.anotheriptv.R
 import com.example.anotheriptv.data.local.entity.CategoryEntity
-import com.google.android.material.switchmaterial.SwitchMaterial
 
 class HideCategoryAdapter(
     private val categories: List<CategoryEntity>,
@@ -18,7 +18,7 @@ class HideCategoryAdapter(
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val tvName: TextView = view.findViewById(R.id.tvCategoryName)
-        val switchCategory: SwitchMaterial = view.findViewById(R.id.switchCategory)
+        val switchCategory: SwitchCompat = view.findViewById(R.id.switchCategory)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
