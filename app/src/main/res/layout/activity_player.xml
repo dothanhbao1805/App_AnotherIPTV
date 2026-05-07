@@ -7,6 +7,7 @@
     android:background="#000000"
     android:keepScreenOn="true">
 
+
     <!-- Video Surface -->
     <androidx.media3.ui.PlayerView
         android:id="@+id/playerView"
@@ -15,6 +16,106 @@
         app:use_controller="false"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
+
+    <!-- Speed Indicator -->
+    <LinearLayout
+        android:id="@+id/layoutSpeedIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#80000000"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="8dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="72dp">
+
+        <TextView
+            android:id="@+id/tvSpeedIndicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2.0x"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="4dp"
+            android:src="@drawable/ic_fast_forward"
+            app:tint="#FFFFFF" />
+
+    </LinearLayout>
+
+    <!-- Double tap seek backward (trái) -->
+    <LinearLayout
+        android:id="@+id/layoutSeekBackward"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:background="#40FFFFFF"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintWidth_percent="0.5">
+
+        <ImageView
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@drawable/ic_fast_rewind"
+            app:tint="#FFFFFF" />
+
+        <TextView
+            android:id="@+id/tvSeekBackwardSeconds"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10 seconds"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            android:layout_marginTop="4dp"/>
+
+    </LinearLayout>
+
+    <!-- Double tap seek forward (phải) -->
+    <LinearLayout
+        android:id="@+id/layoutSeekForward"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:background="#40FFFFFF"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="1"
+        app:layout_constraintWidth_percent="0.5">
+
+        <ImageView
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@drawable/ic_fast_forward"
+            app:tint="#FFFFFF" />
+
+        <TextView
+            android:id="@+id/tvSeekForwardSeconds"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10 seconds"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            android:layout_marginTop="4dp"/>
+
+    </LinearLayout>
 
     <!-- Loading indicator — hiện khi đang buffer -->
     <ProgressBar
@@ -174,5 +275,38 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <!-- Info Panel -->
+    <include
+        layout="@layout/layout_info_panel"
+        android:id="@+id/layoutInfoPanel"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_percent="0.4" />
+
+    <!-- List Panel -->
+    <include
+        layout="@layout/layout_list_panel"
+        android:id="@+id/layoutListPanel"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_percent="0.6" />
+
+    <!-- Settings -->
+    <include
+        layout="@layout/layout_setting_panel"
+        android:id="@+id/layoutSettingPanel"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_percent="0.6" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

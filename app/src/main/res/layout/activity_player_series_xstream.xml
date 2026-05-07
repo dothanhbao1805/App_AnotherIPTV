@@ -16,6 +16,22 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
 
+    <TextView
+        android:id="@+id/tvSubtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="64dp"
+        android:layout_marginHorizontal="32dp"
+        android:visibility="gone"
+        android:textColor="#FFFFFF"
+        android:background="#80000000"
+        android:padding="8dp"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <!-- Speed Indicator -->
     <LinearLayout
         android:id="@+id/layoutSpeedIndicator"
@@ -47,6 +63,72 @@
             android:layout_marginStart="4dp"
             android:src="@drawable/ic_fast_forward"
             app:tint="#FFFFFF" />
+
+    </LinearLayout>
+
+    <!-- Double tap seek backward (trái) -->
+    <LinearLayout
+        android:id="@+id/layoutSeekBackward"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:background="#40FFFFFF"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintWidth_percent="0.5">
+
+        <ImageView
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@drawable/ic_fast_rewind"
+            app:tint="#FFFFFF" />
+
+        <TextView
+            android:id="@+id/tvSeekBackwardSeconds"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10 seconds"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            android:layout_marginTop="4dp"/>
+
+    </LinearLayout>
+
+    <!-- Double tap seek forward (phải) -->
+    <LinearLayout
+        android:id="@+id/layoutSeekForward"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:background="#40FFFFFF"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="1"
+        app:layout_constraintWidth_percent="0.5">
+
+        <ImageView
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@drawable/ic_fast_forward"
+            app:tint="#FFFFFF" />
+
+        <TextView
+            android:id="@+id/tvSeekForwardSeconds"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10 seconds"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            android:layout_marginTop="4dp"/>
 
     </LinearLayout>
 

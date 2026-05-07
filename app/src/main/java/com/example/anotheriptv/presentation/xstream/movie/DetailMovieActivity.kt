@@ -142,6 +142,7 @@ class DetailMovieActivity : AppCompatActivity() {
                     channelName = channelName,
                     channelLogo = logo,
                     rating      = rating,
+                    contentType = "MOVIES"
 
                 )
             }

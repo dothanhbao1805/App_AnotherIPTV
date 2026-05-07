@@ -94,6 +94,18 @@ class AppContainer(context: Context) {
         }
     }
 
+    val MIGRATION_5_6 = object : Migration(5, 6) {
+        override fun migrate(database: SupportSQLiteDatabase) {
+            database.execSQL("ALTER TABLE channels ADD COLUMN backdropPath TEXT")
+        }
+    }
+
+    val MIGRATION_6_7 = object : Migration(6, 7) {
+        override fun migrate(database: SupportSQLiteDatabase) {
+            database.execSQL("ALTER TABLE watch_history ADD COLUMN contentType TEXT NOT NULL DEFAULT ''")
+        }
+    }
+
 
     // ── Database ──
     private val database = Room.databaseBuilder(
@@ -101,7 +113,7 @@ class AppContainer(context: Context) {
         AppDatabase::class.java,
         "anotheriptv.db"
     )
-        .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5)
+        .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7)
         .build()
 
     // ── DAO ──

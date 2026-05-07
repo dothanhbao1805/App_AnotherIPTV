@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="font_weight_options">
+        <item>细体</item>
+        <item>常规</item>
+        <item>中等</item>
+        <item>粗体</item>
+        <item>特粗</item>
+    </string-array>
+
+    <string-array name="text_alignment_options">
+        <item>左对齐</item>
+        <item>居中</item>
+        <item>右对齐</item>
+        <item>两端对齐</item>
+    </string-array>
+</resources>

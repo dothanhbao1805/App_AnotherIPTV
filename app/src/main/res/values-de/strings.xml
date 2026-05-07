@@ -213,6 +213,27 @@
     <!-- Settings -->
     <string name="label_app_language">App-Sprache</string>
 
+    <!--fragment_subtitle_settings-->
+    <string name="sub_title">Untertitel-Einstellungen</string>
+    <string name="text_reset">Zurücksetzen</string>
+    <string name="text_preview">Vorschau</string>
+    <string name="sample_subtitle_text">Beispiel-Untertiteltext\nEs wird so aussehen</string>
+    <string name="title_font_settings">Schriftart-Einstellungen</string>
+    <string name="label_font_size">Schriftgröße</string>
+    <string name="label_line_height">Zeilenhöhe</string>
+    <string name="label_letter_spacing">Zeichenabstand</string>
+    <string name="label_word_spacing">Wortabstand</string>
+    <string name="label_padding">Innenabstand</string>
+    <string name="title_color_settings">Farbeinstellungen</string>
+    <string name="label_text_color">Textfarbe</string>
+    <string name="label_background_color">Hintergrundfarbe</string>
+    <string name="title_style_settings">Stileinstellungen</string>
+    <string name="label_font_weight">Schriftstärke</string>
+    <string name="label_text_alignment">Textausrichtung</string>
+    <string name="theme_default">Standard</string>
+    <string name="theme_light">Hell</string>
+    <string name="theme_dark">Dunkel</string>
+
     <!--    fragment_hide_category-->
     <string name="text_select_all">Alle auswählen</string>
     <string name="text_deselect_all">Alle abwählen</string>

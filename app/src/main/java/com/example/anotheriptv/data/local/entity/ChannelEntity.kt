@@ -35,5 +35,6 @@ data class ChannelEntity(
     val seriesId: Long? = null,
     val seasonNumber: Int? = null,
     val episodeNumber: Int? = null,
-    val episodeDuration: Int? = null
+    val episodeDuration: Int? = null,
+    val backdropPath: String? = null
 )

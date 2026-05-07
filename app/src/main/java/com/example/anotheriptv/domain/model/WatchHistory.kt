@@ -9,6 +9,7 @@ data class WatchHistory(
     val streamUrl: String?, // Bắt buộc phải có để truyền sang Player
     val watchedAt: Long,
     val rating: Float = 0f,
+    val contentType: String = "",
     val streamId: String = "",
     val releaseDate: String = "",
     val addedByFavorite: Boolean = false

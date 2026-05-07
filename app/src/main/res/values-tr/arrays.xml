@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="font_weight_options">
+        <item>İnce</item>
+        <item>Normal</item>
+        <item>Orta</item>
+        <item>Kalın</item>
+        <item>Ekstra Kalın</item>
+    </string-array>
+
+    <string-array name="text_alignment_options">
+        <item>Sol</item>
+        <item>Orta</item>
+        <item>Sağ</item>
+        <item>İki Yana Yasla</item>
+    </string-array>
+</resources>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="@drawable/bg_dialog_rounded"
+
+    >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pick Color"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:textColor="@color/text_primary"
+        android:layout_marginBottom="20dp"/>
+
+    <!-- Row 1 -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="12dp">
+
+        <View android:id="@+id/colorWhite"
+            style="@style/ColorSwatch"
+            />
+        <View android:id="@+id/colorBlack"
+            style="@style/ColorSwatch" />
+        <View android:id="@+id/colorRed"
+            style="@style/ColorSwatch" />
+        <View android:id="@+id/colorGreen"
+            style="@style/ColorSwatch" />
+        <View android:id="@+id/colorBlue"
+            style="@style/ColorSwatch" />
+        <View android:id="@+id/colorYellow"
+            style="@style/ColorSwatch" />
+        <View android:id="@+id/colorOrange"
+            style="@style/ColorSwatch"/>
+
+    </LinearLayout>
+
+    <!-- Row 2 -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="24dp">
+
+        <View android:id="@+id/colorPurple"
+            style="@style/ColorSwatch" />
+        <View android:id="@+id/colorGray1"
+            style="@style/ColorSwatch" />
+        <View android:id="@+id/colorGray2"
+            style="@style/ColorSwatch" />
+        <View android:id="@+id/colorGray3"
+            style="@style/ColorSwatch" />
+
+    </LinearLayout>
+
+    <!-- Cancel -->
+    <TextView
+        android:id="@+id/btnCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:text="Cancel"
+        android:textColor="@color/sub_primary"
+        android:textSize="16sp"
+        android:padding="8dp"
+        android:clickable="true"
+        android:focusable="true"/>
+
+</LinearLayout>

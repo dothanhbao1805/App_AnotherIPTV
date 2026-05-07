@@ -228,6 +228,18 @@ class SettingsFragment : Fragment() {
                 .commit()
         }
 
+        view.findViewById<LinearLayout>(R.id.layout_subtitle).setOnClickListener {
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, SubtitleSettingsFragment().apply {
+                    arguments = Bundle().apply {
+                        putLong("playlistId", playlistId)
+                        putString("playlistName", playlistName)
+                    }
+                })
+                .addToBackStack("layout_subtitle")
+                .commit()
+        }
+
     }
 
     private fun showLanguageDialog(tvSelected: TextView, anchorView: View) {
@@ -274,7 +286,13 @@ class SettingsFragment : Fragment() {
     }
 
     private fun showThemeDialog(tvSelected: TextView, anchorView: View) {
-        val themes = arrayOf("Default", "Light", "Dark")
+        // Lấy string đã dịch từ resources thay vì gõ cứng
+        val themes = arrayOf(
+            getString(R.string.theme_default),
+            getString(R.string.theme_light),
+            getString(R.string.theme_dark)
+        )
+
         val modes = arrayOf(
             androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM,
             androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO,
@@ -289,7 +307,6 @@ class SettingsFragment : Fragment() {
         listPopup.width = 350
         listPopup.isModal = true
 
-        // Đẩy popup lên đè lên chính anchorView
         listPopup.verticalOffset = -anchorView.height
 
         listPopup.setAdapter(
@@ -309,9 +326,9 @@ class SettingsFragment : Fragment() {
 
     private fun getThemeDisplayName(mode: Int): String {
         return when (mode) {
-            androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO  -> "Light"
-            androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES -> "Dark"
-            else -> "Default"
+            androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO  -> getString(R.string.theme_light)
+            androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES -> getString(R.string.theme_dark)
+            else -> getString(R.string.theme_default)
         }
     }
 

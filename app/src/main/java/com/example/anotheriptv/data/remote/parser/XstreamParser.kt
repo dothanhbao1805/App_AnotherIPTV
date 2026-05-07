@@ -74,6 +74,7 @@ class XstreamParser {
         json: String, playlistId: Long,
         baseUrl: String, username: String, password: String,
         categoryMap: Map<String, String> = emptyMap()
+
     ): List<ChannelEntity> {
         val channels = mutableListOf<ChannelEntity>()
         val array = tryParseArray(json) ?: return channels
@@ -84,6 +85,8 @@ class XstreamParser {
             val categoryId = obj.optString("category_id", "")
             val youtubeId  = obj.optString("youtube_trailer", "").ifBlank { null }
             val trailerUrl = youtubeId?.let { "https://www.youtube.com/watch?v=$it" }
+            val backdrop = obj.optJSONArray("backdrop_path")
+                ?.optString(0, "").orEmpty().ifBlank { null }
 
             channels.add(ChannelEntity(
                 playlistId  = playlistId,
@@ -98,8 +101,9 @@ class XstreamParser {
                 genre       = obj.optString("genre", "").ifBlank { null },
                 cast        = obj.optString("cast", "").ifBlank { null },
                 description = obj.optString("plot", "").ifBlank { null },
-                trailerUrl  = trailerUrl,   // ← thêm dòng này
-                seriesId    = seriesId
+                trailerUrl  = trailerUrl,
+                seriesId    = seriesId,
+                backdropPath = backdrop
             ))
         }
         return channels

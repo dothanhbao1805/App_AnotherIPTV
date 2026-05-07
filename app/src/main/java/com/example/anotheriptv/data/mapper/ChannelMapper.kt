@@ -24,7 +24,8 @@ class ChannelMapper {
             seriesId    = entity.seriesId,
             seasonNumber    = entity.seasonNumber,
             episodeNumber   = entity.episodeNumber,
-            episodeDuration = entity.episodeDuration
+            episodeDuration = entity.episodeDuration,
+            backdropPath    = entity.backdropPath
         )
     }
 
@@ -47,7 +48,8 @@ class ChannelMapper {
             seriesId    = domain.seriesId,
             seasonNumber    = domain.seasonNumber,
             episodeNumber   = domain.episodeNumber,
-            episodeDuration = domain.episodeDuration
+            episodeDuration = domain.episodeDuration,
+            backdropPath    = domain.backdropPath
         )
     }
 

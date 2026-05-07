@@ -213,6 +213,27 @@
     <!-- Settings -->
     <string name="label_app_language">Idioma de la aplicación</string>
 
+    <!--fragment_subtitle_settings-->
+    <string name="sub_title">Configuración de subtítulos</string>
+    <string name="text_reset">Restablecer</string>
+    <string name="text_preview">Vista previa</string>
+    <string name="sample_subtitle_text">Texto de subtítulo de muestra\nSe verá así</string>
+    <string name="title_font_settings">Configuración de fuente</string>
+    <string name="label_font_size">Tamaño de fuente</string>
+    <string name="label_line_height">Altura de línea</string>
+    <string name="label_letter_spacing">Espaciado de letras</string>
+    <string name="label_word_spacing">Espaciado de palabras</string>
+    <string name="label_padding">Relleno</string>
+    <string name="title_color_settings">Configuración de color</string>
+    <string name="label_text_color">Color de texto</string>
+    <string name="label_background_color">Color de fondo</string>
+    <string name="title_style_settings">Configuración de estilo</string>
+    <string name="label_font_weight">Grosor de fuente</string>
+    <string name="label_text_alignment">Alineación de texto</string>
+    <string name="theme_default">Predeterminado</string>
+    <string name="theme_light">Claro</string>
+    <string name="theme_dark">Oscuro</string>
+
     <!--    fragment_hide_category-->
     <string name="text_select_all">Seleccionar todo</string>
     <string name="text_deselect_all">Deseleccionar todo</string>

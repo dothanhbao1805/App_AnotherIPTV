@@ -52,6 +52,7 @@ class MovieXstreamViewModel(
         playlistId: Long,
         channelName: String,
         channelLogo: String,
+        contentType: String = "",
         rating: Float = 0f,
         streamId: String = "",
         releaseDate: String = ""
@@ -65,6 +66,7 @@ class MovieXstreamViewModel(
                 channelLogo = channelLogo,
                 streamUrl   = "",
                 watchedAt   = System.currentTimeMillis(),
+                contentType = contentType,
                 rating      = rating,
                 streamId    = streamId,
                 releaseDate = releaseDate

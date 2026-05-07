@@ -213,6 +213,27 @@
     <!-- Settings -->
     <string name="label_app_language">Idioma do Aplicativo</string>
 
+    <!--fragment_subtitle_settings-->
+    <string name="sub_title">Configurações de Legendas</string>
+    <string name="text_reset">Redefinir</string>
+    <string name="text_preview">Visualização</string>
+    <string name="sample_subtitle_text">Texto de legenda de exemplo\nFicará assim</string>
+    <string name="title_font_settings">Configurações de Fonte</string>
+    <string name="label_font_size">Tamanho da Fonte</string>
+    <string name="label_line_height">Altura da Linha</string>
+    <string name="label_letter_spacing">Espaçamento de Letras</string>
+    <string name="label_word_spacing">Espaçamento de Palavras</string>
+    <string name="label_padding">Preenchimento</string>
+    <string name="title_color_settings">Configurações de Cor</string>
+    <string name="label_text_color">Cor do Texto</string>
+    <string name="label_background_color">Cor de Fundo</string>
+    <string name="title_style_settings">Configurações de Estilo</string>
+    <string name="label_font_weight">Peso da Fonte</string>
+    <string name="label_text_alignment">Alinhamento do Texto</string>
+    <string name="theme_default">Padrão</string>
+    <string name="theme_light">Claro</string>
+    <string name="theme_dark">Escuro</string>
+
     <!--    fragment_hide_category-->
     <string name="text_select_all">Selecionar tudo</string>
     <string name="text_deselect_all">Desmarcar tudo</string>
